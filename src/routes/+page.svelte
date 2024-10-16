@@ -1,6 +1,9 @@
 <script>
 	import { BotonEspecial } from "$lib";
+    import NavBar from "$lib/components/NavBar.svelte";
 </script>
+
+<NavBar />
 
 <h1>Welcome to SvelteKit</h1>
 
