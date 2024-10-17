@@ -2,7 +2,7 @@
 	let login = false; 
 </script>
 
-<nav class="flex justify-between w-screen p-7 font-bold text-[#f9c710]">
+<nav class="flex justify-between w-screen p-7 font-bold text-[#f9c710] fixed bg-white ">
 	<div>
 		<a href="/" class="text-3xl">PARDALIS</a>
 	</div>

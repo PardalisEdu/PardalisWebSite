@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    @font-face {
+        font-family: 'Rubik';
+        font-style: light;
+        font-weight: 300;
+        src: url('../static/Rubik.ttf') format('ttf');
+    }
+}
