@@ -29,6 +29,29 @@
             handleLogoInteraction();
         }
     }
+
+    const features = [
+        {
+            title: "Personajes divertidos",
+            description: "Diseña nuestros entrañables personajes en su viaje de aprendizaje del inglés.",
+            image: "/path/to/personajes-divertidos.png"
+        },
+        {
+            title: "Juegos interactivos",
+            description: "Aprende es divertido con nuestros juegos interactivos y atractivos.",
+            image: "/path/to/juegos-interactivos.png"
+        },
+        {
+            title: "Audios Simples",
+            description: "Escucha audios con fonética simple para que sea fácil para todos entenderlos y replicarlos.",
+            image: "/path/to/audios-simples.png"
+        },
+        {
+            title: "Explora historias interesantes",
+            description: "Explora nuestras emocionantes historias interactivas y aprende inglés sobre la marcha.",
+            image: "/path/to/historias-interesantes.png"
+        }
+    ];
 </script>
 
 <NavBar/>
@@ -83,3 +106,20 @@
     </main>
 
 </div>
+
+<section class="py-12 px-4 bg-white">
+    <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold text-center mb-4">¿Por qué a los niños les encanta Pardalis?</h2>
+        <p class="text-center text-gray-600 mb-8">Damos vida al inglés con contenidos divertidos y atractivos adaptados a los intereses de los niños.</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            {#each features as feature}
+                <div class="flex flex-col items-center">
+                    <img src={feature.image} alt={feature.title} class="w-full h-40 object-cover rounded-lg mb-4"/>
+                    <h3 class="text-lg font-semibold text-center mb-2">{feature.title}</h3>
+                    <p class="text-sm text-gray-600 text-center">{feature.description}</p>
+                </div>
+            {/each}
+        </div>
+    </div>
+</section>
