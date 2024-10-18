@@ -20,7 +20,7 @@
         warn: '#ff4136'
     };
 
-    $: backgroundColor = colors.primary || colors[color];
+    $: backgroundColor = colors[color] ? colors[color] : colors.primary;
 
     function handleTap() {
         buttonMotion.set({scale: 1.1, rotate: 5});
