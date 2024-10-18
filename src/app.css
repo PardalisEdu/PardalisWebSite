@@ -5,8 +5,8 @@
 @layer base {
     @font-face {
         font-family: 'Rubik';
-        font-style: light;
-        font-weight: 300;
-        src: url('../static/Rubik.ttf') format('ttf');
+        font-style: normal;
+        font-weight: normal;
+        src: url('/fonts/Rubik.ttf') format('ttf');
     }
 }
