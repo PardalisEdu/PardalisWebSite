@@ -4,7 +4,7 @@
 
     export let title;
     export let color = 'primary'; // 'primary' o 'warn'
-    export let href = null; // Si se proporciona, el botón se convierte en un enlace
+    export let href = ''; // Si se proporciona, el botón se convierte en un enlace
     export let onClick = () => undefined; // Función personalizada on:clic
 
     const dispatch = createEventDispatcher();
