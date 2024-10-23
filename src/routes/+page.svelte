@@ -52,6 +52,25 @@
             image: "/path/to/historias-interesantes.png"
         }
     ];
+
+    const opinions = [
+        {
+            avatar: "/path/to/poncho-avatar.jpg",
+            name: "Poncho",
+            comment: "Me sobreexplotaron laboralmente, pero aprendí inglés"
+        },
+        {
+            avatar: "/path/to/isaac-avatar.jpg",
+            name: "Isaac",
+            comment: "Yo no hice nada. 10/10"
+        },
+        {
+            avatar: "/path/to/oscar-avatar.jpg",
+            name: "Oscar",
+            comment: "Poncho todo mal programaste, pero aprendí inglés 👍"
+        }
+    ];
+
 </script>
 
 <NavBar/>
@@ -67,9 +86,8 @@
 
 
                 <br/>
-                <a href="/login" class="mb-10">
-                    <Boton title="Inicia Sesión" href="/login"/>
-                </a>
+
+                <Boton title="Inicia Sesión" href="/login"/>
 
                 <br/>
                 <p class="mb-5 mt-10">
@@ -82,7 +100,7 @@
                             class="text-4xl font-black hover:underline"
                             style="color: #f9c710;"
                     >
-                        Regístrate
+                        ¡Regístrate!
                     </a>
                 </div>
             </div>
@@ -107,9 +125,9 @@
 
 </div>
 
-<section class="py-12 px-4 bg-white">
+<section class="py-12 px-4 bg-white text-gray-900">
     <div class="max-w-6xl mx-auto">
-        <h2 class="text-3xl font-bold text-center mb-4">¿Por qué a los niños les encanta Pardalis?</h2>
+        <h2 class="text-3xl font-bold text-center mb-4 font-extrabold">¿Por qué a los niños les encanta Pardalis?</h2>
         <p class="text-center text-gray-600 mb-8">Damos vida al inglés con contenidos divertidos y atractivos adaptados a los intereses de los niños.</p>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
@@ -120,6 +138,38 @@
                     <p class="text-sm text-gray-600 text-center">{feature.description}</p>
                 </div>
             {/each}
+        </div>
+    </div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-12 text-gray-900">
+    <h2 class="text-3xl font-bold mb-12 text-center font-extrabold">
+        Opiniones sobre pardalis
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        {#each opinions as opinion}
+            <div class="flex flex-col items-center p-4">
+                <img
+                        src={opinion.avatar}
+                        alt={opinion.name}
+                        class="w-16 h-16 rounded-full mb-2"
+                />
+                <h3 class="font-bold text-lg mb-1">{opinion.name}</h3>
+                <div class="flex mb-2">
+                    {#each Array(5) as _, i}
+                        <span class="text-yellow-400 text-xl">★</span>
+                    {/each}
+                </div>
+                <p class="text-center text-gray-600">{opinion.comment}</p>
+            </div>
+        {/each}
+    </div>
+
+    <div class="bg-yellow-50 py-16 px-4">
+        <h2 class="text-4xl font-bold text-center mb-8 font-extrabold">Únete a la diversión</h2>
+        <div class="flex justify-center">
+            <Boton title="Unirse" href="/login"/>
         </div>
     </div>
 </section>
