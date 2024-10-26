@@ -1,6 +1,6 @@
 <script>
-    import Boton from "$lib/components/Boton.svelte";
-    import {NavBar} from "$lib/components/index.js";
+    import Boton from "$components/Boton.svelte";
+    import NavBar from "$components/NavBar.svelte";
 
     let user = {
         name: 'Poncho',
@@ -9,21 +9,21 @@
     };
 
     let progress = [
-        { name: 'Lectura', level: 2, current: 30, total: 50, icon: '☕' },
-        { name: 'Vocabulario', level: 1, current: 60, total: 100, icon: '🌍' },
-        { name: 'Tecleado', level: 2, current: 40, total: 50, icon: '⭐' }
+        {name: 'Lectura', level: 2, current: 30, total: 50, icon: '☕'},
+        {name: 'Vocabulario', level: 1, current: 60, total: 100, icon: '🌍'},
+        {name: 'Tecleado', level: 2, current: 40, total: 50, icon: '⭐'}
     ];
 </script>
 
-<NavBar />
+<NavBar/>
 
 <main class="min-h-screen bg-gray-100 py-12 px-4">
     <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
         <div class="p-6">
             <div class="flex flex-col items-center mb-6">
-                <img class="w-32 h-32 rounded-full mb-4" src={user.avatar} alt={user.name} />
+                <img class="w-32 h-32 rounded-full mb-4" src={user.avatar} alt={user.name}/>
                 <h2 class="text-2xl font-bold">{user.name}</h2>
-                <Boton title="Editar perfil" color="primary" />
+                <Boton title="Editar perfil" color="primary"/>
             </div>
 
             <div class="mb-6">
@@ -46,7 +46,7 @@
         </div>
 
         <div class="px-6 py-4 bg-gray-50">
-            <Boton title="Cerrar Sesión" color="warn" />
+            <Boton title="Cerrar Sesión" color="warn"/>
         </div>
     </div>
 </main>

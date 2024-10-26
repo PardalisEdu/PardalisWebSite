@@ -1,30 +1,35 @@
 <script>
-    import NavBar from "$lib/components/NavBar.svelte";
-
+    import NavBar from '$components/NavBar.svelte';
 </script>
 
-<NavBar />
+<NavBar/>
 
 <main class="h-screen config grid place-content-center">
     <div class="bg-white rounded-3xl p-10 w-[30vw] h-[50vh]">
         <div>
             <p class="text-4xl font-bold text-center text-[#f9c710]">Inicia Sesión</p>
-            
+
             <form class="p-12">
                 <div>
                     <div class="relative z-0 w-full mb-5 group">
-                        <input type="text" name="floating_apodo" id="floating_apodo" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-b-2 border-[#f9c710] focus:outline-none focus:ring-0 focus:border-[#f9c710] peer" placeholder=" " required autocomplete="off" />
-                        <label for="floating_apodo" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-[#f9c710] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Apodo</label>
+                        <input type="text" name="floating_apodo" id="floating_apodo"
+                               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-b-2 border-[#f9c710] focus:outline-none focus:ring-0 focus:border-[#f9c710] peer"
+                               placeholder=" " required autocomplete="off"/>
+                        <label for="floating_apodo"
+                               class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-[#f9c710] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Apodo</label>
                     </div>
-    
+
                     <br>
-    
+
                     <div class="relative z-0 w-full mb-5 group">
-                        <input type="password" name="floating_contrasenna" id="floating_contrasenna" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-b-2 border-[#f9c710] focus:outline-none focus:ring-0 focus:border-[#f9c710] peer" placeholder=" " required />
-                        <label for="floating_contrasenna" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-[#f9c710] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Contraseña</label>
+                        <input type="password" name="floating_contrasenna" id="floating_contrasenna"
+                               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-b-2 border-[#f9c710] focus:outline-none focus:ring-0 focus:border-[#f9c710] peer"
+                               placeholder=" " required/>
+                        <label for="floating_contrasenna"
+                               class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-[#f9c710] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Contraseña</label>
                     </div>
                 </div>
-    
+
                 <br>
                 <button class="p-3 bg-[#f9c710] text-white rounded-lg font-bold w-full mb-4">Inicia Sesión</button>
                 <br>

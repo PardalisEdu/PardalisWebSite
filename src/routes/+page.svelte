@@ -1,8 +1,8 @@
 <script>
-    import NavBar from "$lib/components/NavBar.svelte";
     import {onMount} from 'svelte';
     import {spring} from "svelte/motion";
-    import Boton from "$lib/components/Boton.svelte";
+    import Boton from "$components/Boton.svelte";
+    import NavBar from "$components/NavBar.svelte";
 
     const logoMotion = spring({scale: 0, rotate: 0}, {
         stiffness: 0.1,
@@ -127,8 +127,9 @@
 
 <section class="py-12 px-4 bg-white text-gray-900">
     <div class="max-w-6xl mx-auto">
-        <h2 class="text-3xl font-bold text-center mb-4 font-extrabold">¿Por qué a los niños les encanta Pardalis?</h2>
-        <p class="text-center text-gray-600 mb-8">Damos vida al inglés con contenidos divertidos y atractivos adaptados a los intereses de los niños.</p>
+        <h2 class="text-3xl text-center mb-4 font-extrabold">¿Por qué a los niños les encanta Pardalis?</h2>
+        <p class="text-center text-gray-600 mb-8">Damos vida al inglés con contenidos divertidos y atractivos adaptados
+            a los intereses de los niños.</p>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             {#each features as feature}
@@ -143,7 +144,7 @@
 </section>
 
 <section class="max-w-6xl mx-auto px-4 py-12 text-gray-900">
-    <h2 class="text-3xl font-bold mb-12 text-center font-extrabold">
+    <h2 class="text-3xl mb-12 text-center font-extrabold">
         Opiniones sobre pardalis
     </h2>
 
@@ -167,7 +168,7 @@
     </div>
 
     <div class="bg-yellow-50 py-16 px-4">
-        <h2 class="text-4xl font-bold text-center mb-8 font-extrabold">Únete a la diversión</h2>
+        <h2 class="text-4xl text-center mb-8 font-extrabold">Únete a la diversión</h2>
         <div class="flex justify-center">
             <Boton title="Unirse" href="/login"/>
         </div>
