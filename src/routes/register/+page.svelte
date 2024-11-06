@@ -1,35 +1,52 @@
 <script>
     import NavBar from '$components/NavBar.svelte';
+    import {register} from '$lib/api/auth';
+    import {goto} from '$app/navigation';
 
     let formData = {
         apodo: '',
-        password: '',
-        confirmPassword: ''
+        nombre: '',
+        correo: '',
+        contrasenna: '',
+        confirmarContrasenna: ''
     };
 
+    let error = '';
+    let loading = false;
     let passwordError = false;
 
-    // Función para validar las contraseñas
+    // Validar coincidencia de contraseñas
     $: {
-        if (formData.confirmPassword) {
-            passwordError = formData.password !== formData.confirmPassword;
+        if (formData.confirmarContrasenna) {
+            passwordError = formData.contrasenna !== formData.confirmarContrasenna;
         }
     }
 
-    /**
-     * Función para manejar la lógica del formulario
-     * @param {any} event
-     */
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault();
+        error = '';
+        loading = true;
 
-        if (formData.password !== formData.confirmPassword) {
-            passwordError = true;
+        // Validar que las contraseñas coincidan
+        if (formData.contrasenna !== formData.confirmarContrasenna) {
+            error = 'Las contraseñas no coinciden';
+            loading = false;
+            return;
         }
 
-        // TODO: añadir lógica del formulario
-    }
+        try {
+            // Excluir confirmarContrasenna del objeto que se envía
+            const {confirmarContrasenna, ...registerData} = formData;
+            await register(registerData);
 
+            // Redirigir al login después de un registro exitoso
+            await goto('/login');
+        } catch (err) {
+            error = err.message;
+        } finally {
+            loading = false;
+        }
+    }
 </script>
 
 <NavBar/>
@@ -37,39 +54,104 @@
 <main class="h-screen config grid place-content-center">
     <div class="bg-white rounded-3xl p-10 w-[30vw] h-auto">
         <div>
-            <p class="text-4xl font-bold text-center text-[#f9c710]">¡Registrate!</p>
+            <p class="text-4xl font-bold text-center text-[#f9c710]">¡Regístrate!</p>
 
             <form class="p-12" on:submit={handleSubmit}>
+                {#if error}
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
+                         role="alert">
+                        <span class="block sm:inline">{error}</span>
+                    </div>
+                {/if}
+
                 <div>
                     <div class="relative z-0 w-full mb-5 group">
-                        <input type="text" name="apodo" id="floating_apodo"
-                               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-b-2 border-[#f9c710] focus:outline-none focus:ring-0 focus:border-[#f9c710] peer"
-                               placeholder=" " required
-                               autocomplete="off" bind:value={formData.apodo}/>
-                        <label for="floating_apodo"
-                               class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-[#f9c710] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                        <input
+                                type="text"
+                                id="floating_apodo"
+                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-b-2 border-[#f9c710] focus:outline-none focus:ring-0 focus:border-[#f9c710] peer"
+                                placeholder=" "
+                                required
+                                bind:value={formData.apodo}
+                                autocomplete="username"
+                        />
+                        <label
+                                for="floating_apodo"
+                                class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-[#f9c710] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                        >
                             Apodo
                         </label>
                     </div>
 
                     <div class="relative z-0 w-full mb-5 group">
-                        <input type="password" name="password" id="floating_contrasenna"
-                               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-b-2 border-[#f9c710] focus:outline-none focus:ring-0 focus:border-[#f9c710] peer"
-                               placeholder=" " required bind:value={formData.password}/>
-                        <label for="floating_contrasenna"
-                               class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-[#f9c710] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                        <input
+                                type="text"
+                                id="floating_nombre"
+                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-b-2 border-[#f9c710] focus:outline-none focus:ring-0 focus:border-[#f9c710] peer"
+                                placeholder=" "
+                                required
+                                bind:value={formData.nombre}
+                                autocomplete="name"
+                        />
+                        <label
+                                for="floating_nombre"
+                                class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-[#f9c710] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                        >
+                            Nombre
+                        </label>
+                    </div>
+
+                    <div class="relative z-0 w-full mb-5 group">
+                        <input
+                                type="email"
+                                id="floating_correo"
+                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-b-2 border-[#f9c710] focus:outline-none focus:ring-0 focus:border-[#f9c710] peer"
+                                placeholder=" "
+                                required
+                                bind:value={formData.correo}
+                                autocomplete="email"
+                        />
+                        <label
+                                for="floating_correo"
+                                class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-[#f9c710] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                        >
+                            Correo electrónico
+                        </label>
+                    </div>
+
+                    <div class="relative z-0 w-full mb-5 group">
+                        <input
+                                type="password"
+                                id="floating_contrasenna"
+                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-b-2 border-[#f9c710] focus:outline-none focus:ring-0 focus:border-[#f9c710] peer"
+                                placeholder=" "
+                                required
+                                bind:value={formData.contrasenna}
+                                autocomplete="new-password"
+                        />
+                        <label
+                                for="floating_contrasenna"
+                                class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-[#f9c710] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                        >
                             Contraseña
                         </label>
                     </div>
 
                     <div class="relative z-0 w-full mb-5 group">
-                        <input type="password" name="confirmPassword" id="floating_confirmar_contrasenna"
-                               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-b-2 border-[#f9c710] focus:outline-none focus:ring-0 focus:border-[#f9c710] peer"
-                               placeholder=" " required bind:value={formData.confirmPassword}
+                        <input
+                                type="password"
+                                id="floating_confirmar_contrasenna"
+                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-b-2 border-[#f9c710] focus:outline-none focus:ring-0 focus:border-[#f9c710] peer"
+                                placeholder=" "
+                                required
+                                bind:value={formData.confirmarContrasenna}
+                                autocomplete="new-password"
                         />
-                        <label for="floating_confirmar_contrasenna"
-                               class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-[#f9c710] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                            Repetir contraseña
+                        <label
+                                for="floating_confirmar_contrasenna"
+                                class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-[#f9c710] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                        >
+                            Confirmar contraseña
                         </label>
                     </div>
 
@@ -81,10 +163,19 @@
                     {/if}
                 </div>
 
-                <button type="submit"
-                        class="p-3 bg-[#f9c710] text-white rounded-lg font-bold w-full mb-4 hover:bg-[#e0b30e] transition-colors">
-                    Registrarse
+                <button
+                        type="submit"
+                        class="p-3 bg-[#f9c710] text-white rounded-lg font-bold w-full mb-4 disabled:opacity-50"
+                        disabled={loading || passwordError}
+                >
+                    {loading ? 'Registrando...' : 'Registrarse'}
                 </button>
+
+                <div class="w-full flex justify-center">
+                    <a href="/login" class="m-auto text-yellow-500 underline decoration-solid">
+                        ¿Ya tienes una cuenta? Inicia sesión
+                    </a>
+                </div>
             </form>
         </div>
     </div>
