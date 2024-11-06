@@ -1,35 +1,18 @@
 import { writable } from 'svelte/store';
-import { browser } from '$app/environment';
 
 function createAuthStore() {
-    // Estado inicial básico
-    const initialState = {
+    const { subscribe, set, update } = writable({
         token: null,
         user: null,
         isAuthenticated: false
-    };
-
-    // Si estamos en el navegador, intentar recuperar el estado de localStorage
-    if (browser) {
-        const token = localStorage.getItem('auth_token');
-        const user = JSON.parse(localStorage.getItem('user') || 'null');
-
-        if (token && user) {
-            initialState.token = token;
-            initialState.user = user;
-            initialState.isAuthenticated = true;
-        }
-    }
-
-    const { subscribe, set, update } = writable(initialState);
+    });
 
     return {
         subscribe,
         login: (token, user) => {
-            if (browser) {
-                localStorage.setItem('auth_token', token);
-                localStorage.setItem('user', JSON.stringify(user));
-            }
+            // Guardar en localStorage para persistencia
+            localStorage.setItem('auth_token', token);
+            localStorage.setItem('user', JSON.stringify(user));
 
             set({
                 token,
@@ -38,10 +21,9 @@ function createAuthStore() {
             });
         },
         logout: () => {
-            if (browser) {
-                localStorage.removeItem('auth_token');
-                localStorage.removeItem('user');
-            }
+            // Limpiar localStorage
+            localStorage.removeItem('auth_token');
+            localStorage.removeItem('user');
 
             set({
                 token: null,
@@ -49,11 +31,10 @@ function createAuthStore() {
                 isAuthenticated: false
             });
         },
-        checkAuth: () => {
-            if (!browser) return false;
-
+        // Inicializar store con datos del localStorage si existen
+        initialize: () => {
             const token = localStorage.getItem('auth_token');
-            const user = JSON.parse(localStorage.getItem('user') || 'null');
+            const user = JSON.parse(localStorage.getItem('user'));
 
             if (token && user) {
                 set({
@@ -61,9 +42,7 @@ function createAuthStore() {
                     user,
                     isAuthenticated: true
                 });
-                return true;
             }
-            return false;
         }
     };
 }
