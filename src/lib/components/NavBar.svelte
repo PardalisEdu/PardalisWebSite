@@ -9,12 +9,12 @@
 	<div class="text-xl">
 		<a href="/">INICIO</a>
 		<a href="/" class="ml-7">AVENTURA</a>
-		<a href="/" class="ml-7">PRACTICA</a>
+		<a href="/profile" class="ml-7">PERFIL</a>
 
 		{#if !login}
-			<a href="/" class="ml-7 p-3 bg-[#f9c710] text-white rounded-lg">Inicia Sesión</a>	
+			<a href="/login" class="ml-7 p-3 bg-[#f9c710] text-white rounded-lg">Inicia Sesión</a>
 		{:else}
-			<a href="/" class="ml-7 p-3 bg-[#f9c710] text-white rounded-lg">Cierra Sesión</a>	
+			<a href="/logout" class="ml-7 p-3 bg-[#f9c710] text-white rounded-lg">Cierra Sesión</a>
 		{/if}
 		
 	</div>
