@@ -10,7 +10,9 @@ export async function getUserProfile(apodo) {
 			headers: {
 				'Authorization': token,
 				'Content-Type': 'application/json'
-			}
+			},
+			credentials: 'include',
+			mode: 'cors',
 		});
 
 		if (!response.ok) {
