@@ -10,3 +10,7 @@
         src: url('/fonts/Rubik.ttf') format('ttf');
     }
 }
+
+html {
+    scroll-behavior: smooth;
+}
