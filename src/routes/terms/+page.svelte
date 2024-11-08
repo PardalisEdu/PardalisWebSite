@@ -10,25 +10,41 @@
         },
         {
             title: "Licencia",
-            content: "Pardalis le otorga una licencia revocable, no exclusiva, intransferible y limitada para descargar, instalar y usar la website estrictamente de acuerdo con los términos de este Acuerdo.",
-            icon: "📜"
+            content: "Pardalis es un software de código abierto bajo la Licencia Pública General de GNU versión 3 (GPL v3). Esta licencia le garantiza la libertad de usar, estudiar, compartir y modificar el software. Cualquier software derivado debe distribuirse bajo los mismos términos de la GPL v3.",
+            icon: "📜",
+            subsections: [
+                {
+                    title: "Derechos fundamentales bajo GPL v3",
+                    content: [
+                        "Libertad para ejecutar el programa con cualquier propósito",
+                        "Libertad para estudiar y modificar el código fuente",
+                        "Libertad para redistribuir copias",
+                        "Libertad para distribuir versiones modificadas"
+                    ]
+                },
+                {
+                    title: "Obligaciones",
+                    content: [
+                        "Mantener el aviso de copyright y licencia",
+                        "Proporcionar acceso al código fuente",
+                        "Las modificaciones deben distribuirse bajo GPL v3",
+                        "Documentar los cambios realizados al software"
+                    ]
+                }
+            ]
         },
         {
             title: "Privacidad y Cookies",
             content: "Pardalis utiliza cookies para mejorar el rendimiento y la funcionalidad de nuestra plataforma. Puede configurar su navegador para rechazar cookies, pero esto puede limitar su acceso a ciertas funcionalidades.",
             icon: "🔒"
-        },
-        {
-            title: "Restricciones",
-            content: "Licenciar, vender, alquilar, arrendar, asignar, distribuir, transmitir, alojar, subcontratar, divulgar o explotar comercialmente la plataforma. Eliminar, alterar u ocultar cualquier aviso de propiedad.",
-            icon: "🚫"
         }
     ];
 
     let lastUpdateDate = "2024-11-08";
-    let activeSection = null;
-
     // Para el efecto de scroll suave
+    /**
+     * @param {string} id
+     */
     const scrollToSection = (id) => {
         const element = document.getElementById(id);
         if (element) {
@@ -38,6 +54,8 @@
 </script>
 
 <div class="min-h-screen flex flex-col bg-gray-50">
+    <NavBar />
+
     <!-- Hero Section -->
     <div class="bg-gradient-to-b from-[#f9c710] to-yellow-300 py-20 mt-16">
         <div class="container mx-auto px-4 text-center">
@@ -99,6 +117,31 @@
                                     <h3 class="text-xl font-semibold mb-4">Responsabilidad</h3>
                                     <p class="text-gray-700">
                                         Pardalis no será responsable de ningún resultado que pueda ocurrir durante el curso del uso de nuestros recursos. Nos reservamos el derecho de cambiar los precios y revisar la política de uso de recursos en cualquier momento.
+                                    </p>
+                                </div>
+                            {/if}
+                            {#if section.title === "Licencia" && section.subsections}
+                                {#each section.subsections as subsection}
+                                    <div class="bg-white rounded-lg border border-gray-200 p-6 mb-6">
+                                        <h3 class="text-xl font-semibold mb-4">{subsection.title}</h3>
+                                        <ul class="list-disc pl-6 space-y-2">
+                                            {#each subsection.content as item}
+                                                <li class="text-gray-700">{item}</li>
+                                            {/each}
+                                        </ul>
+                                    </div>
+                                {/each}
+                                <div class="bg-yellow-50 rounded-lg p-6 border-l-4 border-[#f9c710]">
+                                    <p class="text-gray-700">
+                                        Para más detalles sobre la licencia GPL v3, puedes visitar
+                                        <a
+                                                href="https://www.gnu.org/licenses/gpl-3.0.html"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                class="text-[#f9c710] hover:underline font-medium"
+                                        >
+                                            la página oficial de GNU
+                                        </a>.
                                     </p>
                                 </div>
                             {/if}
