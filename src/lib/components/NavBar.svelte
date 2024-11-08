@@ -66,7 +66,7 @@
     </div>
     <div class="text-xl">
         <a href="/" class="ml-7">AVENTURA</a>
-        <a href="/profile" class="ml-7">PREFIL</a>
+        <a href="/profile" class="ml-7">PERFIL</a>
 
         {#if !isLoggedIn}
             <a href="/login" class="ml-7 p-3 bg-[#f9c710] text-white rounded-lg">Inicia Sesión</a>
