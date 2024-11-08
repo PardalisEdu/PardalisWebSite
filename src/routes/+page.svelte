@@ -67,7 +67,7 @@
         {
             avatar: "/path/to/oscar-avatar.jpg",
             name: "Oscar",
-            comment: "Poncho todo mal programaste, pero aprendí inglés 👍"
+            comment: "Poncho entregaste un mes tarde, pero aprendí inglés 👍"
         }
     ];
 
@@ -167,7 +167,7 @@
         {/each}
     </div>
 
-    <div class="bg-yellow-50 py-16 px-4">
+    <div class="py-16 px-4">
         <h2 class="text-4xl text-center mb-8 font-extrabold">Únete a la diversión</h2>
         <div class="flex justify-center">
             <Boton title="Unirse" href="/login"/>
