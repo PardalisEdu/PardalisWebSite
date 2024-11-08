@@ -65,7 +65,6 @@
         <a href="/" class="text-3xl">PARDALIS</a>
     </div>
     <div class="text-xl">
-        <a href="/">INICIO</a>
         <a href="/" class="ml-7">AVENTURA</a>
         <a href="/profile" class="ml-7">PREFIL</a>
 
