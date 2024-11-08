@@ -94,7 +94,7 @@
             <p class="text-gray-700 max-w-2xl mx-auto leading-relaxed">
                 Tu interés y apoyo nos ayudan a seguir mejorando y haciendo del aprendizaje del inglés
                 una experiencia más accesible y divertida para todos. Si te gustaría contribuir al proyecto,
-                ¡te invitamos a visitar nuestro repositorio en GitHub!
+                ¡te invitamos a visitar nuestro repositorio en Codeberg!
             </p>
             <div class="mt-6">
                 <a
