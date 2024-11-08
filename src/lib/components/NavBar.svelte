@@ -65,7 +65,7 @@
         <a href="/" class="text-3xl">PARDALIS</a>
     </div>
     <div class="text-xl">
-        <a href="/" class="ml-7">AVENTURA</a>
+        <a href="/adventure" class="ml-7">AVENTURA</a>
         <a href="/profile" class="ml-7">PERFIL</a>
 
         {#if !isLoggedIn}
