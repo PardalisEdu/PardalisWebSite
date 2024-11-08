@@ -54,7 +54,6 @@
 </script>
 
 <div class="min-h-screen flex flex-col bg-gray-50">
-    <NavBar />
 
     <!-- Hero Section -->
     <div class="bg-gradient-to-b from-[#f9c710] to-yellow-300 py-20 mt-16">
