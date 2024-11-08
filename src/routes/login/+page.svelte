@@ -29,8 +29,6 @@
     }
 </script>
 
-<NavBar/>
-
 <main class="h-screen config grid place-content-center">
     <div class="bg-white rounded-3xl p-10 w-[30vw] h-auto">
         <div>
