@@ -55,17 +55,17 @@
 
     const opinions = [
         {
-            avatar: "/path/to/poncho-avatar.jpg",
+            avatar: "img/profiles/ocelote.svg",
             name: "Poncho",
             comment: "Me sobreexplotaron laboralmente, pero aprendí inglés"
         },
         {
-            avatar: "/path/to/isaac-avatar.jpg",
+            avatar: "img/profiles/ajolote.svg",
             name: "Isaac",
             comment: "Yo no hice nada. 10/10"
         },
         {
-            avatar: "/path/to/oscar-avatar.jpg",
+            avatar: "img/profiles/xinxin.svg",
             name: "Oscar",
             comment: "Poncho entregaste un mes tarde, pero aprendí inglés 👍"
         }

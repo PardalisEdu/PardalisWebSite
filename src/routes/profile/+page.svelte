@@ -4,7 +4,7 @@
 
     let user = {
         name: 'Poncho',
-        avatar: '/path/to/poncho-avatar.jpg',
+        avatar: 'img/profiles/ocelote.svg',
         bio: 'Diseñador oficial de Pardalis y tomador profesional de Tonaýan. Fan número uno de la rata con tiner'
     };
 
