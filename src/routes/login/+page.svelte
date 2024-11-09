@@ -88,12 +88,6 @@
                 >
                     {loading ? 'Iniciando sesión...' : 'Inicia Sesión'}
                 </button>
-
-                <div class="w-full flex justify-center">
-                    <a href="/reset-password" class="m-auto text-yellow-500 underline decoration-solid">
-                        ¿Olvidaste tu contraseña?
-                    </a>
-                </div>
             </form>
         </div>
     </div>
