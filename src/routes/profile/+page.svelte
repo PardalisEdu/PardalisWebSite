@@ -15,14 +15,12 @@
     ];
 </script>
 
-<NavBar/>
-
-<main class="min-h-screen bg-gray-100 py-12 px-4">
+<main class="min-h-screen bg-gray-100 py-12 px-4 grid place-content-center">
     <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
         <div class="p-6">
             <div class="flex flex-col items-center mb-6">
                 <img class="w-32 h-32 rounded-full mb-4" src={user.avatar} alt={user.name}/>
-                <h2 class="text-2xl font-bold">{user.name}</h2>
+                <h2 class="text-2xl font-bold mb-5">{user.name}</h2>
                 <Boton title="Editar perfil" color="primary"/>
             </div>
 
