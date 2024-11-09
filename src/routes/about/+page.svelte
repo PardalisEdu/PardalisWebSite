@@ -26,7 +26,7 @@
 
     const team = [
         { name: "Poncho", role: "Arquitecto y Diseñador Principal", emoji: "👨‍💻" },
-        { name: "Isaac", role: "Desarrollador de videojuegos", emoji: "🎨" },
+        { name: "Isaac", role: "Manager de experiencias interactivas", emoji: "🎨" },
         { name: "Ramos", role: "Documentador Oficial", emoji: "📝" },
         { name: "Oscar", role: "Desarrollador de videojuegos", emoji: "🎭" },
         { name: "Angel", role: "Desarrollador Full Stack", emoji: "⚡" }
