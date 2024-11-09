@@ -9,12 +9,6 @@
         <div class="relative bg-orange-600 rounded-lg p-4">
             <div class="bg-zinc-800 p-2 rounded-t-lg flex items-center justify-between">
                 <div class="flex items-center gap-4">
-                    <div class="flex gap-3">
-                        <div class="w-3 h-3 bg-white rounded-full glow"></div>
-                        <div class="w-3 h-3 bg-white rounded-full glow"></div>
-                        <div class="w-3 h-3 bg-white rounded-full glow"></div>
-                        <div class="w-3 h-3 bg-white rounded-full glow"></div>
-                    </div>
                     <div class="text-white font-bold">
                         323
                     </div>
