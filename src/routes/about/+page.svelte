@@ -33,7 +33,7 @@
     ];
 </script>
 
-<div class="min-h-screen bg-yellow-50">
+<div class="min-h-screen">
     <div class="bg-gradient-to-b from-yellow-400 to-yellow-300 py-20 mt-16">
         <div class="container mx-auto px-4">
             <h1 class="text-4xl md:text-6xl font-bold text-center text-white mb-6">
