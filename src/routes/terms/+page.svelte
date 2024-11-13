@@ -473,7 +473,7 @@
                                     <h3 class="text-xl font-semibold mb-4">Arbitraje Obligatorio</h3>
                                     <p class="text-gray-700">
                                         Si usted y Pardalis no resuelven ninguna disputa mediante una negociación informal, cualquier otro esfuerzo para resolver la disputa se llevará a cabo exclusivamente mediante arbitraje vinculante como 
-                                        se describe en esta sección. Está renunciando al derecho de litigar (o participar como parte o miembro de la clase) todas las disputas en la corte ante un jue o jurado. La disputa se resolverá mediante 
+                                        se describe en est a sección. Está renunciando al derecho de litigar (o participar como parte o miembro de la clase) todas las disputas en la corte ante un jue o jurado. La disputa se resolverá mediante 
                                         arbitraje vinculante de acuerdo con las reglas de arbitraje comercial de la Asociación Americana de Arbitraje. Cualquiera de las partes puede buscar medidas cautelares provisionales o preliminares de 
                                         cualquier tribunal de jurisdicción competente, según sea necesario para proteger los derechos o la propiedad de las partes en espera de la finalización del arbitraje. Todos y cada uno de los costos, 
                                         honorarios y gastos legales, contables y de otro tipo en los que incurra la parte ganadora correrán a cargo de la parte no ganadora.
