@@ -1,7 +1,5 @@
 <script>
-    import NavBar from '$components/NavBar.svelte';
-    import { onMount } from 'svelte';
-
+    
     const sections = [
         {
             title: "Términos generales",

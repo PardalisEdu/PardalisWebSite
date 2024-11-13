@@ -1,6 +1,5 @@
 <script>
     import Boton from "$components/Boton.svelte";
-    import NavBar from "$components/NavBar.svelte";
 
     let user = {
         name: 'Poncho',
