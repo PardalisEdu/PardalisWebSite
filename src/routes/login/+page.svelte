@@ -1,8 +1,7 @@
 <script>
-    import NavBar from '$components/NavBar.svelte';
+    import { goto } from "$app/navigation";
     import { login } from '$lib/api/auth';
-    import {authStore} from "$lib/stores/authStore.js";
-    import {goto} from "$app/navigation";
+    import { authStore } from "$lib/stores/authStore.js";
 
     let formData = {
         correo: '',

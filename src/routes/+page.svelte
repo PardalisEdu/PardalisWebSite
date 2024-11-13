@@ -1,8 +1,7 @@
 <script>
-    import {onMount} from 'svelte';
-    import {spring} from "svelte/motion";
     import Boton from "$components/Boton.svelte";
-    import NavBar from "$components/NavBar.svelte";
+    import { onMount } from 'svelte';
+    import { spring } from "svelte/motion";
 
     const logoMotion = spring({scale: 0, rotate: 0}, {
         stiffness: 0.1,

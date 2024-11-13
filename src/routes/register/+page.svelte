@@ -1,7 +1,6 @@
 <script>
-    import NavBar from '$components/NavBar.svelte';
-    import {register} from '$lib/api/auth';
-    import {goto} from '$app/navigation';
+    import { goto } from '$app/navigation';
+    import { register } from '$lib/api/auth';
 
     let formData = {
         apodo: '',
