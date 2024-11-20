@@ -1,6 +1,16 @@
-const API_URL = 'http://localhost:8080/api/v1';
+import { PUBLIC_API_URL } from "$env/static/public";
 
+const API_URL = PUBLIC_API_URL;
+
+/**
+ * Es algo obvio... Modulo para logearte con el back
+ * @param {object} credentials 
+ * @returns Retorno el token necesario para el login
+ */
 export async function login(credentials) {
+
+	console.log(typeof credentials);
+
 	try {
 		const response = await fetch(`${API_URL}/login`, {
 			method: 'POST',
@@ -26,7 +36,15 @@ export async function login(credentials) {
 	}
 }
 
-
+/**
+ * Funcion para registrar los usuarios con la API
+ * @param {Object} params - Parámetros de registro
+ * @param {string} params.apodo - Apodo del usuario
+ * @param {string} params.nombre - Nombre completo del usuario
+ * @param {string} params.correo - Correo electrónico del usuario
+ * @param {string} params.contrasenna - Contraseña del usuario
+ * @returns {Promise<Object>} Estado del registro.
+ */
 export async function register({ apodo, nombre, correo, contrasenna }) {
 	try {
 		const response = await fetch(`${API_URL}/register`, {

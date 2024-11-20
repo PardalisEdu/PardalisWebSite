@@ -1,3 +1,9 @@
+import { PUBLIC_API_URL } from "$env/static/public";
+
+/**
+ * ... Literalmente esta en el nombre...
+ * @param {object} apodo
+ */
 export async function getUserProfile(apodo) {
 	try {
 		const token = localStorage.getItem('auth_token');
@@ -5,7 +11,7 @@ export async function getUserProfile(apodo) {
 			throw new Error('No hay token de autenticación');
 		}
 
-		const response = await fetch(`http://localhost:8080/api/v1/users/${apodo}`, {
+		const response = await fetch(`${PUBLIC_API_URL}/users/${apodo}`, {
 			method: 'GET',
 			headers: {
 				'Authorization': token,
@@ -22,6 +28,7 @@ export async function getUserProfile(apodo) {
 
 		return await response.json();
 	} catch (error) {
+		// @ts-ignore
 		throw new Error(error.message || 'Error al conectar con el servidor');
 	}
 }
