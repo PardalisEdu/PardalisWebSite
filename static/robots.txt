@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://pardalis.edu/sitemap.xml
+
+# Rutas que no queremos que se indexen
+Disallow: /perfil/
+Disallow: /adventure/
+Disallow: /building/

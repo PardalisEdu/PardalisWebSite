@@ -5,7 +5,50 @@
 	<meta charset="utf-8" />
 	<link rel="icon" href="%sveltekit.assets%/favicon.png" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	%sveltekit.head%
+
+    <title>Pardalis - Plataforma Educativa de Inglés para Niños</title>
+    <meta name="description" content="Pardalis es una plataforma educativa gratuita diseñada para que los niños de primaria aprendan inglés de forma divertida e interactiva. ¡Aprende jugando!" />
+
+    <meta name="author" content="Equipo Ponchoides" />
+    <meta name="keywords" content="inglés para niños, aprender inglés, educación primaria, juegos educativos, plataforma educativa, aprendizaje de idiomas, inglés básico, inglés para principiantes" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#f9c710" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://pardalis.net/" />
+    <meta property="og:title" content="Pardalis - Aprende Inglés Jugando" />
+    <meta property="og:description" content="Plataforma educativa gratuita para que los niños de primaria aprendan inglés de forma divertida e interactiva." />
+    <meta property="og:image" content="%sveltekit.assets%/og-image.png" />
+    <meta property="og:locale" content="es_MX" />
+
+    <link rel="preload" href="%sveltekit.assets%/fonts/Rubik.ttf" as="font" type="font/ttf" crossorigin />
+
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "EducationalApplication",
+            "name": "Pardalis",
+            "description": "Plataforma educativa para aprender inglés diseñada para niños de primaria",
+            "operatingSystem": "Web",
+            "applicationCategory": "EducationalApplication",
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "MXN"
+            },
+            "audience": {
+                "@type": "EducationalAudience",
+                "educationalRole": "student",
+                "educationalLevel": "primary education"
+            }
+        }
+    </script>
+
+    <link rel="canonical" href="https://pardalis.net%sveltekit.url%" />
+
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';">
+
+    %sveltekit.head%
 </head>
 
 <body data-sveltekit-preload-data="hover">
