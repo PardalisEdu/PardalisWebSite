@@ -1,6 +1,7 @@
 <script>
     import { goto } from "$app/navigation";
     import Boton from "$components/Boton.svelte";
+    import { onMount } from "svelte";
 
     let user = {
         name: 'Poncho',
