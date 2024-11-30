@@ -1,6 +1,4 @@
 <script>
-    import { run } from 'svelte/legacy';
-
     import { goto } from '$app/navigation';
     import { register } from '$lib/api/auth';
 
@@ -16,12 +14,11 @@
     let loading = $state(false);
     let passwordError = $state(false);
 
-    // Validar coincidencia de contraseñas
-    run(() => {
+    $effect.pre(() => {
         if (formData.confirmarContrasenna) {
             passwordError = formData.contrasenna !== formData.confirmarContrasenna;
         }
-    });
+    })
 
     async function handleSubmit(event) {
         event.preventDefault();
