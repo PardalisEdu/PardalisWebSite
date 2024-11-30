@@ -76,7 +76,7 @@
           {#each sections as section}
             <button
               class="w-full text-left px-4 py-2 rounded-lg transition-colors hover:bg-yellow-100 text-gray-700 hover:text-gray-900"
-              on:click={() =>
+              onclick={() =>
                 scrollToSection(
                   section.title.toLowerCase().replace(/\s+/g, "-"),
                 )}

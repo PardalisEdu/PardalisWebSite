@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte';
-    let isLoggedIn = false;
-    let showBanner = true;
+    let isLoggedIn = $state(false);
+    let showBanner = $state(true);
 
     onMount(() => {
         // Verificar el token al montar el componente
@@ -42,7 +42,7 @@
                 </div>
                 <div class="flex-shrink-0 sm:ml-3">
                     <button
-                            on:click={() => showBanner = false}
+                            onclick={() => showBanner = false}
                             type="button"
                             class="flex p-2 rounded-md hover:bg-yellow-200 transition-colors duration-200 focus:outline-none"
                     >
@@ -72,7 +72,7 @@
             <a href="/login" class="ml-7 p-3 bg-[#f9c710] text-white rounded-lg">Inicia Sesión</a>
         {:else}
             <button
-                    on:click={handleLogout}
+                    onclick={handleLogout}
                     class="ml-7 p-3 bg-[#f9c710] text-white rounded-lg hover:bg-yellow-500 transition-colors"
             >
                 Cerrar Sesión

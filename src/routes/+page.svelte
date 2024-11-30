@@ -100,8 +100,8 @@
         </div>
         <div class="grid place-content-center">
             <button
-                    on:click={handleLogoInteraction}
-                    on:keydown={handleKeyDown}
+                    onclick={handleLogoInteraction}
+                    onkeydown={handleKeyDown}
                     style="transform: scale({$logoMotion.scale}) rotate({$logoMotion.rotate}deg);"
                     aria-label="Animar logo"
             >
