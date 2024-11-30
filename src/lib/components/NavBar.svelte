@@ -4,7 +4,11 @@
     let showBanner = $state(true);
 
     onMount(() => {
-        // Verificar el token al montar el componente
+        const bannerClosed = localStorage.getItem('bannerClosed');
+        if (bannerClosed === 'true') {
+            showBanner = false;    
+        }
+
         checkAuthStatus();
     });
 
@@ -20,6 +24,11 @@
         isLoggedIn = false;
         // Redirigir al inicio
         window.location.href = '/';
+    }
+
+    function closeBanner() {
+        showBanner = false;
+        localStorage.setItem('bannerClosed', 'true')
     }
 </script>
 
@@ -42,7 +51,7 @@
                 </div>
                 <div class="flex-shrink-0 sm:ml-3">
                     <button
-                            onclick={() => showBanner = false}
+                            onclick={closeBanner}
                             type="button"
                             class="flex p-2 rounded-md hover:bg-yellow-200 transition-colors duration-200 focus:outline-none"
                     >
