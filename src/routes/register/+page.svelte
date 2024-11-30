@@ -20,6 +20,12 @@
         }
     })
 
+    /**
+     * Función para validar el registro al darle summit
+     * ¿Deberia explicar más de esto? Soy el unico que va a ver esto...
+     * Realmente creen que les voy a dejar el proyecto jajaja
+     * @param {{ preventDefault: () => void; }} event
+     */
     async function handleSubmit(event) {
         event.preventDefault();
         error = '';
@@ -40,6 +46,7 @@
             // Redirigir al login después de un registro exitoso
             await goto('/login');
         } catch (err) {
+            // @ts-ignore
             error = err.message;
         } finally {
             loading = false;
