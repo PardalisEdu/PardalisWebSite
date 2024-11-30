@@ -1,5 +1,7 @@
 <script>
+    import { goto } from "$app/navigation";
     import Boton from "$components/Boton.svelte";
+    import { onMount } from "svelte";
 
     let user = {
         name: 'Poncho',
@@ -12,6 +14,8 @@
         {name: 'Vocabulario', level: 1, current: 60, total: 100, icon: '🌍'},
         {name: 'Tecleado', level: 2, current: 40, total: 50, icon: '⭐'}
     ];
+
+    goto('/building')
 </script>
 
 <main class="min-h-screen bg-gray-100 py-12 px-4 grid place-content-center">
