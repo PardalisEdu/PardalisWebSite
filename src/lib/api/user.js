@@ -6,7 +6,7 @@ import { PUBLIC_API_URL } from "$env/static/public";
  */
 export async function getUserProfile(apodo) {
 	try {
-		const token = localStorage.getItem('auth_token');
+		const token = localStorage.getItem('token');
 		if (!token) {
 			throw new Error('No hay token de autenticación');
 		}

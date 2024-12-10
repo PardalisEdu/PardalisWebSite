@@ -13,13 +13,13 @@
     });
 
     function checkAuthStatus() {
-        const token = localStorage.getItem('auth_token');
+        const token = localStorage.getItem('token');
         isLoggedIn = !!token;
     }
 
     function handleLogout() {
         // Eliminar el token
-        localStorage.removeItem('auth_token');
+        localStorage.removeItem('token');
         // Actualizar el estado
         isLoggedIn = false;
         // Redirigir al inicio

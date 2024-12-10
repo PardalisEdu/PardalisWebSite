@@ -17,11 +17,11 @@
         errorMessage = '';
 
         try {
-            const response = await login(formData);
-            authStore.login(response.token, response.user);
+            const { token, user } = await login(formData);
+            authStore.login(token, user);
             await goto('/profile');
         } catch (error) {
-            errorMessage = error.message || 'Error al iniciar sesión';
+            errorMessage = error.message;
         } finally {
             loading = false;
         }
@@ -39,7 +39,7 @@
                 </div>
             {/if}
 
-            <form class="p-12" onsubmit={handleSubmit}>
+            <form class="p-12" on:submit={handleSubmit}>
                 <div>
                     <div class="relative z-0 w-full mb-5 group">
                         <input

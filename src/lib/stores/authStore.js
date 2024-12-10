@@ -1,50 +1,39 @@
 import { writable } from 'svelte/store';
+import { browser } from '$app/environment';
 
 function createAuthStore() {
-    const { subscribe, set, update } = writable({
-        token: null,
-        user: null,
-        isAuthenticated: false
-    });
+	const { subscribe, set, update } = writable({
+		user: null,
+		isAuthenticated: false,
+		token: null
+	});
 
-    return {
-        subscribe,
-        login: (token, user) => {
-            // Guardar en localStorage para persistencia
-            localStorage.setItem('auth_token', token);
-            localStorage.setItem('user', JSON.stringify(user));
-
-            set({
-                token,
-                user,
-                isAuthenticated: true
-            });
-        },
-        logout: () => {
-            // Limpiar localStorage
-            localStorage.removeItem('auth_token');
-            localStorage.removeItem('user');
-
-            set({
-                token: null,
-                user: null,
-                isAuthenticated: false
-            });
-        },
-        // Inicializar store con datos del localStorage si existen
-        initialize: () => {
-            const token = localStorage.getItem('auth_token');
-            const user = JSON.parse(localStorage.getItem('user'));
-
-            if (token && user) {
-                set({
-                    token,
-                    user,
-                    isAuthenticated: true
-                });
-            }
-        }
-    };
+	return {
+		subscribe,
+		login: (token, user) => {
+			if (browser) {
+				localStorage.setItem('token', token);
+			}
+			set({ user, token, isAuthenticated: true });
+		},
+		logout: () => {
+			if (browser) {
+				localStorage.removeItem('token');
+			}
+			set({ user: null, token: null, isAuthenticated: false });
+		},
+		initialize: () => {
+			if (browser) {
+				const token = localStorage.getItem('token');
+				if (token) {
+					// Decodificar el token (está en base64)
+					const payload = JSON.parse(atob(token.split('.')[1]));
+					const user = { apodo: payload.userApodo };
+					set({ user, token, isAuthenticated: true });
+				}
+			}
+		}
+	};
 }
 
 export const authStore = createAuthStore();
