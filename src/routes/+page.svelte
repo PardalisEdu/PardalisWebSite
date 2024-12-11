@@ -110,7 +110,7 @@
                     aria-label="Animar logo"
             >
                 <img
-                        src="favicon.png"
+                        src="img/profiles/ocelote2.svg"
                         alt="Logo Pardalis"
                         width={300}
                         height={300}
