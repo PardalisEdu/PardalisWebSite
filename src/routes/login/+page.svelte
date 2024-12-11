@@ -39,7 +39,7 @@
                 </div>
             {/if}
 
-            <form class="p-12" on:submit={handleSubmit}>
+            <form class="p-12" onsubmit={handleSubmit}>
                 <div>
                     <div class="relative z-0 w-full mb-5 group">
                         <input
