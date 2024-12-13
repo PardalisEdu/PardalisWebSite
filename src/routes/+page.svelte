@@ -33,22 +33,22 @@
         {
             title: "Personajes divertidos",
             description: "Diseña nuestros entrañables personajes en su viaje de aprendizaje del inglés.",
-            image: "/path/to/personajes-divertidos.png"
+            image: "../static/img/10.png"
         },
         {
             title: "Juegos interactivos",
             description: "Aprende es divertido con nuestros juegos interactivos y atractivos.",
-            image: "/path/to/juegos-interactivos.png"
+            image: "../static/img/12.png"
         },
         {
             title: "Audios Simples",
             description: "Escucha audios con fonética simple para que sea fácil para todos entenderlos y replicarlos.",
-            image: "/path/to/audios-simples.png"
+            image: "../static/img/11.png"
         },
         {
             title: "Explora historias interesantes",
             description: "Explora nuestras emocionantes historias interactivas y aprende inglés sobre la marcha.",
-            image: "/path/to/historias-interesantes.png"
+            image: "../static/img/12.png"
         }
     ];
 
