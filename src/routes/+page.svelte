@@ -33,22 +33,22 @@
         {
             title: "Personajes divertidos",
             description: "Diseña nuestros entrañables personajes en su viaje de aprendizaje del inglés.",
-            image: "../static/img/10.png"
+            image: "img/10.png"
         },
         {
             title: "Juegos interactivos",
             description: "Aprende es divertido con nuestros juegos interactivos y atractivos.",
-            image: "../static/img/12.png"
+            image: "img/12.png"
         },
         {
             title: "Audios Simples",
             description: "Escucha audios con fonética simple para que sea fácil para todos entenderlos y replicarlos.",
-            image: "../static/img/11.png"
+            image: "img/11.png"
         },
         {
             title: "Explora historias interesantes",
             description: "Explora nuestras emocionantes historias interactivas y aprende inglés sobre la marcha.",
-            image: "../static/img/12.png"
+            image: "img/12.png"
         }
     ];
 
@@ -131,6 +131,11 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             {#each features as feature}
                 <div class="flex flex-col items-center p-6 rounded-lg shadow transform hover:scale-105 transition-transform duration-200">
+                    <img
+                        src={feature.image}
+                        alt={feature.title}
+                        class="rounded-md"
+                    />
                     <h3 class="text-lg font-semibold text-center mb-2">{feature.title}</h3>
                     <p class="text-sm text-gray-600 text-center">{feature.description}</p>
                 </div>
