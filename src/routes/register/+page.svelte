@@ -2,25 +2,30 @@
     import { goto } from '$app/navigation';
     import { register } from '$lib/api/auth';
 
-    let formData = {
+    let formData = $state({
         apodo: '',
         nombre: '',
         correo: '',
         contrasenna: '',
         confirmarContrasenna: ''
-    };
+    });
 
-    let error = '';
-    let loading = false;
-    let passwordError = false;
+    let error = $state('');
+    let loading = $state(false);
+    let passwordError = $state(false);
 
-    // Validar coincidencia de contraseñas
-    $: {
+    $effect.pre(() => {
         if (formData.confirmarContrasenna) {
             passwordError = formData.contrasenna !== formData.confirmarContrasenna;
         }
-    }
+    })
 
+    /**
+     * Función para validar el registro al darle summit
+     * ¿Deberia explicar más de esto? Soy el unico que va a ver esto...
+     * Realmente creen que les voy a dejar el proyecto jajaja
+     * @param {{ preventDefault: () => void; }} event
+     */
     async function handleSubmit(event) {
         event.preventDefault();
         error = '';
@@ -41,6 +46,7 @@
             // Redirigir al login después de un registro exitoso
             await goto('/login');
         } catch (err) {
+            // @ts-ignore
             error = err.message;
         } finally {
             loading = false;
@@ -53,7 +59,7 @@
         <div>
             <p class="text-4xl font-bold text-center text-[#f9c710]">¡Regístrate!</p>
 
-            <form class="p-12" on:submit={handleSubmit}>
+            <form class="p-12" onsubmit={handleSubmit}>
                 {#if error}
                     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
                          role="alert">

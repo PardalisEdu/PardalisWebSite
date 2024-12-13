@@ -21,15 +21,20 @@ export async function login(credentials) {
 			// Importante: incluir estas opciones
 			credentials: 'include',
 			mode: 'cors',
-			body: JSON.stringify(credentials)
+			body: JSON.stringify({
+				correo: credentials.correo,
+				contrasenna: credentials.contrasenna
+			})
 		});
 
-		if (!response.ok) {
-			const error = await response.json();
-			throw new Error(error.error || 'Error en el inicio de sesión');
-		}
+		const data = await response.json();
+		const token = data.token;
 
-		return await response.json();
+		// Decodificar el token para obtener la información del usuario
+		const payload = JSON.parse(atob(token.split('.')[1]));
+		const user = { apodo: payload.userApodo };
+
+		return { token, user };
 	} catch (error) {
 		console.error('Error en login:', error);
 		throw error;

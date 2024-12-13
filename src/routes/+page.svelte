@@ -104,8 +104,8 @@
         </div>
         <div class="grid place-content-center">
             <button
-                    on:click={handleLogoInteraction}
-                    on:keydown={handleKeyDown}
+                    onclick={handleLogoInteraction}
+                    onkeydown={handleKeyDown}
                     style="transform: scale({$logoMotion.scale}) rotate({$logoMotion.rotate}deg);"
                     aria-label="Animar logo"
             >
@@ -131,7 +131,6 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             {#each features as feature}
                 <div class="flex flex-col items-center p-6 rounded-lg shadow transform hover:scale-105 transition-transform duration-200">
-                    <img src={feature.image} alt={feature.title} class="w-full h-40 object-cover rounded-lg mb-4"/>
                     <h3 class="text-lg font-semibold text-center mb-2">{feature.title}</h3>
                     <p class="text-sm text-gray-600 text-center">{feature.description}</p>
                 </div>

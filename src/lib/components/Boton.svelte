@@ -2,14 +2,17 @@
     import {spring} from 'svelte/motion';
     import {createEventDispatcher} from 'svelte';
 
-    export let title;
-    export let color = 'primary'; // 'primary' o 'warn'
-    export let href = ''; // Si se proporciona, el botón se convierte en un enlace
-    export let onClick = () => undefined; // Función personalizada on:clic
+    /** @type {{title: any, color?: string, href?: string, onClick?: any}} */
+    let {
+        title,
+        color = 'primary',
+        href = '',
+        onClick = () => undefined
+    } = $props();
 
     const dispatch = createEventDispatcher();
 
-    let buttonElement;
+    let buttonElement = $state();
     const buttonMotion = spring({scale: 1, rotate: 0}, {
         stiffness: 0.1,
         damping: 0.2
@@ -20,7 +23,7 @@
         warn: '#ff4136'
     };
 
-    $: backgroundColor = colors[color] ? colors[color] : colors.primary;
+    let backgroundColor = $derived(colors[color] ? colors[color] : colors.primary);
 
     function handleTap() {
         buttonMotion.set({scale: 1.1, rotate: 5});
@@ -37,7 +40,7 @@
 {#if href}
     <a
             {href}
-            on:click={handleTap}
+            onclick={handleTap}
             bind:this={buttonElement}
             class="inline-block focus:outline-none focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 w-full text-center text-extrabold"
             style="background-color: {backgroundColor}; transform: scale({$buttonMotion.scale}) rotate({$buttonMotion.rotate}deg);"
@@ -46,7 +49,7 @@
     </a>
 {:else}
     <button
-            on:click={handleTap}
+            onclick={handleTap}
             bind:this={buttonElement}
             class="focus:outline-none focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 w-full font-extrabold"
             style="background-color: {backgroundColor}; transform: scale({$buttonMotion.scale}) rotate({$buttonMotion.rotate}deg);"

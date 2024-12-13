@@ -1,11 +1,10 @@
 <script>
     import { onMount } from 'svelte';
 
-    let bounce = false;
-    let cowPosition = 0;
+    let bounce = $state(false);
+    let cowPosition = $state(0);
     let intervals = [];
 
-    $: cow = getCowPosition(cowPosition);
 
     function getCowPosition(pos) {
         switch(pos) {
@@ -42,6 +41,7 @@
     ];
 
     const randomFact = funFacts[Math.floor(Math.random() * funFacts.length)];
+    let cow = $derived(getCowPosition(cowPosition));
 </script>
 
 <div class="min-h-screen flex flex-col items-center justify-center bg-yellow-50 p-4">

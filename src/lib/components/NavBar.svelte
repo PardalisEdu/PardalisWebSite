@@ -1,25 +1,34 @@
 <script>
     import { onMount } from 'svelte';
-    let isLoggedIn = false;
-    let showBanner = true;
+    let isLoggedIn = $state(false);
+    let showBanner = $state(true);
 
     onMount(() => {
-        // Verificar el token al montar el componente
+        const bannerClosed = localStorage.getItem('bannerClosed');
+        if (bannerClosed === 'true') {
+            showBanner = false;    
+        }
+
         checkAuthStatus();
     });
 
     function checkAuthStatus() {
-        const token = localStorage.getItem('auth_token');
+        const token = localStorage.getItem('token');
         isLoggedIn = !!token;
     }
 
     function handleLogout() {
         // Eliminar el token
-        localStorage.removeItem('auth_token');
+        localStorage.removeItem('token');
         // Actualizar el estado
         isLoggedIn = false;
         // Redirigir al inicio
         window.location.href = '/';
+    }
+
+    function closeBanner() {
+        showBanner = false;
+        localStorage.setItem('bannerClosed', 'true')
     }
 </script>
 
@@ -42,7 +51,7 @@
                 </div>
                 <div class="flex-shrink-0 sm:ml-3">
                     <button
-                            on:click={() => showBanner = false}
+                            onclick={closeBanner}
                             type="button"
                             class="flex p-2 rounded-md hover:bg-yellow-200 transition-colors duration-200 focus:outline-none"
                     >
@@ -72,7 +81,7 @@
             <a href="/login" class="ml-7 p-3 bg-[#f9c710] text-white rounded-lg">Inicia Sesión</a>
         {:else}
             <button
-                    on:click={handleLogout}
+                    onclick={handleLogout}
                     class="ml-7 p-3 bg-[#f9c710] text-white rounded-lg hover:bg-yellow-500 transition-colors"
             >
                 Cerrar Sesión
