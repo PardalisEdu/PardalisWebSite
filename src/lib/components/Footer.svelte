@@ -5,7 +5,7 @@
             title: "Pardalis",
             links: [
                 { text: "Inicio", href: "/" },
-                { text: "Contribuir", href: "https://codeberg.org/Pardalis" },
+                { text: "Contribuir", href: "https://gitlab.com/pardalis" },
                 { text: "Sobre nosotros", href: "/about" }
             ]
         },
@@ -62,7 +62,7 @@
                 </p>
                 <div class="mt-4 md:mt-0">
                     <a
-                            href="https://codeberg.org/Pardalis"
+                            href="https://gitlab.com/pardalis"
                             target="_blank"
                             rel="noopener noreferrer"
                             class="text-gray-400 hover:text-white transition-colors duration-200 text-sm"

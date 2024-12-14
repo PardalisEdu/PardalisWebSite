@@ -20,7 +20,7 @@ Asegúrese de tener instalado Node.js en su sistema antes de comenzar.
 
 1. Clone el repositorio:
    ```bash
-   git clone https://codeberg.org/Pardalis/PardalisWeb.git
+   git clone https://gitlab.com/pardalis/pardalis-site-web.git
    ```
 
 2. Instale las dependencias:
