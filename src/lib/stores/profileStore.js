@@ -1,13 +1,32 @@
+// @ts-check
 import { writable } from 'svelte/store';
 
-// Define la URL base de la API
 const API_URL = 'http://localhost:8080/api/v1';
 
+/**
+ * @typedef {Object} Profile
+ * @property {string} apodo
+ * @property {string} [nombre]
+ * @property {string} [correo]
+ */
+
+/**
+ * @typedef {Object} ProfileData
+ * @property {string} [nombre]
+ * @property {string} [correo]
+ */
+
 function createProfileStore() {
-	const { subscribe, set, update } = writable(null);
+	/** @type {import('svelte/store').Writable<Profile|null>} */
+	const { subscribe, set } = writable(null);
 
 	return {
 		subscribe,
+		/**
+		 * Carga el perfil de un usuario
+		 * @param {string} userApodo
+		 * @returns {Promise<Profile>}
+		 */
 		loadProfile: async (userApodo) => {
 			console.log('Loading profile for:', userApodo);
 			try {
@@ -40,6 +59,13 @@ function createProfileStore() {
 				throw error;
 			}
 		},
+
+		/**
+		 * Actualiza el perfil de un usuario
+		 * @param {string} userApodo
+		 * @param {ProfileData} profileData
+		 * @returns {Promise<Profile>}
+		 */
 		updateProfile: async (userApodo, profileData) => {
 			console.log('Updating profile for:', userApodo);
 			try {
@@ -70,6 +96,7 @@ function createProfileStore() {
 				throw error;
 			}
 		},
+
 		clearProfile: () => {
 			console.log('Clearing profile data');
 			set(null);

@@ -1,12 +1,16 @@
+// @ts-check
 import { redirect } from '@sveltejs/kit';
+import { dev } from '$app/environment';
 import { authStore } from '$lib/stores/authStore';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ cookies }) {
 	const token = cookies.get('token');
 	if (token) {
-		const decoded = decodeToken(token);
+		/** @type {import('$lib/types/types.js').DecodedToken|null} */
+		const decoded = JSON.parse(atob(token.split('.')[1]));
 		if (decoded && decoded.userApodo) {
+			authStore.login(token, { apodo: decoded.userApodo });
 			throw redirect(307, '/profile');
 		}
 	}
@@ -45,15 +49,14 @@ export const actions = {
 				path: '/',
 				httpOnly: true,
 				sameSite: 'strict',
-				secure: process.env.NODE_ENV === 'production',
+				secure: !dev,
 				maxAge: 60 * 60 * 24 * 7 // 7 días
 			});
 
-			const decoded = decodeToken(token);
+			/** @type {import('$lib/types/types.js').DecodedToken|null} */
+			const decoded = JSON.parse(atob(token.split('.')[1]));
 			if (decoded && decoded.userApodo) {
-				authStore.setUser({
-					apodo: decoded.userApodo
-				});
+				authStore.login(token, { apodo: decoded.userApodo });
 			}
 
 			throw redirect(307, '/profile');

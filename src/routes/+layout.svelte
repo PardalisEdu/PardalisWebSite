@@ -2,7 +2,8 @@
     import {authStore} from '$lib/stores/authStore';
     import {onMount} from 'svelte';
     import "../app.css";
-    import {Footer, NavBar} from "$components";
+    import NavBar from "$components/NavBar.svelte";
+    import Footer from "$components/Footer.svelte";
 
     onMount(() => {
         authStore.initialize();

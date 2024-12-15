@@ -5,7 +5,10 @@
     let cowPosition = $state(0);
     let intervals = [];
 
-
+    /**
+     * @param {number} pos
+     * @returns {string}
+     */
     function getCowPosition(pos) {
         switch(pos) {
             case 0:

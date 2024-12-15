@@ -1,33 +1,33 @@
 <script>
-    import {spring} from 'svelte/motion';
-    import {createEventDispatcher} from 'svelte';
+    import { spring } from 'svelte/motion';
+    import { createEventDispatcher } from 'svelte';
 
-    /** @type {{title: any, color?: string, href?: string, onClick?: any}} */
-    let {
-        title,
-        color = 'primary',
-        href = '',
-        onClick = () => undefined
-    } = $props();
+    /**
+     * @typedef {'primary'|'warn'} ColorType
+     */
+
+    /** @type {{title: string, color?: ColorType, href?: string, onClick?: () => void}} */
+    let { title, color = 'primary', href = '', onClick = () => undefined } = $props();
 
     const dispatch = createEventDispatcher();
 
     let buttonElement = $state();
-    const buttonMotion = spring({scale: 1, rotate: 0}, {
+    const buttonMotion = spring({ scale: 1, rotate: 0 }, {
         stiffness: 0.1,
         damping: 0.2
     });
 
+    /** @type {Record<ColorType, string>} */
     const colors = {
         primary: '#f9c710',
         warn: '#ff4136'
     };
 
-    let backgroundColor = $derived(colors[color] ? colors[color] : colors.primary);
+    let backgroundColor = $derived(colors[color] || colors.primary);
 
     function handleTap() {
-        buttonMotion.set({scale: 1.1, rotate: 5});
-        setTimeout(() => buttonMotion.set({scale: 1, rotate: 0}), 200);
+        buttonMotion.set({ scale: 1.1, rotate: 5 });
+        setTimeout(() => buttonMotion.set({ scale: 1, rotate: 0 }), 200);
 
         if (onClick) {
             onClick();
@@ -51,7 +51,7 @@
     <button
             onclick={handleTap}
             bind:this={buttonElement}
-            class="focus:outline-none focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 w-full font-extrabold"
+            class="focus:outline-none focus:ring-4 rounded-lg text-sm px-5 py-2.5 w-full font-extrabold"
             style="background-color: {backgroundColor}; transform: scale({$buttonMotion.scale}) rotate({$buttonMotion.rotate}deg);"
     >
         {title}

@@ -1,24 +1,20 @@
+// @ts-check
 import { PUBLIC_API_URL } from "$env/static/public";
 
 const API_URL = PUBLIC_API_URL;
 
 /**
- * Es algo obvio... Modulo para logearte con el back
- * @param {object} credentials 
- * @returns Retorno el token necesario para el login
+ * Función para iniciar sesión
+ * @param {{ correo: string, contrasenna: string }} credentials - Credenciales del usuario
+ * @returns {Promise<{ token: string, user: { apodo: string } }>}
  */
 export async function login(credentials) {
-
-	console.log(typeof credentials);
-
 	try {
 		const response = await fetch(`${API_URL}/login`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				// No incluir 'Authorization' en login
 			},
-			// Importante: incluir estas opciones
 			credentials: 'include',
 			mode: 'cors',
 			body: JSON.stringify({
@@ -26,6 +22,10 @@ export async function login(credentials) {
 				contrasenna: credentials.contrasenna
 			})
 		});
+
+		if (!response.ok) {
+			throw new Error('Credenciales inválidas');
+		}
 
 		const data = await response.json();
 		const token = data.token;
@@ -42,13 +42,17 @@ export async function login(credentials) {
 }
 
 /**
- * Funcion para registrar los usuarios con la API
- * @param {Object} params - Parámetros de registro
- * @param {string} params.apodo - Apodo del usuario
- * @param {string} params.nombre - Nombre completo del usuario
- * @param {string} params.correo - Correo electrónico del usuario
- * @param {string} params.contrasenna - Contraseña del usuario
- * @returns {Promise<Object>} Estado del registro.
+ * @typedef {Object} RegisterParams
+ * @property {string} apodo - Apodo del usuario
+ * @property {string} nombre - Nombre completo
+ * @property {string} correo - Correo electrónico
+ * @property {string} contrasenna - Contraseña
+ */
+
+/**
+ * Registra un nuevo usuario
+ * @param {RegisterParams} params - Parámetros de registro
+ * @returns {Promise<any>} Estado del registro
  */
 export async function register({ apodo, nombre, correo, contrasenna }) {
 	try {

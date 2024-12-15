@@ -1,5 +1,10 @@
 import jwt from 'jsonwebtoken';
 
+/**
+ * Decodifica un token JWT sin verificar la firma
+ * @param {string} token - El token JWT a decodificar
+ * @returns {Object|null} El token decodificado o null si hay error
+ */
 export function decodeToken(token) {
 	try {
 		// Decodificar sin verificar la firma

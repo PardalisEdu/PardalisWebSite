@@ -11,6 +11,9 @@
     let errorMessage = $state('');
     let loading = $state(false);
 
+    /**
+     * @param {SubmitEvent} event
+     */
     async function handleSubmit(event) {
         event.preventDefault();
         loading = true;
@@ -20,8 +23,12 @@
             const { token, user } = await login(formData);
             authStore.login(token, user);
             await goto('/profile');
-        } catch (error) {
-            errorMessage = error.message;
+        } catch (/** @type {unknown} */ error) {
+            if (error instanceof Error) {
+                errorMessage = error.message;
+            } else {
+                errorMessage = 'Ha ocurrido un error desconocido';
+            }
         } finally {
             loading = false;
         }
