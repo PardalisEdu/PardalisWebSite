@@ -1,8 +1,8 @@
 import { PUBLIC_API_URL } from "$env/static/public";
 
 /**
- * ... Literalmente esta en el nombre...
- * @param {object} apodo
+ * Obtiene el perfil del usuario
+ * @param {string} apodo - Apodo del usuario
  */
 export async function getUserProfile(apodo) {
 	try {
@@ -28,7 +28,6 @@ export async function getUserProfile(apodo) {
 
 		return await response.json();
 	} catch (error) {
-		// @ts-ignore
 		throw new Error(error.message || 'Error al conectar con el servidor');
 	}
 }
