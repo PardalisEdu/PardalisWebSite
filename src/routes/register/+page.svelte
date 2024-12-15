@@ -1,7 +1,9 @@
+<!-- Register.svelte -->
 <script>
-    import { goto } from '$app/navigation';
-    import { register } from '$lib/api/auth';
+    import {goto} from "$app/navigation";
+    import {register} from '$lib/api/auth';
 
+    // Estados del formulario
     let formData = $state({
         apodo: '',
         nombre: '',
@@ -10,182 +12,232 @@
         confirmarContrasenna: ''
     });
 
-    let error = $state('');
     let loading = $state(false);
+    let errorMessage = $state('');
+    let showPassword = $state(false);
+    let showConfirmPassword = $state(false);
     let passwordError = $state(false);
 
-    $effect.pre(() => {
+    // Validación de contraseñas en tiempo real
+    $effect(() => {
         if (formData.confirmarContrasenna) {
             passwordError = formData.contrasenna !== formData.confirmarContrasenna;
         }
-    })
+    });
 
     /**
-     * Función para validar el registro al darle summit
-     * ¿Deberia explicar más de esto? Soy el unico que va a ver esto...
-     * Realmente creen que les voy a dejar el proyecto jajaja
-     * @param {{ preventDefault: () => void; }} event
+     * @param {SubmitEvent} event
      */
     async function handleSubmit(event) {
         event.preventDefault();
-        error = '';
         loading = true;
+        errorMessage = '';
 
         // Validar que las contraseñas coincidan
         if (formData.contrasenna !== formData.confirmarContrasenna) {
-            error = 'Las contraseñas no coinciden';
+            errorMessage = 'Las contraseñas no coinciden';
             loading = false;
             return;
         }
 
         try {
-            // Excluir confirmarContrasenna del objeto que se envía
             const {confirmarContrasenna, ...registerData} = formData;
             await register(registerData);
-
-            // Redirigir al login después de un registro exitoso
             await goto('/login');
-        } catch (err) {
-            // @ts-ignore
-            error = err.message;
+        } catch (/** @type {unknown} */ error) {
+            if (error instanceof Error) {
+                errorMessage = error.message;
+            } else {
+                errorMessage = 'Ha ocurrido un error desconocido';
+            }
         } finally {
             loading = false;
         }
     }
+
+
+    /**
+     * @param {string} field
+     */
+    function togglePassword(field) {
+        if (field === 'password') {
+            showPassword = !showPassword;
+        } else {
+            showConfirmPassword = !showConfirmPassword;
+        }
+    }
+
+    const adjetivos = ['Valiente', 'Astuto', 'Alegre', 'Veloz', 'Super', 'Mega'];
+    const animales = ['Ocelote', 'Jaguar', 'Quetzal', 'Ajolote', 'Águila', 'Lobo'];
+
+    function generarApodoAleatorio() {
+        const adjetivo = adjetivos[Math.floor(Math.random() * adjetivos.length)];
+        const animal = animales[Math.floor(Math.random() * animales.length)];
+        const numero = Math.floor(Math.random() * 100);
+        formData.apodo = `${adjetivo}${animal}${numero}`;
+    }
 </script>
 
-<main class="h-screen config grid place-content-center">
-    <div class="bg-white rounded-3xl p-10 w-[30vw] h-auto">
-        <div>
-            <p class="text-4xl font-bold text-center text-[#f9c710]">¡Regístrate!</p>
+<div class="min-h-screen bg-yellow-50 flex items-center justify-center p-4">
+    <div class="mt-28 max-w-md w-full space-y-8 bg-white rounded-3xl shadow-xl p-10 relative overflow-hidden my-8">
+        <div class="absolute -top-10 -left-10 w-40 h-40 bg-yellow-200 rounded-full opacity-50"></div>
+        <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-yellow-200 rounded-full opacity-50"></div>
 
-            <form class="p-12" onsubmit={handleSubmit}>
-                {#if error}
-                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
-                         role="alert">
-                        <span class="block sm:inline">{error}</span>
-                    </div>
-                {/if}
+        <div class="relative">
+            <div class="text-center">
+                <h2 class="text-4xl font-bold text-gray-900 mb-2">¡Únete a la aventura!</h2>
+                <img src="img/profiles/ajolote.svg" alt="Logo Pardalis" class="w-24 h-24 mx-auto"/>
+                <p class="mt-2 text-gray-600">Crea tu cuenta y comienza a aprender</p>
+            </div>
 
-                <div>
-                    <div class="relative z-0 w-full mb-5 group">
-                        <input
-                                type="text"
-                                id="floating_apodo"
-                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-b-2 border-[#f9c710] focus:outline-none focus:ring-0 focus:border-[#f9c710] peer"
-                                placeholder=" "
-                                required
-                                bind:value={formData.apodo}
-                                autocomplete="username"
-                        />
-                        <label
-                                for="floating_apodo"
-                                class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-[#f9c710] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                        >
+            {#if errorMessage}
+                <div class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <span class="block sm:inline">{errorMessage}</span>
+                </div>
+            {/if}
+
+            <form onsubmit={handleSubmit} class="mt-8 space-y-6">
+                <div class="space-y-4">
+                    <!-- Campo de apodo -->
+                    <div class="relative">
+                        <label class="block text-sm font-medium text-gray-700" for="apodo">
                             Apodo
                         </label>
+                        <div class="flex gap-2">
+                            <input
+                                    type="text"
+                                    id="apodo"
+                                    name="apodo"
+                                    required
+                                    bind:value={formData.apodo}
+                                    class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                    placeholder="TuApodoGenial123"
+                            />
+                            <button
+                                    type="button"
+                                    onclick={generarApodoAleatorio}
+                                    class="mt-1 px-3 py-2 bg-[#f9c710] text-black rounded-lg hover:bg-yellow-500 transition-colors"
+                                    title="Generar apodo aleatorio"
+                            >
+                                🎲
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="relative z-0 w-full mb-5 group">
+                    <!-- Campo de nombre -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700" for="nombre">
+                            Nombre completo
+                        </label>
                         <input
                                 type="text"
-                                id="floating_nombre"
-                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-b-2 border-[#f9c710] focus:outline-none focus:ring-0 focus:border-[#f9c710] peer"
-                                placeholder=" "
+                                id="nombre"
+                                name="nombre"
                                 required
                                 bind:value={formData.nombre}
-                                autocomplete="name"
+                                class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                placeholder="Tu nombre completo"
                         />
-                        <label
-                                for="floating_nombre"
-                                class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-[#f9c710] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                        >
-                            Nombre
-                        </label>
                     </div>
 
-                    <div class="relative z-0 w-full mb-5 group">
-                        <input
-                                type="email"
-                                id="floating_correo"
-                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-b-2 border-[#f9c710] focus:outline-none focus:ring-0 focus:border-[#f9c710] peer"
-                                placeholder=" "
-                                required
-                                bind:value={formData.correo}
-                                autocomplete="email"
-                        />
-                        <label
-                                for="floating_correo"
-                                class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-[#f9c710] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                        >
+                    <!-- Campo de correo -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700" for="correo">
                             Correo electrónico
                         </label>
+                        <input
+                                type="email"
+                                id="correo"
+                                name="correo"
+                                required
+                                bind:value={formData.correo}
+                                class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                placeholder="nombre@ejemplo.com"
+                                autocomplete="email"
+                        />
                     </div>
 
-                    <div class="relative z-0 w-full mb-5 group">
-                        <input
-                                type="password"
-                                id="floating_contrasenna"
-                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-b-2 border-[#f9c710] focus:outline-none focus:ring-0 focus:border-[#f9c710] peer"
-                                placeholder=" "
-                                required
-                                bind:value={formData.contrasenna}
-                                autocomplete="new-password"
-                        />
-                        <label
-                                for="floating_contrasenna"
-                                class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-[#f9c710] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                        >
+                    <!-- Campo de contraseña -->
+                    <div class="relative">
+                        <label class="block text-sm font-medium text-gray-700" for="contrasenna">
                             Contraseña
                         </label>
+                        <div class="relative">
+                            <input
+                                    type={showPassword ? "text" : "password"}
+                                    id="contrasenna"
+                                    name="contrasenna"
+                                    required
+                                    bind:value={formData.contrasenna}
+                                    class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                    placeholder="********"
+                                    autocomplete="new-password"
+                            />
+                            <button
+                                    type="button"
+                                    onclick={() => togglePassword('password')}
+                                    class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                            >
+                                {showPassword ? "🙈" : "👀"}
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="relative z-0 w-full mb-5 group">
-                        <input
-                                type="password"
-                                id="floating_confirmar_contrasenna"
-                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-b-2 border-[#f9c710] focus:outline-none focus:ring-0 focus:border-[#f9c710] peer"
-                                placeholder=" "
-                                required
-                                bind:value={formData.confirmarContrasenna}
-                                autocomplete="new-password"
-                        />
-                        <label
-                                for="floating_confirmar_contrasenna"
-                                class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-[#f9c710] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                        >
+                    <!-- Campo de confirmar contraseña -->
+                    <div class="relative">
+                        <label class="block text-sm font-medium text-gray-700" for="confirmarContrasenna">
                             Confirmar contraseña
                         </label>
+                        <div class="relative">
+                            <input
+                                    type={showConfirmPassword ? "text" : "password"}
+                                    id="confirmarContrasenna"
+                                    name="confirmarContrasenna"
+                                    required
+                                    bind:value={formData.confirmarContrasenna}
+                                    class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                    placeholder="********"
+                                    autocomplete="new-password"
+                            />
+                            <button
+                                    type="button"
+                                    onclick={() => togglePassword('confirm')}
+                                    class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                            >
+                                {showConfirmPassword ? "🙈" : "👀"}
+                            </button>
+                        </div>
                     </div>
 
                     {#if passwordError}
-                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
-                             role="alert">
-                            <span class="block sm:inline">Las contraseñas no coinciden</span>
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+                            Las contraseñas no coinciden
                         </div>
                     {/if}
                 </div>
 
                 <button
                         type="submit"
-                        class="p-3 bg-[#f9c710] text-white rounded-lg font-bold w-full mb-4 disabled:opacity-50"
                         disabled={loading || passwordError}
+                        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-black bg-[#f9c710] hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 transition-colors duration-200 disabled:opacity-50"
                 >
-                    {loading ? 'Registrando...' : 'Registrarse'}
+                    {#if loading}
+                        <span class="flex items-center">
+                            Registrando...
+                            <span class="ml-2 animate-spin">🌟</span>
+                        </span>
+                    {:else}
+                        ¡Crear cuenta!
+                    {/if}
                 </button>
-
-                <div class="w-full flex justify-center">
-                    <a href="/login" class="m-auto text-yellow-500 underline decoration-solid">
-                        ¿Ya tienes una cuenta? Inicia sesión
-                    </a>
-                </div>
             </form>
+
+            <p class="mt-6 text-center text-sm text-gray-600">
+                ¿Ya tienes una cuenta?{' '}
+                <a href="/login" class="font-medium text-[#f9c710] hover:text-yellow-500">
+                    ¡Inicia sesión aquí!
+                </a>
+            </p>
         </div>
     </div>
-</main>
-
-<style>
-    .config {
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.dev/svgjs' width='1440' height='560' preserveAspectRatio='none' viewBox='0 0 1440 560'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1098%26quot%3b)' fill='none'%3e%3crect width='1440' height='560' x='0' y='0' fill='rgba(255%2c 250%2c 229%2c 1)'%3e%3c/rect%3e%3cuse xlink:href='%23SvgjsG1106' transform='translate(0%2c 0)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1106' transform='translate(0%2c 480)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1106' transform='translate(480%2c 0)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1106' transform='translate(480%2c 480)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1106' transform='translate(960%2c 0)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1106' transform='translate(960%2c 480)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1098'%3e%3crect width='1440' height='560' fill='white'%3e%3c/rect%3e%3c/mask%3e%3cg id='SvgjsG1103'%3e%3cpath d='M3.474 10.969C3.474 7.665 8.077 0.361 8.077 0.361s4.602 7.305 4.602 10.608c0 2.247-1.506 4.771-4.602 4.771-3.095 0-4.603-2.524-4.603-4.771z' fill-rule='evenodd'%3e%3c/path%3e%3c/g%3e%3cg id='SvgjsG1101'%3e%3cpath d='M2.524 8.637H0.014V7.308h2.51v1.329zM3.656 4.576L1.884 2.804l0.935-0.935 1.772 1.772-0.935 0.935z m0 6.817l0.935 0.935-1.772 1.773-0.934-0.936 1.771-1.772z m4.997-8.884h-1.33V-0.002h1.33v2.511z m-1.33 10.952h1.33v2.51h-1.33v-2.509zM12.344 4.576l-0.96-0.935 1.796-1.772 0.935 0.935-1.772 1.772z m0 6.792l1.771 1.797-0.935 0.936-1.771-1.774 0.936-0.96z m3.643-4.06v1.329h-2.51V7.308h2.509z'%3e%3c/path%3e%3cpath d='M3.702 7.984a4.184 4.184 0 1 0 8.368 0 4.184 4.184 0 1 0-8.368 0'%3e%3c/path%3e%3c/g%3e%3cg id='SvgjsG1100'%3e%3cpath d='M15.233 9.431c0.295 0 0.569-0.239 0.61-0.532 0 0 0.056-0.411 0.056-0.899s-0.056-0.899-0.056-0.899c-0.041-0.292-0.315-0.531-0.61-0.53h-1.524c-0.295 0-0.602-0.188-0.681-0.418s-0.188-0.967 0.021-1.176l1.078-1.077c0.209-0.209 0.225-0.565 0.036-0.792l-1.268-1.268c-0.227-0.189-0.583-0.173-0.792 0.036l-1.078 1.077c-0.208 0.209-0.556 0.293-0.772 0.187s-0.822-0.552-0.821-0.847V0.767c0-0.295-0.239-0.569-0.531-0.61 0 0-0.411-0.057-0.9-0.056s-0.899 0.057-0.899 0.056c-0.293 0.04-0.532 0.315-0.532 0.61v1.524c0 0.295-0.188 0.601-0.418 0.681s-0.967 0.188-1.176-0.021l-1.078-1.078C3.689 1.665 3.333 1.649 3.107 1.837l-1.268 1.268c-0.189 0.227-0.173 0.583 0.036 0.792l1.077 1.078c0.209 0.209 0.293 0.556 0.187 0.772s-0.552 0.822-0.847 0.822H0.767c-0.295 0-0.569 0.239-0.61 0.531 0 0-0.057 0.411-0.056 0.899s0.057 0.899 0.056 0.9c0.04 0.293 0.315 0.532 0.61 0.532h1.525c0.295 0 0.601 0.188 0.681 0.417 0.079 0.23 0.188 0.967-0.02 1.176l-1.078 1.077C1.667 12.311 1.651 12.667 1.84 12.893l1.267 1.268c0.227 0.189 0.583 0.173 0.792-0.036l1.077-1.077c0.209-0.208 0.556-0.292 0.772-0.187s0.821 0.553 0.822 0.848v1.524c0 0.295 0.239 0.569 0.532 0.61 0 0 0.411 0.057 0.899 0.057s0.899-0.056 0.899-0.057c0.293-0.04 0.531-0.315 0.532-0.609v-1.524c0-0.295 0.188-0.602 0.418-0.681 0.23-0.079 0.967-0.188 1.176 0.021l1.077 1.077c0.209 0.209 0.565 0.225 0.792 0.036l1.268-1.267c0.189-0.227 0.173-0.583-0.036-0.792l-1.078-1.077c-0.209-0.209-0.293-0.557-0.186-0.773 0.106-0.216 0.552-0.822 0.847-0.822h1.525zM8 10.892c-1.597 0-2.891-1.294-2.891-2.892 0-1.596 1.295-2.891 2.891-2.891S10.892 6.404 10.892 8 9.597 10.892 8 10.892z'%3e%3c/path%3e%3c/g%3e%3cg id='SvgjsG1099'%3e%3cpath d='M1.44 9.684L0.42 8.992s4.256-1.268 6.87-1.268c1.792 0 3.34-0.504 2.744-1.55-0.6-1.044-0.6-3.954 1.79-3.806 0 0 1.646 0 1.794 1.566 0 0-0.132 0.58 2.034 1.028 0 0 0.372 0.224-0.3 0.524 0 0-3.284-0.226-2.984 0.596 0 0-0.074 0.714 1.026 1.14 1.884 0.728 3.77 6.76-4.088 6.18 0 0-3.08-0.132-5.54-1.552 0 0-2.82-1.286-3.94-1.586l1.62-0.576z' fill-rule='evenodd'%3e%3c/path%3e%3c/g%3e%3cg id='SvgjsG1104'%3e%3cpath d='M11.555 2.354h1.45a0.35 0.35 0 0 1 0 0.7h-1.435c-0.092 0-0.184 0.03-0.253 0.099-0.107 0.111-0.134 0.268-0.072 0.398 0.053 0.115 0.126 0.234 0.206 0.333l0.826-0.004c0.061 0.004 0.13 0.019 0.187 0.05l1.944 1.041c0.16 0.099 0.271 0.278 0.271 0.482a0.569 0.569 0 0 1-0.57 0.569h-1.267L11.144 10.19l-1.09 1.091v3.987c0 0.402-0.329 0.731-0.735 0.732s-0.731-0.329-0.731-0.732V10.979H5.646l-0.662 1.007 1.627 2.832c0.199 0.352 0.073 0.8-0.28 0.998-0.352 0.199-0.8 0.073-0.998-0.279L3.664 12.674v-1.27l-0.83 1.114v2.698c0 0.406-0.329 0.731-0.735 0.73a0.731 0.731 0 0 1-0.731-0.73L1.364 12.357l0.685-1.087v-1.294L1.517 10.807a0.08 0.08 0 0 1-0.077 0.05 0.081 0.081 0 0 1-0.08-0.081v-2.881c0.027-0.566 0.501-1.037 1.071-1.037h7.206l1.145-1.76-0.95-0.946a0.142 0.142 0 0 1-0.049-0.107c0-0.084 0.065-0.149 0.145-0.149l0.693 0.004a2.742 2.742 0 0 1-0.272-1.187C10.349 1.216 11.566 0 13.066 0c0.195 0 0.352 0.157 0.352 0.352 0 0.192-0.157 0.356-0.352 0.356-1.026 0-1.875 0.773-1.99 1.768 0.142-0.08 0.302-0.123 0.479-0.123z'%3e%3c/path%3e%3c/g%3e%3cg id='SvgjsG1105'%3e%3cpath d='M2.752 7.711c0.292 0 0.539-0.241 0.539-0.533 0-0.293-0.247-0.534-0.539-0.534-0.289 0-0.539 0.241-0.539 0.534 0 0.292 0.249 0.533 0.539 0.533M0.016 8.499a0.062 0.062 0 0 1-0.016-0.04c0-0.03 0.028-0.054 0.058-0.055h1.705c0.082 0 0.149-0.066 0.149-0.148 0-0.064-0.028-0.107-0.091-0.143L0.279 7.379a0.097 0.097 0 0 1-0.048-0.086c0-0.026 0.008-0.05 0.028-0.071 0 0 4.046-3.576 13.009-0.11l2.461-1.2c0.024-0.012 0.052-0.02 0.078-0.02 0.107 0 0.193 0.086 0.193 0.193a0.208 0.208 0 0 1-0.028 0.098l-1.451 1.807 1.451 1.801c0.016 0.032 0.028 0.064 0.028 0.103 0 0.102-0.086 0.189-0.193 0.189-0.026 0-0.054-0.008-0.078-0.02l-2.461-1.2S4.701 12.264 0.016 8.499' fill-rule='evenodd'%3e%3c/path%3e%3c/g%3e%3cg id='SvgjsG1102'%3e%3cpath d='M7.648 0h0.716v2.72H7.648V0z m-0.042 13.226h0.715v2.72h-0.715v-2.72z m5.674-5.779H16v0.714H13.28v-0.714zM0 7.403h2.72v0.716H0V7.403zM1.036 4.064l0.347-0.625 2.376 1.318-0.347 0.626L1.036 4.064z m2.852-2.908l0.606-0.381 1.443 2.308-0.606 0.377-1.443-2.304zM10.357 12.627l0.617-0.356 1.36 2.356-0.618 0.357-1.359-2.357z m2.079-1.903l0.347-0.624 2.38 1.317-0.349 0.627-2.378-1.32zM4.336 15.016l-0.625-0.347 1.318-2.38 0.627 0.346L4.336 15.016zM1.175 11.994L0.798 11.388l2.306-1.443 0.378 0.606-2.307 1.443zM12.692 5.611l-0.359-0.621 2.355-1.36 0.359 0.621-2.355 1.36zM10.873 3.572l-0.627-0.348 1.319-2.377 0.626 0.347-1.318 2.378z m-7.283 4.392c0-2.44 1.979-4.419 4.419-4.419 2.438 0 4.415 1.979 4.415 4.419S10.447 12.381 8.009 12.381c-2.44 0-4.419-1.977-4.419-4.417'%3e%3c/path%3e%3c/g%3e%3cg id='SvgjsG1106'%3e%3cuse xlink:href='%23SvgjsG1099' transform='translate(0%2c 0) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1100' transform='translate(0%2c 48) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1101' transform='translate(0%2c 96) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1099' transform='translate(0%2c 144) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1102' transform='translate(0%2c 192) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1101' transform='translate(0%2c 240) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1101' transform='translate(0%2c 288) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1103' transform='translate(0%2c 336) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1103' transform='translate(0%2c 384) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1103' transform='translate(0%2c 432) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1102' transform='translate(48%2c 0) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1102' transform='translate(48%2c 48) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1104' transform='translate(48%2c 96) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1103' transform='translate(48%2c 144) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1102' transform='translate(48%2c 192) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1100' transform='translate(48%2c 240) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1101' transform='translate(48%2c 288) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1100' transform='translate(48%2c 336) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1100' transform='translate(48%2c 384) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1099' transform='translate(48%2c 432) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1104' transform='translate(96%2c 0) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1101' transform='translate(96%2c 48) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1103' transform='translate(96%2c 96) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1105' transform='translate(96%2c 144) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1100' transform='translate(96%2c 192) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1101' transform='translate(96%2c 240) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1104' transform='translate(96%2c 288) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1100' transform='translate(96%2c 336) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1103' transform='translate(96%2c 384) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1099' transform='translate(96%2c 432) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1099' transform='translate(144%2c 0) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1105' transform='translate(144%2c 48) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1100' transform='translate(144%2c 96) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1105' transform='translate(144%2c 144) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1105' transform='translate(144%2c 192) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1104' transform='translate(144%2c 240) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1099' transform='translate(144%2c 288) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1099' transform='translate(144%2c 336) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1104' transform='translate(144%2c 384) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1105' transform='translate(144%2c 432) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1103' transform='translate(192%2c 0) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1100' transform='translate(192%2c 48) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1100' transform='translate(192%2c 96) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1104' transform='translate(192%2c 144) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1102' transform='translate(192%2c 192) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1104' transform='translate(192%2c 240) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1102' transform='translate(192%2c 288) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1100' transform='translate(192%2c 336) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1104' transform='translate(192%2c 384) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1102' transform='translate(192%2c 432) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1105' transform='translate(240%2c 0) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1100' transform='translate(240%2c 48) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1105' transform='translate(240%2c 96) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1104' transform='translate(240%2c 144) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1103' transform='translate(240%2c 192) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1099' transform='translate(240%2c 240) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1099' transform='translate(240%2c 288) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1102' transform='translate(240%2c 336) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1099' transform='translate(240%2c 384) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1099' transform='translate(240%2c 432) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1105' transform='translate(288%2c 0) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1102' transform='translate(288%2c 48) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1099' transform='translate(288%2c 96) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1101' transform='translate(288%2c 144) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1104' transform='translate(288%2c 192) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1104' transform='translate(288%2c 240) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1101' transform='translate(288%2c 288) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1105' transform='translate(288%2c 336) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1101' transform='translate(288%2c 384) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1103' transform='translate(288%2c 432) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1102' transform='translate(336%2c 0) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1105' transform='translate(336%2c 48) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1103' transform='translate(336%2c 96) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1105' transform='translate(336%2c 144) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1103' transform='translate(336%2c 192) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1099' transform='translate(336%2c 240) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1101' transform='translate(336%2c 288) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1105' transform='translate(336%2c 336) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1100' transform='translate(336%2c 384) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1100' transform='translate(336%2c 432) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1100' transform='translate(384%2c 0) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1100' transform='translate(384%2c 48) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1103' transform='translate(384%2c 96) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1102' transform='translate(384%2c 144) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1104' transform='translate(384%2c 192) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1105' transform='translate(384%2c 240) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1099' transform='translate(384%2c 288) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1105' transform='translate(384%2c 336) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1099' transform='translate(384%2c 384) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1102' transform='translate(384%2c 432) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1105' transform='translate(432%2c 0) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1101' transform='translate(432%2c 48) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1103' transform='translate(432%2c 96) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1104' transform='translate(432%2c 144) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1101' transform='translate(432%2c 192) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1099' transform='translate(432%2c 240) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1099' transform='translate(432%2c 288) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1101' transform='translate(432%2c 336) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1100' transform='translate(432%2c 384) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3cuse xlink:href='%23SvgjsG1099' transform='translate(432%2c 432) scale(2)' fill='rgba(255%2c 221%2c 50%2c 1)'%3e%3c/use%3e%3c/g%3e%3c/defs%3e%3c/svg%3e");
-    }
-</style>
+</div>
