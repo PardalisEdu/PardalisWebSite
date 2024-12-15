@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://pardalis.edu/sitemap.xml
+Sitemap: https://pardalis.mx/sitemap.xml
 
 # Rutas que no queremos que se indexen
 Disallow: /perfil/
