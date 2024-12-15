@@ -72,8 +72,7 @@
 
 </script>
 
-<div class="min-h-screen flex flex-col bg-[url(img/fondo-inicio.svg)] bg-cover bg-center bg-no-repeat">
-
+<div class="min-h-screen flex flex-col bg-[url('/img/fondo-inicio.svg')] bg-cover bg-center bg-no-repeat">
     <main class="grid grid-cols-2 flex-1 p-4">
         <div class="m-10 text-center grid place-content-center">
             <div>
