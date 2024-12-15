@@ -1,7 +1,7 @@
 <script>
     import Boton from "$components/Boton.svelte";
-    import { onMount } from 'svelte';
-    import { spring } from "svelte/motion";
+    import {onMount} from 'svelte';
+    import {spring} from "svelte/motion";
 
     const logoMotion = spring({scale: 0, rotate: 0}, {
         stiffness: 0.1,
@@ -73,7 +73,7 @@
 </script>
 
 <div class="min-h-screen flex flex-col bg-[url('/img/fondo-inicio.svg')] bg-cover bg-center bg-no-repeat">
-    <main class="grid grid-cols-2 flex-1 p-4">
+    <main class="grid place-content-center grid-cols-1 md:grid-cols-2 flex-1 p-4">
         <div class="m-10 text-center grid place-content-center">
             <div>
                 <h1 class="mb-4 text-3xl font-extrabold text-gray-900 md:text-5xl lg:text-6xl">
@@ -89,18 +89,16 @@
                 <p class="mb-5 mt-10">
                     ¿Todavía no tienes una cuenta?
                 </p>
-
-                <div class="rounded-xl w-9/12 p-4 m-auto">
-                    <a
-                            href="/register"
-                            class="text-4xl font-black hover:underline"
-                            style="color: #f9c710;"
-                    >
-                        ¡Regístrate!
-                    </a>
-                </div>
+                <a
+                        href="/register"
+                        class="text-4xl font-black hover:underline"
+                        style="color: #f9c710;"
+                >
+                    ¡Regístrate!
+                </a>
             </div>
         </div>
+
         <div class="grid place-content-center">
             <button
                     onclick={handleLogoInteraction}
@@ -113,12 +111,11 @@
                         alt="Logo Pardalis"
                         width={300}
                         height={300}
+                        class="hidden md:block"
                 />
             </button>
         </div>
-
     </main>
-
 </div>
 
 <section class="py-12 px-4 bg-white text-gray-900">
@@ -131,9 +128,9 @@
             {#each features as feature}
                 <div class="flex flex-col items-center p-6 rounded-lg shadow transform hover:scale-105 transition-transform duration-200">
                     <img
-                        src={feature.image}
-                        alt={feature.title}
-                        class="rounded-md"
+                            src={feature.image}
+                            alt={feature.title}
+                            class="rounded-md"
                     />
                     <h3 class="text-lg font-semibold text-center mb-2">{feature.title}</h3>
                     <p class="text-sm text-gray-600 text-center">{feature.description}</p>
