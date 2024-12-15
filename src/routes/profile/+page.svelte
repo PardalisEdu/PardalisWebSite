@@ -1,9 +1,11 @@
 <script>
-    import {goto} from "$app/navigation";
-    import {getUserProfile} from "$lib/api/user";
+    import { goto } from "$app/navigation";
+    import { onMount } from 'svelte';
+    import { browser } from '$app/environment';
+    import { getUserProfile } from "$lib/api/user";
     import Boton from "$lib/components/Boton.svelte";
-    import {authStore} from "$lib/stores/authStore";
-    import {personalizationStore} from "$lib/stores/personalizationStore";
+    import { authStore } from "$lib/stores/authStore";
+    import { personalizationStore } from "$lib/stores/personalizationStore";
 
     /** @type {{ apodo: string } | null} */
     let user = $authStore.user;
@@ -18,10 +20,7 @@
     });
 
     async function fetchData() {
-        if (!user?.apodo) {
-            goto('/login');
-            return;
-        }
+        if (!user?.apodo) return;
 
         try {
             const [userInfo, personalizationInfo] = await Promise.all([
@@ -40,8 +39,15 @@
         }
     }
 
-    $effect(() => {
-        fetchData();
+    onMount(() => {
+        if (browser) {
+            const token = localStorage.getItem('token');
+            if (!token || !user) {
+                goto('/login');
+                return;
+            }
+            fetchData();
+        }
     });
 
     function handleLogout() {
@@ -50,16 +56,8 @@
         goto("/");
     }
 
-    // Redirigir si no está autenticado
-    if (!user) {
-        goto('/login');
-    }
-
     async function handleSaveProfile() {
-        if (!user?.apodo) {
-            goto('/login');
-            return;
-        }
+        if (!user?.apodo) return;
 
         try {
             await personalizationStore.updatePersonalization(user.apodo, editForm);
@@ -82,9 +80,7 @@
 </script>
 
 <main class="min-h-screen bg-gray-100 py-12 px-4 grid place-content-center">
-    <div
-            class="max-w-2xl mx-auto bg-white rounded-2xl shadow-md overflow-hidden min-w-[500px] p-6"
-    >
+    <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-md overflow-hidden min-w-[500px] p-6">
         {#if showAlert}
             <div
                     class="mb-4 bg-yellow-100 border border-yellow-400 text-yellow-800 px-4 py-3 rounded relative"
@@ -146,7 +142,7 @@
                         </button>
                     </div>
                 {:else}
-                    <h2 class="text-2xl font-bold mb-2">{user?.apodo}</h2>
+                    <h2 class="text-2xl font-bold mb-2">{user?.apodo || ''}</h2>
                     <p class="text-gray-600 mb-4">{personalization?.descripcion || 'Sin descripción'}</p>
                     <button
                             onclick={() => editing = true}

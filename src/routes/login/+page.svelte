@@ -33,6 +33,11 @@
             loading = false;
         }
     }
+
+    if (!!localStorage.getItem('token')) {
+        goto("/profile")
+    }
+
 </script>
 
 <main class="h-screen config grid place-content-center">
