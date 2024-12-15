@@ -1,12 +1,20 @@
+<!-- NavBar.svelte -->
 <script>
     import { onMount } from 'svelte';
+    import { authStore } from '$lib/stores/authStore';
+
     let isLoggedIn = $state(false);
     let showBanner = $state(true);
+    let isMenuOpen = $state(false);
+
+    $effect(() => {
+        isLoggedIn = $authStore.isAuthenticated;
+    });
 
     onMount(() => {
         const bannerClosed = localStorage.getItem('bannerClosed');
         if (bannerClosed === 'true') {
-            showBanner = false;    
+            showBanner = false;
         }
 
         checkAuthStatus();
@@ -18,17 +26,18 @@
     }
 
     function handleLogout() {
-        // Eliminar el token
         localStorage.removeItem('token');
-        // Actualizar el estado
         isLoggedIn = false;
-        // Redirigir al inicio
         window.location.href = '/';
     }
 
     function closeBanner() {
         showBanner = false;
         localStorage.setItem('bannerClosed', 'true')
+    }
+
+    function toggleMenu() {
+        isMenuOpen = !isMenuOpen;
     }
 </script>
 
@@ -43,10 +52,8 @@
 						</span>
 					</span>
                     <p class="ml-3 font-medium text-yellow-900 truncate">
-                        <span>¡Apoya a la Vaca para Presidente 2024! Porque necesitamos más leche y menos promesas en el gobierno</span>
-                        <a href="#cow" class="ml-2 text-yellow-800 font-bold underline">
-                            #VacaPresidente2024
-                        </a>
+                        <span class="md:hidden">¡Vaca Presidente 2024!</span>
+                        <span class="hidden md:inline">¡Apoya a la Vaca para Presidente 2024! Porque necesitamos más leche y menos promesas en el gobierno</span>
                     </p>
                 </div>
                 <div class="flex-shrink-0 sm:ml-3">
@@ -68,21 +75,39 @@
     </div>
 {/if}
 
-<nav class="fixed top-0 left-0 right-0 flex justify-between w-full p-7 font-bold text-[#f9c710] bg-white shadow-sm z-30"
+<nav class="fixed top-0 left-0 right-0 flex flex-col md:flex-row justify-between w-full p-4 md:p-7 font-bold text-[#f9c710] bg-white shadow-sm z-30"
      style="top: {showBanner ? '48px' : '0'}">
     <div class="grid place-content-center">
         <a href="/" class="text-3xl">PARDALIS</a>
+        <button
+                class="md:hidden p-2 text-[#f9c710] hover:bg-yellow-50 rounded m-auto block"
+                onclick={toggleMenu}
+                aria-label="Toggle menu"
+        >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {#if isMenuOpen}
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                {:else}
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-16 6h16"/>
+                {/if}
+            </svg>
+        </button>
     </div>
-    <div class="text-xl">
-        <a href="/adventure" class="ml-7">AVENTURA</a>
-        <a href="/profile" class="ml-7">PERFIL</a>
+
+    <div class="{isMenuOpen ? 'flex' : 'hidden'} items-center md:flex flex-col md:flex-row mt-4 md:mt-0 space-y-4 md:space-y-0 text-xl">
+        <a href="/adventure" class="md:ml-7 hover:text-yellow-600 transition-colors">AVENTURA</a>
+        {#if isLoggedIn}
+            <a href="/profile" class="md:ml-7 hover:text-yellow-600 transition-colors">PERFIL</a>
+        {/if}
 
         {#if !isLoggedIn}
-            <a href="/login" class="ml-7 p-3 bg-[#f9c710] text-white rounded-lg">Inicia Sesión</a>
+            <a href="/login" class="md:ml-7 p-3 bg-[#f9c710] text-white rounded-lg hover:bg-yellow-500 transition-colors">
+                Inicia Sesión
+            </a>
         {:else}
             <button
                     onclick={handleLogout}
-                    class="ml-7 p-3 bg-[#f9c710] text-white rounded-lg hover:bg-yellow-500 transition-colors"
+                    class="md:ml-7 p-3 bg-[#f9c710] text-white rounded-lg hover:bg-yellow-500 transition-colors"
             >
                 Cerrar Sesión
             </button>
@@ -91,8 +116,28 @@
 </nav>
 
 <style>
-    /* Asegurar que los enlaces y botones tengan la misma apariencia en hover */
+    nav {
+        transition: top 0.3s ease-in-out;
+    }
+
     a:hover, button:hover {
         cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+        .flex-col > * {
+            animation: slideIn 0.3s ease-out;
+        }
+    }
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 </style>
