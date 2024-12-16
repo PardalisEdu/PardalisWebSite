@@ -1,4 +1,3 @@
-<!-- NavBar.svelte -->
 <script>
     import { onMount } from 'svelte';
     import { authStore } from '$lib/stores/authStore';
@@ -97,6 +96,7 @@
     <div class="{isMenuOpen ? 'flex' : 'hidden'} items-center md:flex flex-col md:flex-row mt-4 md:mt-0 space-y-4 md:space-y-0 text-xl">
         <a href="/adventure" class="md:ml-7 hover:text-yellow-600 transition-colors">AVENTURA</a>
         <a href="/blog" class="md:ml-7 hover:text-yellow-600 transition-colors">BLOG</a>
+        <a href="/mini-games" class="md:ml-7 hover:text-yellow-600 transition-colors">MINI-JUEGOS</a>
         {#if isLoggedIn}
             <a href="/profile" class="md:ml-7 hover:text-yellow-600 transition-colors">PERFIL</a>
         {/if}

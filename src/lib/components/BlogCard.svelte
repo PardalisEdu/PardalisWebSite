@@ -1,16 +1,6 @@
 <script>
   import { BookOpen } from "lucide-svelte";
 
-  /** @type {{
-     titulo: string,
-     extracto: string,
-     autor_apodo: string,
-     fecha_publicacion: string,
-     categoria: string,
-     tiempo_lectura: number,
-     imagen_portada: string,
-     slug: string
-     }} */
   let { post } = $props();
 </script>
 
