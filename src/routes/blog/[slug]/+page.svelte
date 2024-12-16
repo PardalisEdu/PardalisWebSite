@@ -88,7 +88,7 @@
                     {/each}
                 </div>
                 <button 
-                    on:click={handleShare}
+                    onclick={handleShare}
                     class="inline-flex items-center px-4 py-2 rounded-lg bg-yellow-400 text-white hover:bg-yellow-500 transition-colors"
                 >
                     <Share2 size={16} class="mr-2" />
