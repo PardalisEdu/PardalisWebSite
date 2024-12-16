@@ -1,7 +1,20 @@
-# EmojiMemory.svelte
-<script>
+<script lang="ts">
+    // Define interfaces for type safety
+    interface WordPair {
+        emoji: string;
+        english: string;
+        spanish: string;
+    }
+
+    interface MemoryCard {
+        id: number;
+        emoji: string;
+        text: string;
+        type: 'english' | 'spanish';
+        pairId: number;
+    }
     
-    const wordPairs = [
+    const wordPairs: WordPair[] = [
         { emoji: "🚇", english: "subway", spanish: "metro" },
         { emoji: "🚌", english: "bus", spanish: "autobús" },
         { emoji: "🍎", english: "apple", spanish: "manzana" },
@@ -12,15 +25,16 @@
         { emoji: "🏪", english: "store", spanish: "tienda" }
     ];
 
-    let cards = $state([]);
-    let flippedCards = $state([]);
-    let matchedPairs = $state([]);
-    let isLocked = $state(false);
-    let moves = $state(0);
-    let gameComplete = $state(false);
+    // Use Svelte 5 state with explicit typing
+    let cards = $state<MemoryCard[]>([]);
+    let flippedCards = $state<number[]>([]);
+    let matchedPairs = $state<number[]>([]);
+    let isLocked = $state<boolean>(false);
+    let moves = $state<number>(0);
+    let gameComplete = $state<boolean>(false);
 
-    function initGame() {
-        const gameDeck = wordPairs.flatMap((pair, index) => [
+    function initGame(): void {
+        const gameDeck: MemoryCard[] = wordPairs.flatMap((pair, index) => [
             {
                 id: index * 2,
                 emoji: pair.emoji,
@@ -44,7 +58,7 @@
         gameComplete = false;
     }
 
-    function handleCardClick(index) {
+    function handleCardClick(index: number): void {
         if (
             isLocked || 
             flippedCards.includes(index) || 
@@ -80,7 +94,7 @@
         }
     }
 
-    function restartGame() {
+    function restartGame(): void {
         initGame();
     }
 
@@ -89,7 +103,7 @@
     });
 </script>
 
-<div class="min-h-screen bg-gradient-to-b from-yellow-50 to-yellow-100 pt-24 px-4 mb-20">
+<div class="min-h-screen bg-gradient-to-b from-yellow-50 to-yellow-100 pt-24 px-4 mb-20 mt-10">
     <div class="max-w-4xl mx-auto">
         <div class="text-center mb-12">
             <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-4">
@@ -109,6 +123,7 @@
             </div>
 
             <button
+                type="button"
                 class="bg-yellow-400 text-white px-6 py-2 rounded-lg font-bold hover:bg-yellow-500 transition-colors mb-8"
                 onclick={restartGame}
             >
@@ -118,9 +133,12 @@
 
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             {#each cards as card, index}
-                <div 
+                <button 
+                    type="button"
                     class="aspect-square cursor-pointer"
                     onclick={() => handleCardClick(index)}
+                    onkeydown={(e) => e.key === 'Enter' && handleCardClick(index)}
+                    aria-label={`Tarjeta con emoji ${card.emoji}`}
                 >
                     <div
                         class="w-full h-full relative transform-gpu transition-all duration-500"
@@ -142,7 +160,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </button>
             {/each}
         </div>
 
@@ -154,6 +172,7 @@
                         ¡Completaste el juego en {moves} movimientos!
                     </p>
                     <button
+                        type="button"
                         class="bg-yellow-400 text-white px-8 py-3 rounded-xl font-bold hover:bg-yellow-500 transition-colors"
                         onclick={restartGame}
                     >

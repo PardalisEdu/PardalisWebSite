@@ -1,7 +1,16 @@
-<script>
+<script lang="ts">
   import { spring } from "svelte/motion";
 
-  const cards = [
+  // Define interface for card structure
+  interface FlashCard {
+    english: string;
+    spanish: string;
+    context: string;
+    category: string;
+  }
+
+  // Define cards with proper typing
+  const cards: FlashCard[] = [
     {
       english: "ticket",
       spanish: "boleto",
@@ -19,31 +28,32 @@
       spanish: "fruta",
       context: "I buy fresh fruit at the market.",
       category: "tianguis",
-    },
+    }
   ];
 
-  let currentIndex = $state(0);
-  let isFlipped = $state(false);
-  let score = $state(0);
-  let deck = $state([]);
-  let showAnswer = $state(false);
-  let cardRotation = spring(0);
-  let message = $state("");
+  // Use Svelte 5 state with explicit typing
+  let currentIndex = $state<number>(0);
+  let isFlipped = $state<boolean>(false);
+  let score = $state<number>(0);
+  let deck = $state<FlashCard[]>([]);
+  let showAnswer = $state<boolean>(false);
+  let cardRotation = spring<number>(0);
+  let message = $state<string>("");
 
   $effect(() => {
     deck = cards.sort(() => Math.random() - 0.5);
   });
 
-  function flipCard() {
+  function flipCard(): void {
     showAnswer = !showAnswer;
     cardRotation.set(showAnswer ? 180 : 0);
   }
 
   /**
    * Funcion para validar tu respuesta correcta
-   * @param {boolean} correct
+   * @param correct Indica si la respuesta es correcta
    */
-  function handleAnswer(correct) {
+  function handleAnswer(correct: boolean): void {
     score += correct ? 1 : 0;
     message = correct ? "¡Correcto! 🎉" : "Casi... ¡Sigue intentando! 💪";
 
@@ -60,7 +70,7 @@
     }, 1000);
   }
 
-  function restartGame() {
+  function restartGame(): void {
     deck = cards.sort(() => Math.random() - 0.5);
     currentIndex = 0;
     score = 0;
