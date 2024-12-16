@@ -1,39 +1,21 @@
-// src/routes/blog/+page.server.js
-import { PUBLIC_API_URL } from '$env/static/public';
+import { PUBLIC_API_URL } from '$env/static/public'
+import { error } from '@sveltejs/kit'
 
-export async function load({ url }) {
-	const page = url.searchParams.get('page') || 1;
-	const categoria = url.searchParams.get('categoria') || '';
+export async function load ({ params, fetch }) {
+  try {
+    const response = await fetch(`${PUBLIC_API_URL}/blogs/${params.slug}`)
 
-	try {
-		const response = await fetch(
-			`${PUBLIC_API_URL}/blogs?page=${page}&limit=10&categoria=${categoria}`
-		);
+    if (!response.ok) {
+      throw error(404, 'Blog no encontrado')
+    }
 
-		if (!response.ok) {
-			return {
-				posts: [],
-				page: 1,
-				categoria: '',
-				error: 'Error al cargar los blogs'
-			};
-		}
+    const blog = await response.json()
 
-		const posts = await response.json();
-
-		return {
-			posts,
-			page,
-			categoria,
-			error: null
-		};
-	} catch (error) {
-		console.error('Error:', error);
-		return {
-			posts: [],
-			page: 1,
-			categoria: '',
-			error: 'Error al cargar los blogs'
-		};
-	}
+    return {
+      blog
+    }
+  } catch (err) {
+    console.error('Error cargando blog:', err)
+    throw error(err.status || 500, err.message)
+  }
 }
