@@ -12,6 +12,15 @@
 
   const games: Game[] = [
     {
+      id: "pardalis-pong",
+      title: "Ping Pong",
+      description: "Play and win with the metro",
+      spanishTitle: "Ping Pong",
+      emoji: "🚇",
+      color: "from-red-400 to-red-600",
+      level: "Beginner",
+    },
+    {
       id: "memory",
       title: "Memory Match",
       description: "Match English and Spanish words with cute emojis!",

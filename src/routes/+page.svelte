@@ -33,17 +33,17 @@
         {
             title: "Personajes divertidos",
             description: "Diseña nuestros entrañables personajes en su viaje de aprendizaje del inglés.",
-            image: "img/10.png"
+            image: "img/12.png"
         },
         {
             title: "Juegos interactivos",
             description: "Aprende es divertido con nuestros juegos interactivos y atractivos.",
-            image: "img/12.png"
+            image: "img/11.png"
         },
         {
             title: "Audios Simples",
             description: "Escucha audios con fonética simple para que sea fácil para todos entenderlos y replicarlos.",
-            image: "img/11.png"
+            image: "img/10.png"
         },
         {
             title: "Explora historias interesantes",

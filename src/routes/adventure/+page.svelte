@@ -1,6 +1,5 @@
-<!-- MetroGameFrame.svelte -->
 <script>
-    let gameUrl = null;
+    let gameUrl = "/game/scenarios/Pardalis Game.html";
     let estacion = "CHABACANO";
 </script>
 

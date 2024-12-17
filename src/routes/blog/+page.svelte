@@ -145,29 +145,4 @@
             </div>
         {/if}
     </div>
-
-    <!-- Newsletter Section -->
-    <div class="bg-yellow-50 py-16">
-        <div class="container mx-auto px-4">
-            <div class="max-w-2xl mx-auto text-center">
-                <h2 class="text-3xl font-bold mb-4">
-                    ¡No te pierdas ninguna actualización! 🎉
-                </h2>
-                <p class="text-gray-600 mb-6">
-                    Suscríbete a nuestro newsletter para recibir las últimas
-                    novedades y consejos
-                </p>
-                <div class="flex gap-4 max-w-md mx-auto">
-                    <input
-                            type="email"
-                            placeholder="tu@email.com"
-                            class="flex-1 px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:border-yellow-400"
-                    />
-                    <button class="px-6 py-2 bg-yellow-400 text-white rounded-lg font-medium hover:bg-yellow-500 transition-colors">
-                        Suscribirse
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
