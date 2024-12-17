@@ -79,29 +79,29 @@
     ];
 </script>
 
-<main class="min-h-screen bg-gray-100 py-12 px-4 grid place-content-center">
-    <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-md overflow-hidden min-w-[500px] p-6">
+<main class="min-h-screen bg-gray-100 py-6 md:py-12 px-4 grid place-content-center">
+    <div class="w-full max-w-2xl mx-auto bg-white rounded-2xl shadow-md overflow-hidden p-4 md:p-6">
         {#if showAlert}
             <div
-                    class="mb-4 bg-yellow-100 border border-yellow-400 text-yellow-800 px-4 py-3 rounded relative"
-                    role="alert"
+                class="mb-4 bg-yellow-100 border border-yellow-400 text-yellow-800 px-3 py-2 md:px-4 md:py-3 rounded relative text-sm md:text-base"
+                role="alert"
             >
                 <span class="block sm:inline">
-                🐄 Oh, parece que hubo un error. Por favor, intenta de nuevo más tarde.
+                    🐄 Oh, parece que hubo un error. Por favor, intenta de nuevo más tarde.
                 </span>
             </div>
         {/if}
 
         <div>
-            <div class="flex flex-col items-center mb-6">
+            <div class="flex flex-col items-center mb-4 md:mb-6">
                 {#if editing}
-                    <div class="mb-4">
+                    <div class="w-full max-w-sm mb-4">
                         <span class="block text-gray-700 text-sm font-bold mb-2">
                             Avatar
                         </span>
                         <select
-                                bind:value={editForm.foto}
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            bind:value={editForm.foto}
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm md:text-base"
                         >
                             {#each avatarOptions as option}
                                 <option value={option.value}>{option.label}</option>
@@ -111,49 +111,51 @@
                 {/if}
 
                 <img
-                        class="w-32 h-32 rounded-full mb-4"
-                        src={editing ? editForm.foto : personalization?.foto || 'img/profiles/ocelote.svg'}
-                        alt="Avatar"
+                    class="w-24 h-24 md:w-32 md:h-32 rounded-full mb-4"
+                    src={editing ? editForm.foto : personalization?.foto || 'img/profiles/ocelote.svg'}
+                    alt="Avatar"
                 />
 
                 {#if editing}
-                    <div class="w-full mb-4">
+                    <div class="w-full max-w-sm mb-4">
                         <span class="block text-gray-700 text-sm font-bold mb-2">
                             Descripción
                         </span>
                         <textarea
-                                bind:value={editForm.descripcion}
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                rows="4"
+                            bind:value={editForm.descripcion}
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm md:text-base"
+                            rows="4"
                         ></textarea>
                     </div>
-                    <div class="flex gap-4">
+                    <div class="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full max-w-sm">
                         <button
-                                onclick={handleSaveProfile}
-                                class="bg-[#f9c710] text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors"
+                            onclick={handleSaveProfile}
+                            class="w-full sm:w-auto bg-[#f9c710] text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors text-sm md:text-base"
                         >
                             Guardar
                         </button>
                         <button
-                                onclick={() => editing = false}
-                                class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 transition-colors"
+                            onclick={() => editing = false}
+                            class="w-full sm:w-auto bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 transition-colors text-sm md:text-base"
                         >
                             Cancelar
                         </button>
                     </div>
                 {:else}
-                    <h2 class="text-2xl font-bold mb-2">{user?.apodo || ''}</h2>
-                    <p class="text-gray-600 mb-4">{personalization?.descripcion || 'Sin descripción'}</p>
+                    <h2 class="text-xl md:text-2xl font-bold mb-2 text-center">{user?.apodo || ''}</h2>
+                    <p class="text-gray-600 mb-4 text-sm md:text-base text-center px-4">{personalization?.descripcion || 'Sin descripción'}</p>
                     <button
-                            onclick={() => editing = true}
-                            class="bg-[#f9c710] text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors mb-4"
+                        onclick={() => editing = true}
+                        class="w-full sm:w-auto bg-[#f9c710] text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors mb-4 text-sm md:text-base"
                     >
                         Editar Perfil
                     </button>
                 {/if}
             </div>
 
-            <Boton title="Cerrar Sesión" color="warn" onClick={handleLogout}/>
+            <div class="flex justify-center">
+                <Boton title="Cerrar Sesión" color="warn" onClick={handleLogout}/>
+            </div>
         </div>
     </div>
 </main>
