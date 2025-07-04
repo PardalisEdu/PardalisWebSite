@@ -20,17 +20,17 @@
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://pardalis.mx/mini-games</loc>
+  <loc>https://pardalis.mx/games</loc>
   <lastmod>2024-12-17T09:27:15+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://pardalis.mx/login</loc>
+  <loc>https://pardalis.mx/auth/login</loc>
   <lastmod>2024-12-17T09:27:15+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://pardalis.mx/register</loc>
+  <loc>https://pardalis.mx/auth/register</loc>
   <lastmod>2024-12-17T09:27:15+00:00</lastmod>
   <priority>0.80</priority>
 </url>
@@ -50,37 +50,37 @@
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://pardalis.mx/mini-games/pardalis-pong</loc>
+  <loc>https://pardalis.mx/games/pong</loc>
   <lastmod>2024-12-17T09:27:15+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://pardalis.mx/mini-games/memory</loc>
+  <loc>https://pardalis.mx/games/memory</loc>
   <lastmod>2024-12-17T09:27:15+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://pardalis.mx/mini-games/scramble</loc>
+  <loc>https://pardalis.mx/games/scramble</loc>
   <lastmod>2024-12-17T09:27:15+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://pardalis.mx/mini-games/flashcards</loc>
+  <loc>https://pardalis.mx/games/flashcards</loc>
   <lastmod>2024-12-17T09:27:15+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://pardalis.mx/mini-games/oraclecards</loc>
+  <loc>https://pardalis.mx/games/oracle-cards</loc>
   <lastmod>2024-12-17T09:27:15+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://pardalis.mx/mini-games/taco</loc>
+  <loc>https://pardalis.mx/games/taco</loc>
   <lastmod>2024-12-17T09:27:15+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://pardalis.mx/mini-games/tortillas</loc>
+  <loc>https://pardalis.mx/games/tortillas</loc>
   <lastmod>2024-12-17T09:27:15+00:00</lastmod>
   <priority>0.64</priority>
 </url>

@@ -43,7 +43,7 @@
         if (browser) {
             const token = localStorage.getItem('token');
             if (!token || !user) {
-                goto('/login');
+                goto('/auth/login');
                 return;
             }
             fetchData();

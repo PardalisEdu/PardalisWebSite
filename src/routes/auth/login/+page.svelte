@@ -124,7 +124,7 @@
 
             <p class="mt-6 text-center text-sm text-gray-600">
                 ¿No tienes una cuenta?{' '}
-                <a href="/register" class="font-medium text-[#f9c710] hover:text-yellow-500">
+                <a href="/auth/register" class="font-medium text-[#f9c710] hover:text-yellow-500">
                     ¡Regístrate aquí!
                 </a>
             </p>

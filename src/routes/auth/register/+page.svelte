@@ -43,7 +43,7 @@
         try {
             const {confirmarContrasenna, ...registerData} = formData;
             await register(registerData);
-            await goto('/login');
+            await goto('/auth/login');
         } catch (/** @type {unknown} */ error) {
             if (error instanceof Error) {
                 errorMessage = error.message;
@@ -234,7 +234,7 @@
 
             <p class="mt-6 text-center text-sm text-gray-600">
                 ¿Ya tienes una cuenta?{' '}
-                <a href="/login" class="font-medium text-[#f9c710] hover:text-yellow-500">
+                <a href="/auth/login" class="font-medium text-[#f9c710] hover:text-yellow-500">
                     ¡Inicia sesión aquí!
                 </a>
             </p>

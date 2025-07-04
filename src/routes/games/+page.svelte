@@ -12,7 +12,7 @@
 
   const games: Game[] = [
     {
-      id: "pardalis-pong",
+      id: "pong",
       title: "Ping Pong",
       description: "Play and win with the metro",
       spanishTitle: "Ping Pong",
@@ -48,7 +48,7 @@
       level: "Advanced",
     },
     {
-      id: "oraclecards",
+      id: "oracle-cards",
       title: "The Oracle",
       description: "Learn your future while learning English!",
       spanishTitle: "El Oráculo",
@@ -87,7 +87,7 @@
   <div class="max-w-6xl mx-auto">
     <div class="text-center mb-12">
       <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-4">
-        Mini Games 🎮
+        Games 🎮
       </h1>
       <p class="text-xl text-gray-600 mb-8">
         Learn English with fun Mexican-themed games!
@@ -105,7 +105,7 @@
       {#each games as game}
         <a
           class="group relative transform transition-all duration-300 hover:scale-105"
-          href={'mini-games/' + game.id}
+          href={'games/' + game.id}
         >
           <div
             class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-xl"

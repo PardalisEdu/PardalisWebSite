@@ -83,14 +83,14 @@
 
                 <br/>
 
-                <Boton title="Inicia Sesión" href="/login"/>
+                <Boton title="Inicia Sesión" href="/auth/login"/>
 
                 <br/>
                 <p class="mb-5 mt-10">
                     ¿Todavía no tienes una cuenta?
                 </p>
                 <a
-                        href="/register"
+                        href="/auth/register"
                         class="text-4xl font-black hover:underline"
                         style="color: #f9c710;"
                 >
@@ -167,7 +167,7 @@
     <div class="py-16 px-4">
         <h2 class="text-4xl text-center mb-8 font-extrabold">Únete a la diversión</h2>
         <div class="flex justify-center">
-            <Boton title="Unirse" href="/login"/>
+            <Boton title="Unirse" href="/auth/login"/>
         </div>
     </div>
 </section>
