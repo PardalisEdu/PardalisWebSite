@@ -1,29 +1,6 @@
 <script lang="ts">
-    // Define interfaces for type safety
-    interface WordPair {
-        emoji: string;
-        english: string;
-        spanish: string;
-    }
-
-    interface MemoryCard {
-        id: number;
-        emoji: string;
-        text: string;
-        type: 'english' | 'spanish';
-        pairId: number;
-    }
-    
-    const wordPairs: WordPair[] = [
-        { emoji: "🚇", english: "subway", spanish: "metro" },
-        { emoji: "🚌", english: "bus", spanish: "autobús" },
-        { emoji: "🍎", english: "apple", spanish: "manzana" },
-        { emoji: "🥑", english: "avocado", spanish: "aguacate" },
-        { emoji: "🌮", english: "taco", spanish: "taco" },
-        { emoji: "🥕", english: "carrot", spanish: "zanahoria" },
-        { emoji: "🚦", english: "traffic light", spanish: "semáforo" },
-        { emoji: "🏪", english: "store", spanish: "tienda" }
-    ];
+    import { memoryWordPairs } from '$lib/data/games/memory-cards';
+    import type { MemoryCard } from '$lib/types/types';
 
     // Use Svelte 5 state with explicit typing
     let cards = $state<MemoryCard[]>([]);
@@ -34,7 +11,7 @@
     let gameComplete = $state<boolean>(false);
 
     function initGame(): void {
-        const gameDeck: MemoryCard[] = wordPairs.flatMap((pair, index) => [
+        const gameDeck: MemoryCard[] = memoryWordPairs.flatMap((pair, index) => [
             {
                 id: index * 2,
                 emoji: pair.emoji,
@@ -82,7 +59,7 @@
                 flippedCards = [];
                 isLocked = false;
 
-                if (matchedPairs.length === wordPairs.length) {
+                if (matchedPairs.length === memoryWordPairs.length) {
                     gameComplete = true;
                 }
             } else {
@@ -118,7 +95,7 @@
                     Movimientos: {moves}
                 </div>
                 <div class="bg-white px-6 py-3 rounded-xl shadow-lg border-2 border-yellow-200">
-                    Pares: {matchedPairs.length}/{wordPairs.length}
+                    Pares: {matchedPairs.length}/{memoryWordPairs.length}
                 </div>
             </div>
 

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { onMount } from 'svelte';
     import { authStore } from '$lib/stores/authStore';
 
@@ -15,20 +15,7 @@
         if (bannerClosed === 'true') {
             showBanner = false;
         }
-
-        checkAuthStatus();
     });
-
-    function checkAuthStatus() {
-        const token = localStorage.getItem('token');
-        isLoggedIn = !!token;
-    }
-
-    function handleLogout() {
-        localStorage.removeItem('token');
-        isLoggedIn = false;
-        window.location.href = '/';
-    }
 
     function closeBanner() {
         showBanner = false;
@@ -106,12 +93,14 @@
                 Inicia Sesión
             </a>
         {:else}
-            <button
-                    onclick={handleLogout}
+            <form method="POST" action="/logout" class="inline">
+                <button
+                    type="submit"
                     class="md:ml-7 p-3 bg-[#f9c710] text-white rounded-lg hover:bg-yellow-500 transition-colors"
-            >
-                Cerrar Sesión
-            </button>
+                >
+                    Cerrar Sesión
+                </button>
+            </form>
         {/if}
     </div>
 </nav>

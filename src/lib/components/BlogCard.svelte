@@ -1,7 +1,8 @@
-<script>
+<script lang="ts">
   import { BookOpen } from "lucide-svelte";
+  import type { BlogPost } from '$lib/types/types';
 
-  let { post } = $props();
+  let { post }: { post: BlogPost } = $props();
 </script>
 
 <article
@@ -28,7 +29,7 @@
       <a
         href={`/blog/${post.slug}`}
         class="hover:text-yellow-600 transition-colors"
-        data-sveltekit-prefetch
+        data-sveltekit-preload-data
       >
         {post.titulo}
       </a>

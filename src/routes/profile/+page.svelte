@@ -1,74 +1,50 @@
-<script>
-    import { goto } from "$app/navigation";
+<script lang="ts">
     import { onMount } from 'svelte';
-    import { browser } from '$app/environment';
-    import { getUserProfile } from "$lib/api/user";
+    import { fetchPersonalization, updatePersonalization } from '$lib/api/personalization';
     import Boton from "$lib/components/Boton.svelte";
-    import { authStore } from "$lib/stores/authStore";
-    import { personalizationStore } from "$lib/stores/personalizationStore";
+    import type { PersonalizationData } from '$lib/types/types';
 
-    /** @type {{ apodo: string } | null} */
-    let user = $authStore.user;
+    let { data } = $props();
+
+    let user = $derived(data.user);
+    let token = $derived(data.token ?? '');
+
     let editing = $state(false);
     let showAlert = $state(false);
-    /** @type {{ descripcion: string, foto: string } | null} */
-    let personalization = $state(null);
-    /** @type {{ descripcion: string, foto: string }} */
-    let editForm = $state({
+    let personalization = $state<PersonalizationData | null>(null);
+    let editForm = $state<PersonalizationData>({
         descripcion: '',
         foto: 'img/profiles/ocelote.svg'
     });
 
     async function fetchData() {
-        if (!user?.apodo) return;
+        if (!user?.apodo || !token) return;
 
         try {
-            const [userInfo, personalizationInfo] = await Promise.all([
-                getUserProfile(user.apodo),
-                personalizationStore.loadPersonalization(user.apodo)
-            ]);
+            const personalizationInfo = await fetchPersonalization(user.apodo, token);
             personalization = personalizationInfo;
             editForm.descripcion = personalizationInfo.descripcion;
             editForm.foto = personalizationInfo.foto;
-        } catch (error) {
-            console.error('Error loading profile data:', error);
+        } catch {
             showAlert = true;
-            setTimeout(() => {
-                showAlert = false;
-            }, 3000);
+            setTimeout(() => { showAlert = false; }, 3000);
         }
     }
 
     onMount(() => {
-        if (browser) {
-            const token = localStorage.getItem('token');
-            if (!token || !user) {
-                goto('/login');
-                return;
-            }
-            fetchData();
-        }
+        fetchData();
     });
 
-    function handleLogout() {
-        localStorage.removeItem("token");
-        authStore.logout();
-        goto("/");
-    }
-
     async function handleSaveProfile() {
-        if (!user?.apodo) return;
+        if (!user?.apodo || !token) return;
 
         try {
-            await personalizationStore.updatePersonalization(user.apodo, editForm);
+            const updated = await updatePersonalization(user.apodo, editForm, token);
             editing = false;
-            personalization = {...editForm};
-        } catch (error) {
-            console.error('Error updating profile:', error);
+            personalization = updated;
+        } catch {
             showAlert = true;
-            setTimeout(() => {
-                showAlert = false;
-            }, 3000);
+            setTimeout(() => { showAlert = false; }, 3000);
         }
     }
 
@@ -154,7 +130,9 @@
             </div>
 
             <div class="flex justify-center">
-                <Boton title="Cerrar Sesión" color="warn" onClick={handleLogout}/>
+                <form method="POST" action="/logout">
+                    <Boton title="Cerrar Sesión" color="warn" />
+                </form>
             </div>
         </div>
     </div>

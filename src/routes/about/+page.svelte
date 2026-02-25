@@ -97,7 +97,7 @@
             </p>
             <div class="mt-6">
                 <a
-                        href="https://gitlab.com/pardalis"
+                        href="https://github.com/PardalisEdu/PardalisWebSite"
                         target="_blank"
                         rel="noopener noreferrer"
                         class="inline-flex items-center bg-[#f9c710] text-white px-6 py-3 rounded-lg font-bold hover:bg-yellow-600 transition-colors"

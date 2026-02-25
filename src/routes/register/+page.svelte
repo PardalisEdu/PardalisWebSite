@@ -1,9 +1,9 @@
 <!-- Register.svelte -->
-<script>
-    import {goto} from "$app/navigation";
-    import {register} from '$lib/api/auth';
+<script lang="ts">
+    import { goto } from "$app/navigation";
+    import { register } from '$lib/api/auth';
 
-    // Estados del formulario
+    // Form state
     let formData = $state({
         apodo: '',
         nombre: '',
@@ -18,22 +18,17 @@
     let showConfirmPassword = $state(false);
     let passwordError = $state(false);
 
-    // Validación de contraseñas en tiempo real
     $effect(() => {
         if (formData.confirmarContrasenna) {
             passwordError = formData.contrasenna !== formData.confirmarContrasenna;
         }
     });
 
-    /**
-     * @param {SubmitEvent} event
-     */
-    async function handleSubmit(event) {
+    async function handleSubmit(event: SubmitEvent) {
         event.preventDefault();
         loading = true;
         errorMessage = '';
 
-        // Validar que las contraseñas coincidan
         if (formData.contrasenna !== formData.confirmarContrasenna) {
             errorMessage = 'Las contraseñas no coinciden';
             loading = false;
@@ -41,25 +36,17 @@
         }
 
         try {
-            const {confirmarContrasenna, ...registerData} = formData;
+            const { confirmarContrasenna, ...registerData } = formData;
             await register(registerData);
             await goto('/login');
-        } catch (/** @type {unknown} */ error) {
-            if (error instanceof Error) {
-                errorMessage = error.message;
-            } else {
-                errorMessage = 'Ha ocurrido un error desconocido';
-            }
+        } catch (error: unknown) {
+            errorMessage = error instanceof Error ? error.message : 'Ha ocurrido un error desconocido';
         } finally {
             loading = false;
         }
     }
 
-
-    /**
-     * @param {string} field
-     */
-    function togglePassword(field) {
+    function togglePassword(field: string) {
         if (field === 'password') {
             showPassword = !showPassword;
         } else {

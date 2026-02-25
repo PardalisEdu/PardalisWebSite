@@ -1,7 +1,6 @@
-<script>
+<script lang="ts">
     import { Calendar, Clock, Tag, Share2 } from 'lucide-svelte';
 
-    /** @type {import('./$types').PageData} */
     let { data } = $props();
 
     let blog = $derived(data.blog);
@@ -14,8 +13,8 @@
                     text: blog.extracto,
                     url: window.location.href
                 });
-            } catch (error) {
-                console.error('Error compartiendo:', error);
+            } catch {
+                // User cancelled share or error — silent
             }
         }
     }

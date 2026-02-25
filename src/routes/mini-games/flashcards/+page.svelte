@@ -1,35 +1,7 @@
 <script lang="ts">
   import { spring } from "svelte/motion";
-
-  // Define interface for card structure
-  interface FlashCard {
-    english: string;
-    spanish: string;
-    context: string;
-    category: string;
-  }
-
-  // Define cards with proper typing
-  const cards: FlashCard[] = [
-    {
-      english: "ticket",
-      spanish: "boleto",
-      context: "I need to buy a ticket for the metro.",
-      category: "metro",
-    },
-    {
-      english: "platform",
-      spanish: "andén",
-      context: "The train arrives at platform 3.",
-      category: "metro",
-    },
-    {
-      english: "fruit",
-      spanish: "fruta",
-      context: "I buy fresh fruit at the market.",
-      category: "tianguis",
-    }
-  ];
+  import { flashcardDeck } from '$lib/data/games/flashcards';
+  import type { FlashCard } from '$lib/types/types';
 
   // Use Svelte 5 state with explicit typing
   let currentIndex = $state<number>(0);
@@ -41,7 +13,7 @@
   let message = $state<string>("");
 
   $effect(() => {
-    deck = cards.sort(() => Math.random() - 0.5);
+    deck = [...flashcardDeck].sort(() => Math.random() - 0.5);
   });
 
   function flipCard(): void {
@@ -71,7 +43,7 @@
   }
 
   function restartGame(): void {
-    deck = cards.sort(() => Math.random() - 0.5);
+    deck = [...flashcardDeck].sort(() => Math.random() - 0.5);
     currentIndex = 0;
     score = 0;
     showAnswer = false;

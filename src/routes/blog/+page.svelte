@@ -1,64 +1,52 @@
-<script>
-    import { onMount } from 'svelte';
+<script lang="ts">
     import { Search } from 'lucide-svelte';
-    import { blogStore } from '$lib/stores/blogStore';
+    import { fetchBlogs } from '$lib/api/blog';
     import BlogCard from '$lib/components/BlogCard.svelte';
+    import type { BlogPost } from '$lib/types/types';
 
-    /** @type {import('./$types').PageData} */
     let { data } = $props();
 
     let searchTerm = $state('');
     let currentCategory = $state(data.categoria);
     let currentPage = $state(data.page);
+    let blogs = $state<BlogPost[]>(data.blogs);
+    let loading = $state(false);
+    let error = $state<string | null>(null);
 
     const categories = [
         "Todos", "Anuncios", "Consejos", "Educación", "Actualizaciones"
     ];
 
-    // Inicializar el store con los datos del servidor
-    onMount(() => {
-        if (data.initialBlogs && data.initialBlogs.length > 0) {
-            blogStore.update(state => ({
-                ...state,
-                blogs: data.initialBlogs,
-                currentPage: data.page,
-                selectedCategory: data.categoria
-            }));
-        }
-    });
-
-    // Obtener los blogs del store
-    const store = $derived($blogStore);
-
-    // Filtrar los blogs
     let filteredBlogs = $derived(
-        store.blogs.filter(blog =>
+        blogs.filter((blog: BlogPost) =>
             !searchTerm ||
             blog.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
             blog.extracto.toLowerCase().includes(searchTerm.toLowerCase())
         )
     );
 
-    $effect(() => {
-        blogStore.loadBlogs(currentPage, currentCategory);
-    });
-
-    function handleCategoryChange(categoria) {
-        currentCategory = categoria;
-        currentPage = 1;
-    }
-
-    function handleSearch(e) {
-        if (e.key === 'Enter') {
-            console.log('Buscando:', searchTerm);
+    async function loadBlogs() {
+        loading = true;
+        error = null;
+        try {
+            blogs = await fetchBlogs(currentPage, currentCategory);
+        } catch (err) {
+            error = err instanceof Error ? err.message : 'Error cargando blogs';
+        } finally {
+            loading = false;
         }
     }
 
-    // Para debugging
-    $effect(() => {
-        console.log('Estado actual del store:', store);
-        console.log('Blogs filtrados:', filteredBlogs);
-    });
+    function handleCategoryChange(categoria: string) {
+        currentCategory = categoria;
+        currentPage = 1;
+        loadBlogs();
+    }
+
+    function handlePageChange(delta: number) {
+        currentPage += delta;
+        loadBlogs();
+    }
 </script>
 
 <div class="min-h-screen bg-gray-50 pt-20">
@@ -84,7 +72,6 @@
                         placeholder="Buscar artículos..."
                         class="w-full pl-12 pr-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:border-yellow-400"
                         bind:value={searchTerm}
-                        onkeydown={handleSearch}
                 />
                 <Search class="absolute left-4 top-2.5 text-gray-400" size={20} />
             </div>
@@ -107,13 +94,13 @@
 
     <!-- Blog Posts Grid -->
     <div class="container mx-auto px-4 py-8">
-        {#if $blogStore.loading}
+        {#if loading}
             <div class="text-center py-12">
                 <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-yellow-400 border-t-transparent"></div>
             </div>
-        {:else if $blogStore.error}
+        {:else if error}
             <div class="text-center py-12 text-red-600">
-                {$blogStore.error}
+                {error}
             </div>
         {:else if filteredBlogs.length === 0}
             <div class="text-center py-12 text-gray-600">
@@ -131,14 +118,14 @@
                 <button
                         class="px-4 py-2 rounded-lg bg-yellow-400 text-white disabled:opacity-50"
                         disabled={currentPage === 1}
-                        onclick={() => currentPage--}
+                        onclick={() => handlePageChange(-1)}
                 >
                     Anterior
                 </button>
                 <button
                         class="px-4 py-2 rounded-lg bg-yellow-400 text-white disabled:opacity-50"
                         disabled={filteredBlogs.length < 10}
-                        onclick={() => currentPage++}
+                        onclick={() => handlePageChange(1)}
                 >
                     Siguiente
                 </button>

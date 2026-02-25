@@ -1,51 +1,14 @@
 <script lang="ts">
-  interface WordData {
-    word: string;
-    hint: string;
-    spanish: string;
-    category: string;
-  }
+  import { scrambleWords } from '$lib/data/games/scramble-words';
+  import type { ScrambleWord } from '$lib/types/types';
 
   interface ScrambleChar {
     char: string;
     sort: number;
   }
 
-  const words: WordData[] = [
-    {
-      word: "TICKET",
-      hint: "Necesitas esto para viajar en el metro 🎫",
-      spanish: "boleto",
-      category: "metro",
-    },
-    {
-      word: "STATION",
-      hint: "Lugar donde esperas el metro 🚉",
-      spanish: "estación",
-      category: "metro",
-    },
-    {
-      word: "APPLE",
-      hint: "Una fruta roja 🍎",
-      spanish: "manzana",
-      category: "tianguis",
-    },
-    {
-      word: "STREET",
-      hint: "Caminas por aquí 🛣️",
-      spanish: "calle",
-      category: "calle",
-    },
-    {
-      word: "MARKET",
-      hint: "Lugar donde compras comida 🏪",
-      spanish: "mercado",
-      category: "tianguis",
-    },
-  ];
-
-  let currentWordData: WordData =
-    words[Math.floor(Math.random() * words.length)];
+  let currentWordData: ScrambleWord =
+    scrambleWords[Math.floor(Math.random() * scrambleWords.length)];
   let scrambledWord: string = scrambleString(currentWordData.word);
   let userGuess: string = "";
   let score: number = 0;
@@ -63,7 +26,7 @@
   }
 
   function getNewWord(): void {
-    currentWordData = words[Math.floor(Math.random() * words.length)];
+    currentWordData = scrambleWords[Math.floor(Math.random() * scrambleWords.length)];
     scrambledWord = scrambleString(currentWordData.word);
     userGuess = "";
     showHint = false;
@@ -143,7 +106,7 @@
         <input
           type="text"
           bind:value={userGuess}
-          on:input={handleInput}
+          oninput={handleInput}
           placeholder="Escribe tu respuesta aquí..."
           class="w-full px-4 py-3 text-lg text-center border-2 border-yellow-200 rounded-xl focus:outline-none focus:border-yellow-400 transition-colors"
           maxlength={currentWordData.word.length}
@@ -153,14 +116,14 @@
       <div class="flex justify-center gap-4">
         <button
           class="px-6 py-2 bg-yellow-400 text-white rounded-lg font-bold hover:bg-yellow-500 transition-colors"
-          on:click={toggleHint}
+          onclick={toggleHint}
         >
           {showHint ? "Ocultar Pista 🙈" : "Mostrar Pista 💡"}
         </button>
 
         <button
           class="px-6 py-2 bg-gray-400 text-white rounded-lg font-bold hover:bg-gray-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          on:click={skipWord}
+          onclick={skipWord}
           disabled={remainingSkips === 0}
         >
           Saltar Palabra ⏭️ ({remainingSkips})

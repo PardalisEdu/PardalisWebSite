@@ -1,39 +1,33 @@
-<script>
+<script lang="ts">
     import { spring } from 'svelte/motion';
-    import { createEventDispatcher } from 'svelte';
 
-    /**
-     * @typedef {'primary'|'warn'} ColorType
-     */
+    type ColorType = 'primary' | 'warn';
 
-    /** @type {{title: string, color?: ColorType, href?: string, onClick?: () => void}} */
-    let { title, color = 'primary', href = '', onClick = () => undefined } = $props();
+    let { title, color = 'primary', href = '', onClick }: {
+        title: string;
+        color?: ColorType;
+        href?: string;
+        onClick?: () => void;
+    } = $props();
 
-    const dispatch = createEventDispatcher();
-
-    let buttonElement = $state();
     const buttonMotion = spring({ scale: 1, rotate: 0 }, {
         stiffness: 0.1,
         damping: 0.2
     });
 
-    /** @type {Record<ColorType, string>} */
-    const colors = {
+    const colors: Record<ColorType, string> = {
         primary: '#f9c710',
         warn: '#ff4136'
     };
 
     let backgroundColor = $derived(colors[color] || colors.primary);
 
+    let buttonElement: HTMLElement = $state(null!);
+
     function handleTap() {
         buttonMotion.set({ scale: 1.1, rotate: 5 });
         setTimeout(() => buttonMotion.set({ scale: 1, rotate: 0 }), 200);
-
-        if (onClick) {
-            onClick();
-        } else {
-            dispatch('click');
-        }
+        onClick?.();
     }
 </script>
 

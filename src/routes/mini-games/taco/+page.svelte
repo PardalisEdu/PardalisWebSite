@@ -1,28 +1,6 @@
 <script lang="ts">
-  interface TacoType {
-    name: string;
-    emoji: string;
-    english: string;
-  }
-
-  interface Customer {
-    name: string;
-    emoji: string;
-    phrases: string[];
-  }
-
-  interface Order {
-    type: TacoType;
-    quantity: number;
-    withVegetables: boolean;
-    withSalsa: boolean;
-  }
-
-  interface PreparedTaco {
-    type: string;
-    withVegetables: boolean;
-    withSalsa: boolean;
-  }
+  import { tacoTypes, customers } from '$lib/data/games/taco-menu';
+  import type { TacoOrder, PreparedTaco, Customer, TacoType } from '$lib/types/types';
 
   interface TacoPreparation {
     type: string;
@@ -31,45 +9,7 @@
     quantity: number;
   }
 
-  const tacoTypes: Record<string, TacoType> = {
-    SUADERO: { name: "Suadero", emoji: "🥩", english: "Brisket" },
-    LONGANIZA: { name: "Longaniza", emoji: "🌭", english: "Sausage" },
-    PASTOR: { name: "Al Pastor", emoji: "🍖", english: "Marinated Pork" },
-    CAMPECHANO: { name: "Campechano", emoji: "🥩🌭", english: "Mixed Meat" },
-    LENGUA: { name: "Lengua", emoji: "👅", english: "Beef Tongue" },
-  };
-
-  const customers: Customer[] = [
-    {
-      name: "John",
-      emoji: "👨🏻",
-      phrases: [
-        "Hello! I'd like some tacos please!",
-        "Could I get some sauce with that?",
-        "Thank you, señor!",
-      ],
-    },
-    {
-      name: "Emily",
-      emoji: "👩🏼",
-      phrases: [
-        "I heard these are the best tacos!",
-        "No vegetables for me, please",
-        "Gracias!",
-      ],
-    },
-    {
-      name: "Mike",
-      emoji: "👨🏾",
-      phrases: [
-        "I want to try everything!",
-        "Extra spicy please!",
-        "¡Delicioso!",
-      ],
-    },
-  ];
-
-  let currentOrder: Order | null = null;
+  let currentOrder: TacoOrder | null = null;
   let currentCustomer: Customer | null = null;
   let score: number = 0;
   let lives: number = 3;

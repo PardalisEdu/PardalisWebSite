@@ -1,20 +1,19 @@
-<script>
-    import {authStore} from '$lib/stores/authStore';
-    import {onMount} from 'svelte';
+<script lang="ts">
+    import { authStore } from '$lib/stores/authStore';
     import "../app.css";
     import NavBar from "$components/NavBar.svelte";
     import Footer from "$components/Footer.svelte";
 
-    onMount(() => {
-        authStore.initialize();
-    });
+    let { data, children } = $props();
 
-    /** @type {{children?: import('svelte').Snippet}} */
-    let {children} = $props();
+    // Sync auth store from server-provided data on every navigation
+    $effect(() => {
+        authStore.sync(data.user ?? null);
+    });
 </script>
 
-<NavBar/>
+<NavBar />
 
 {@render children?.()}
 
-<Footer/>
+<Footer />

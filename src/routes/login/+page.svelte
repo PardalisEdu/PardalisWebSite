@@ -1,41 +1,9 @@
-<script>
-    import {goto} from "$app/navigation";
-    import {login} from '$lib/api/auth';
-    import {authStore} from "$lib/stores/authStore.js";
-
-    // Estados del formulario
-    let formData = $state({
-        correo: '',
-        contrasenna: ''
-    });
+<script lang="ts">
+    import { enhance } from '$app/forms';
 
     let loading = $state(false);
     let errorMessage = $state('');
     let showPassword = $state(false);
-    let rememberMe = $state(false);
-
-    /**
-     * @param {SubmitEvent} event
-     */
-    async function handleSubmit(event) {
-        event.preventDefault();
-        loading = true;
-        errorMessage = '';
-
-        try {
-            const {token, user} = await login(formData);
-            authStore.login(token, user);
-            await goto('/profile');
-        } catch (/** @type {unknown} */ error) {
-            if (error instanceof Error) {
-                errorMessage = error.message;
-            } else {
-                errorMessage = 'Ha ocurrido un error desconocido';
-            }
-        } finally {
-            loading = false;
-        }
-    }
 
     function togglePassword() {
         showPassword = !showPassword;
@@ -62,7 +30,23 @@
                 </div>
             {/if}
 
-            <form onsubmit={handleSubmit} class="mt-8 space-y-6">
+            <form
+                method="POST"
+                action="?/login"
+                use:enhance={() => {
+                    loading = true;
+                    errorMessage = '';
+                    return async ({ result, update }) => {
+                        loading = false;
+                        if (result.type === 'failure') {
+                            errorMessage = (result.data as { message?: string })?.message ?? 'Error desconocido';
+                        } else {
+                            await update();
+                        }
+                    };
+                }}
+                class="mt-8 space-y-6"
+            >
                 <div class="space-y-4">
                     <!-- Campo de correo -->
                     <div>
@@ -74,7 +58,6 @@
                                 id="correo"
                                 name="correo"
                                 required
-                                bind:value={formData.correo}
                                 class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                                 placeholder="nombre@ejemplo.com"
                                 autocomplete="email"
@@ -91,7 +74,6 @@
                                 id="contrasenna"
                                 name="contrasenna"
                                 required
-                                bind:value={formData.contrasenna}
                                 class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                                 placeholder="********"
                                 autocomplete="current-password"
