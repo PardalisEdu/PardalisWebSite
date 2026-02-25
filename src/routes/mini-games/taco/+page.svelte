@@ -114,7 +114,7 @@
 </script>
 
 <div
-  class="min-h-screen bg-gradient-to-b from-orange-100 to-orange-200 pt-24 px-4 mt-10"
+  class="min-h-screen bg-linear-to-b from-orange-100 to-orange-200 pt-24 px-4 mt-10"
 >
   <div class="max-w-4xl mx-auto">
     <div class="text-center mb-8">

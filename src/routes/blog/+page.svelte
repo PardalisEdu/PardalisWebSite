@@ -70,7 +70,7 @@
                 <input
                         type="text"
                         placeholder="Buscar artículos..."
-                        class="w-full pl-12 pr-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:border-yellow-400"
+                        class="w-full pl-12 pr-4 py-2 rounded-lg border border-gray-200 focus:outline-hidden focus:border-yellow-400"
                         bind:value={searchTerm}
                 />
                 <Search class="absolute left-4 top-2.5 text-gray-400" size={20} />
@@ -82,7 +82,7 @@
                             {currentCategory === category 
                                 ? 'bg-yellow-400 text-white' 
                                 : 'bg-white text-gray-700 hover:bg-yellow-400 hover:text-white'}
-                            focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                            focus:outline-hidden focus:ring-2 focus:ring-yellow-400"
                             onclick={() => handleCategoryChange(category)}
                     >
                         {category}

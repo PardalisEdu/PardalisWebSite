@@ -59,7 +59,7 @@
     <div class="w-full max-w-2xl mx-auto bg-white rounded-2xl shadow-md overflow-hidden p-4 md:p-6">
         {#if showAlert}
             <div
-                class="mb-4 bg-yellow-100 border border-yellow-400 text-yellow-800 px-3 py-2 md:px-4 md:py-3 rounded relative text-sm md:text-base"
+                class="mb-4 bg-yellow-100 border border-yellow-400 text-yellow-800 px-3 py-2 md:px-4 md:py-3 rounded-sm relative text-sm md:text-base"
                 role="alert"
             >
                 <span class="block sm:inline">
@@ -77,7 +77,7 @@
                         </span>
                         <select
                             bind:value={editForm.foto}
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm md:text-base"
+                            class="shadow-sm appearance-none border rounded-sm w-full py-2 px-3 text-gray-700 leading-tight focus:outline-hidden focus:shadow-outline text-sm md:text-base"
                         >
                             {#each avatarOptions as option}
                                 <option value={option.value}>{option.label}</option>
@@ -99,7 +99,7 @@
                         </span>
                         <textarea
                             bind:value={editForm.descripcion}
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm md:text-base"
+                            class="shadow-sm appearance-none border rounded-sm w-full py-2 px-3 text-gray-700 leading-tight focus:outline-hidden focus:shadow-outline text-sm md:text-base"
                             rows="4"
                         ></textarea>
                     </div>

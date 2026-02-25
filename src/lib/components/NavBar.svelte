@@ -29,7 +29,7 @@
 
 {#if showBanner}
     <div class="fixed top-0 left-0 right-0 bg-yellow-100 border-b border-yellow-200 z-40">
-        <div class="max-w-screen-xl mx-auto py-2 px-3 sm:px-6 lg:px-8">
+        <div class="max-w-(--breakpoint-xl) mx-auto py-2 px-3 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between flex-wrap">
                 <div class="w-0 flex-1 flex items-center min-w-0">
 					<span class="flex p-2">
@@ -42,11 +42,11 @@
                         <span class="hidden md:inline">¡Apoya a la Vaca para Presidente 2024! Porque necesitamos más leche y menos promesas en el gobierno</span>
                     </p>
                 </div>
-                <div class="flex-shrink-0 sm:ml-3">
+                <div class="shrink-0 sm:ml-3">
                     <button
                             onclick={closeBanner}
                             type="button"
-                            class="flex p-2 rounded-md hover:bg-yellow-200 transition-colors duration-200 focus:outline-none"
+                            class="flex p-2 rounded-md hover:bg-yellow-200 transition-colors duration-200 focus:outline-hidden"
                     >
                         <span class="sr-only">Descartar</span>
                         <svg class="h-5 w-5 text-yellow-900" viewBox="0 0 20 20" fill="currentColor">
@@ -61,12 +61,12 @@
     </div>
 {/if}
 
-<nav class="fixed top-0 left-0 right-0 flex flex-col md:flex-row justify-between w-full p-4 md:p-7 font-bold text-[#f9c710] bg-white shadow-sm z-30"
+<nav class="fixed top-0 left-0 right-0 flex flex-col md:flex-row justify-between w-full p-4 md:p-7 font-bold text-[#f9c710] bg-white shadow-xs z-30"
      style="top: {showBanner ? '48px' : '0'}">
     <div class="grid place-content-center">
         <a href="/" class="text-3xl">PARDALIS</a>
         <button
-                class="md:hidden p-2 text-[#f9c710] hover:bg-yellow-50 rounded m-auto block"
+                class="md:hidden p-2 text-[#f9c710] hover:bg-yellow-50 rounded-sm m-auto block"
                 onclick={toggleMenu}
                 aria-label="Toggle menu"
         >

@@ -57,7 +57,7 @@
 </script>
 
 <div
-  class="min-h-screen bg-gradient-to-b from-yellow-50 to-yellow-100 pt-24 px-4 grid place-content-center"
+  class="min-h-screen bg-linear-to-b from-yellow-50 to-yellow-100 pt-24 px-4 grid place-content-center"
 >
   <div class="max-w-2xl mx-auto">
     <div class="text-center mb-12">
@@ -108,7 +108,7 @@
           bind:value={userGuess}
           oninput={handleInput}
           placeholder="Escribe tu respuesta aquí..."
-          class="w-full px-4 py-3 text-lg text-center border-2 border-yellow-200 rounded-xl focus:outline-none focus:border-yellow-400 transition-colors"
+          class="w-full px-4 py-3 text-lg text-center border-2 border-yellow-200 rounded-xl focus:outline-hidden focus:border-yellow-400 transition-colors"
           maxlength={currentWordData.word.length}
         />
       </div>

@@ -78,7 +78,7 @@
             </div>
 
             {#if errorMessage}
-                <div class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <div class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-sm relative" role="alert">
                     <span class="block sm:inline">{errorMessage}</span>
                 </div>
             {/if}
@@ -97,7 +97,7 @@
                                     name="apodo"
                                     required
                                     bind:value={formData.apodo}
-                                    class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                    class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-hidden focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                                     placeholder="TuApodoGenial123"
                             />
                             <button
@@ -122,7 +122,7 @@
                                 name="nombre"
                                 required
                                 bind:value={formData.nombre}
-                                class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-hidden focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                                 placeholder="Tu nombre completo"
                         />
                     </div>
@@ -138,7 +138,7 @@
                                 name="correo"
                                 required
                                 bind:value={formData.correo}
-                                class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-hidden focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                                 placeholder="nombre@ejemplo.com"
                                 autocomplete="email"
                         />
@@ -156,7 +156,7 @@
                                     name="contrasenna"
                                     required
                                     bind:value={formData.contrasenna}
-                                    class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                    class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-hidden focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                                     placeholder="********"
                                     autocomplete="new-password"
                             />
@@ -182,7 +182,7 @@
                                     name="confirmarContrasenna"
                                     required
                                     bind:value={formData.confirmarContrasenna}
-                                    class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                    class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-hidden focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                                     placeholder="********"
                                     autocomplete="new-password"
                             />
@@ -197,7 +197,7 @@
                     </div>
 
                     {#if passwordError}
-                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-sm relative">
                             Las contraseñas no coinciden
                         </div>
                     {/if}
@@ -206,7 +206,7 @@
                 <button
                         type="submit"
                         disabled={loading || passwordError}
-                        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-black bg-[#f9c710] hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 transition-colors duration-200 disabled:opacity-50"
+                        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-xs text-sm font-medium text-black bg-[#f9c710] hover:bg-yellow-500 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 transition-colors duration-200 disabled:opacity-50"
                 >
                     {#if loading}
                         <span class="flex items-center">

@@ -7,7 +7,7 @@
 </script>
 
 <div
-  class="min-h-screen bg-gradient-to-b from-yellow-50 to-yellow-100 pt-24 px-4 py-10 mt-10"
+  class="min-h-screen bg-linear-to-b from-yellow-50 to-yellow-100 pt-24 px-4 py-10 mt-10"
 >
   <div class="max-w-6xl mx-auto">
     <div class="text-center mb-12">
@@ -33,10 +33,10 @@
           href={'mini-games/' + game.id}
         >
           <div
-            class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-xl"
+            class="relative w-full aspect-4/3 rounded-2xl overflow-hidden shadow-xl"
           >
             <div
-              class="absolute inset-0 bg-gradient-to-br {game.color} opacity-90"
+              class="absolute inset-0 bg-linear-to-br {game.color} opacity-90"
             ></div>
 
             <div

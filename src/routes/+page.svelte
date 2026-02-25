@@ -126,7 +126,7 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             {#each features as feature}
-                <div class="flex flex-col items-center p-6 rounded-lg shadow transform hover:scale-105 transition-transform duration-200">
+                <div class="flex flex-col items-center p-6 rounded-lg shadow-sm transform hover:scale-105 transition-transform duration-200">
                     <img
                             src={feature.image}
                             alt={feature.title}
@@ -147,7 +147,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
         {#each opinions as opinion}
-            <div class="flex flex-col items-center p-6 rounded-lg shadow transform hover:scale-105 transition-transform duration-200">
+            <div class="flex flex-col items-center p-6 rounded-lg shadow-sm transform hover:scale-105 transition-transform duration-200">
                 <img
                         src={opinion.avatar}
                         alt={opinion.name}

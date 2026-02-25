@@ -80,7 +80,7 @@
     });
 </script>
 
-<div class="min-h-screen bg-gradient-to-b from-yellow-50 to-yellow-100 pt-24 px-4 mb-20 mt-10">
+<div class="min-h-screen bg-linear-to-b from-yellow-50 to-yellow-100 pt-24 px-4 mb-20 mt-10">
     <div class="max-w-4xl mx-auto">
         <div class="text-center mb-12">
             <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-4">
@@ -122,7 +122,7 @@
                         class:rotate-y-180={flippedCards.includes(index) || matchedPairs.includes(card.pairId)}
                     >
                         <div class="absolute w-full h-full backface">
-                            <div class="w-full h-full bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-xl shadow-xl flex items-center justify-center text-4xl p-4">
+                            <div class="w-full h-full bg-linear-to-br from-yellow-400 to-yellow-500 rounded-xl shadow-xl flex items-center justify-center text-4xl p-4">
                                 ❓
                             </div>
                         </div>

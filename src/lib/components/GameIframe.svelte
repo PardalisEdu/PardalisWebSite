@@ -9,7 +9,7 @@
                 <div class="flex items-center gap-4">
                     <div class="text-white font-bold">323</div>
                 </div>
-                <div class="bg-black text-green-500 px-4 py-1 rounded font-mono text-sm font-bold tracking-wider">
+                <div class="bg-black text-green-500 px-4 py-1 rounded-sm font-mono text-sm font-bold tracking-wider">
                     {station}
                 </div>
                 <div class="text-white font-bold text-lg">CDMX</div>
@@ -32,12 +32,12 @@
                     <div class="w-4 h-4 rounded-full bg-yellow-500 glow-color"></div>
                     <div class="w-4 h-4 rounded-full bg-green-500 glow-color"></div>
                 </div>
-                <div class="bg-black px-4 py-1 rounded">
+                <div class="bg-black px-4 py-1 rounded-sm">
                     <div class="text-green-500 font-mono text-sm">EN SERVICIO</div>
                 </div>
                 <div class="flex gap-2">
-                    <div class="w-6 h-3 bg-zinc-600 rounded"></div>
-                    <div class="w-6 h-3 bg-zinc-600 rounded"></div>
+                    <div class="w-6 h-3 bg-zinc-600 rounded-sm"></div>
+                    <div class="w-6 h-3 bg-zinc-600 rounded-sm"></div>
                 </div>
             </div>
         </div>

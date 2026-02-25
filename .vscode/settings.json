@@ -3,6 +3,5 @@
         ".npmrc": true,
         "**/.svelte-kit": true,
         "**/node_modules": true,
-        "package-lock.json": true
     }
 }

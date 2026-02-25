@@ -36,7 +36,7 @@
             {href}
             onclick={handleTap}
             bind:this={buttonElement}
-            class="inline-block focus:outline-none focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 w-full text-center text-extrabold"
+            class="inline-block focus:outline-hidden focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 w-full text-center text-extrabold"
             style="background-color: {backgroundColor}; transform: scale({$buttonMotion.scale}) rotate({$buttonMotion.rotate}deg);"
     >
         {title}
@@ -45,7 +45,7 @@
     <button
             onclick={handleTap}
             bind:this={buttonElement}
-            class="focus:outline-none focus:ring-4 rounded-lg text-sm px-5 py-2.5 w-full font-extrabold"
+            class="focus:outline-hidden focus:ring-4 rounded-lg text-sm px-5 py-2.5 w-full font-extrabold"
             style="background-color: {backgroundColor}; transform: scale({$buttonMotion.scale}) rotate({$buttonMotion.rotate}deg);"
     >
         {title}

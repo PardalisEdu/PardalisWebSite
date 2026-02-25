@@ -68,7 +68,7 @@
 </script>
 
 <div
-  class="min-h-screen bg-gradient-to-b from-orange-100 to-orange-200 pt-24 px-2 grid place-content-center py-10 mt-10"
+  class="min-h-screen bg-linear-to-b from-orange-100 to-orange-200 pt-24 px-2 grid place-content-center py-10 mt-10"
 >
   <div class="max-w-2xl mx-auto">
     <div class="text-center mb-12">
@@ -101,7 +101,7 @@
                 ${money.value}
               </span>
               <span
-                class="absolute bottom-full left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                class="absolute bottom-full left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded-sm px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity"
               >
                 {money.english}
               </span>

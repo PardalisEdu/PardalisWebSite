@@ -25,7 +25,7 @@
             </div>
 
             {#if errorMessage}
-                <div class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <div class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-sm relative" role="alert">
                     <span class="block sm:inline">{errorMessage}</span>
                 </div>
             {/if}
@@ -58,7 +58,7 @@
                                 id="correo"
                                 name="correo"
                                 required
-                                class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-hidden focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                                 placeholder="nombre@ejemplo.com"
                                 autocomplete="email"
                         />
@@ -74,7 +74,7 @@
                                 id="contrasenna"
                                 name="contrasenna"
                                 required
-                                class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-hidden focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                                 placeholder="********"
                                 autocomplete="current-password"
                         />
@@ -91,7 +91,7 @@
                 <button
                         type="submit"
                         disabled={loading}
-                        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-black bg-[#f9c710] hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 transition-colors duration-200"
+                        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-xs text-sm font-medium text-black bg-[#f9c710] hover:bg-yellow-500 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 transition-colors duration-200"
                 >
                     {#if loading}
                         <span class="flex items-center">

@@ -53,7 +53,7 @@
 </script>
 
 <div
-  class="min-h-screen bg-gradient-to-b from-yellow-50 to-yellow-100 pt-24 px-4 grid place-content-center"
+  class="min-h-screen bg-linear-to-b from-yellow-50 to-yellow-100 pt-24 px-4 grid place-content-center"
 >
   <div class="max-w-2xl mx-auto">
     <div class="text-center mb-12">
@@ -70,7 +70,7 @@
     </div>
 
     {#if deck.length > 0 && currentIndex < deck.length}
-      <div class="card-container relative w-full aspect-[3/2] perspective-1000">
+      <div class="card-container relative w-full aspect-3/2 perspective-1000">
         <div
           class="card-content absolute inset-0 transform-style-3d"
           style="transform: rotateY({$cardRotation}deg)"

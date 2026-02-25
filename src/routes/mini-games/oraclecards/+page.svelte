@@ -36,7 +36,7 @@
 </script>
 
 <div
-  class="min-h-screen bg-gradient-to-b from-purple-900 via-purple-800 to-purple-900 pt-24 px-4 place-content-center py-20 mt-10"
+  class="min-h-screen bg-linear-to-b from-purple-900 via-purple-800 to-purple-900 pt-24 px-4 place-content-center py-20 mt-10"
 >
   <div class="max-w-4xl mx-auto">
     <div class="text-center mb-12">
@@ -56,7 +56,7 @@
       <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
         {#each shuffledCards as card}
           <button
-            class="aspect-[2/3] bg-gradient-to-br from-purple-600 to-purple-800 rounded-2xl p-1 transform transition-all duration-300 hover:scale-105 hover:rotate-2"
+            class="aspect-2/3 bg-linear-to-br from-purple-600 to-purple-800 rounded-2xl p-1 transform transition-all duration-300 hover:scale-105 hover:rotate-2"
             onclick={() => selectCard(card)}
           >
             <div
@@ -70,7 +70,7 @@
     {:else}
       <div class="max-w-2xl mx-auto">
         <div
-          class="bg-gradient-to-br from-purple-700 to-purple-900 rounded-3xl p-8 shadow-2xl border-2 border-purple-500"
+          class="bg-linear-to-br from-purple-700 to-purple-900 rounded-3xl p-8 shadow-2xl border-2 border-purple-500"
         >
           <div class="text-center">
             <div class="text-8xl mb-6">{selectedCard.emoji}</div>

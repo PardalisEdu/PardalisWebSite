@@ -33,7 +33,7 @@
 </script>
 
 <div class="min-h-screen">
-    <div class="bg-gradient-to-b from-yellow-400 to-yellow-300 py-20 mt-16">
+    <div class="bg-linear-to-b from-yellow-400 to-yellow-300 py-20 mt-16">
         <div class="container mx-auto px-4">
             <h1 class="text-4xl md:text-6xl font-bold text-center text-white mb-6">
                 Sobre Pardalis
@@ -72,7 +72,7 @@
             </div>
             <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
                 {#each team as member}
-                    <div class="bg-white rounded-lg shadow p-6 text-center transform hover:scale-105 transition-transform duration-200">
+                    <div class="bg-white rounded-lg shadow-sm p-6 text-center transform hover:scale-105 transition-transform duration-200">
                         <span class="text-4xl mb-4 block">{member.emoji}</span>
                         <h3 class="font-bold text-lg text-gray-900 mb-2">
                             {member.name}

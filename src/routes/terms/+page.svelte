@@ -55,7 +55,7 @@
 
 <div class="min-h-screen flex flex-col bg-gray-50">
   <!-- Hero Section -->
-  <div class="bg-gradient-to-b from-[#f9c710] to-yellow-300 py-20 mt-16">
+  <div class="bg-linear-to-b from-[#f9c710] to-yellow-300 py-20 mt-16">
     <div class="container mx-auto px-4 text-center">
       <h1 class="text-4xl md:text-6xl font-bold text-white mb-4">
         Términos y Condiciones
@@ -94,7 +94,7 @@
       <div class="bg-white rounded-lg shadow-lg p-8">
         <!-- Introducción -->
         <div class="mb-12">
-          <div class="p-4 bg-yellow-50 border-l-4 border-[#f9c710] rounded">
+          <div class="p-4 bg-yellow-50 border-l-4 border-[#f9c710] rounded-sm">
             <p class="text-gray-700">
               Al utilizar Pardalis, aceptas nuestros términos y condiciones. Por
               favor, lee cuidadosamente este documento.
