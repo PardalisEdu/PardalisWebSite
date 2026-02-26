@@ -1,7 +1,46 @@
-<script>
+<script lang="ts">
     import Boton from "$components/Boton.svelte";
     import {onMount} from 'svelte';
-    import {spring} from "svelte/motion";
+    import { spring } from 'svelte/motion';
+	import { fly, fade } from 'svelte/transition';
+
+	// Estado para el "secreto" del logo
+	let clickCount = $state(0);
+	let isHovered = $state(false);
+
+	// Configuración de movimiento físico (Spring) más veloz y elástico
+	const logoScale = spring(1, {
+		stiffness: 0.25, // Más rígido para velocidad
+		damping: 0.3    // Menos amortiguación para más "boing"
+	});
+
+	const logoRotate = spring(0, {
+		stiffness: 0.25,
+		damping: 0.3
+	});
+
+	function handleLogoInteraction() {
+		clickCount++;
+		// Efecto de crecimiento más explosivo
+		const newScale = 1.4 + (clickCount * 0.04 % 0.2); 
+		// Rotación más amplia para dinamismo
+		const randomRotate = Math.random() * 40 - 20;
+
+		logoScale.set(newScale);
+		logoRotate.set(randomRotate);
+
+		// Regresa a la normalidad velozmente para permitir spam de clicks
+		setTimeout(() => {
+			logoScale.set(1);
+			logoRotate.set(0);
+		}, 180); 
+	}
+
+	function handleKeyDown(event: KeyboardEvent) {
+		if (event.key === 'Enter' || event.key === ' ') {
+			handleLogoInteraction();
+		}
+	}
 
     const logoMotion = spring({scale: 0, rotate: 0}, {
         stiffness: 0.1,
@@ -11,23 +50,6 @@
     onMount(() => {
         logoMotion.set({scale: 1, rotate: 360});
     });
-
-    function handleLogoInteraction() {
-        logoMotion.update(($motion) => ({
-            scale: 2.5,
-            rotate: $motion.rotate + 360
-        }));
-    }
-
-    /**
-     *
-     * @param {any} event
-     */
-    function handleKeyDown(event) {
-        if (event.key === 'Enter' || event.key === ' ') {
-            handleLogoInteraction();
-        }
-    }
 
     const features = [
         {
@@ -72,50 +94,98 @@
 
 </script>
 
-<div class="min-h-screen flex flex-col bg-[url('/img/fondo-inicio.svg')] bg-cover bg-center bg-no-repeat">
-    <main class="grid place-content-center grid-cols-1 md:grid-cols-2 flex-1 p-4">
-        <div class="m-10 text-center grid place-content-center">
-            <div>
-                <h1 class="mb-4 text-3xl font-extrabold text-gray-900 md:text-5xl lg:text-6xl">
-                    ¡Bienvenido!
-                </h1>
+<div class="relative min-h-screen flex flex-col overflow-hidden bg-[#FFFDF5] font-sans">
+	
+	<!-- --- CAPA DE FONDO DINÁMICA --- -->
+	<div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+		<!-- Patrón de puntos sutil -->
+		<svg width="100%" height="100%" class="opacity-20">
+			<pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+				<circle cx="2" cy="2" r="2" fill="#f9c710" />
+			</pattern>
+			<rect width="100%" height="100%" fill="url(#dots)" />
+		</svg>
 
+		<!-- Blobs decorativos (Animados con CSS) -->
+		<div class="absolute -top-20 -left-20 w-96 h-96 bg-yellow-200/40 rounded-full blur-3xl animate-pulse"></div>
+		<div class="absolute top-1/2 -right-20 w-80 h-80 bg-orange-100/50 rounded-full blur-3xl"></div>
+		<div class="absolute -bottom-10 left-1/4 w-64 h-64 bg-blue-100/30 rounded-full blur-2xl"></div>
+	</div>
 
-                <br/>
+	<!-- --- CONTENIDO PRINCIPAL --- -->
+	<main class="relative z-10 grid grid-cols-1 md:grid-cols-2 flex-1 max-w-7xl mx-auto w-full p-6 md:p-12 items-center">
+		
+		<!-- Lado Izquierdo: Textos y CTAs -->
+		<div 
+			in:fly={{ x: -50, duration: 800, delay: 200 }}
+			class="flex flex-col space-y-8 text-center md:text-left"
+		>
+			<header>
+				<h1 class="text-6xl md:text-8xl font-black text-gray-900 leading-none">
+					¡Hola <span class="text-[#f9c710] inline-block hover:rotate-3 transition-transform cursor-default">Amigo!</span>
+				</h1>
+				<p class="mt-6 text-xl md:text-2xl text-gray-600 font-medium max-w-md mx-auto md:mx-0">
+					Aprende inglés de forma <span class="text-blue-500 font-bold">divertida</span> con Pardalis.
+				</p>
+			</header>
 
-                <Boton title="Inicia Sesión" href="/login"/>
+			<div class="flex flex-col items-center md:items-start gap-8">
+				<!-- Botón Principal Flat 2.0 -->
+				<a
+					href="/login"
+					class="group relative inline-flex items-center justify-center px-12 py-5 font-black text-2xl text-white bg-[#f9c710] rounded-3xl 
+                    shadow-[0_10px_0_0_#d4a007] hover:shadow-[0_4px_0_0_#d4a007] hover:translate-y-1.5 transition-all duration-150 active:scale-95"
+				>
+					Inicia Sesión
+				</a>
 
-                <br/>
-                <p class="mb-5 mt-10">
-                    ¿Todavía no tienes una cuenta?
-                </p>
-                <a
-                        href="/register"
-                        class="text-4xl font-black hover:underline"
-                        style="color: #f9c710;"
-                >
-                    ¡Regístrate!
-                </a>
-            </div>
-        </div>
+				<div class="space-y-2">
+					<p class="text-gray-400 font-bold uppercase tracking-wider text-sm">¿Eres nuevo aquí?</p>
+					<a
+						href="/register"
+						class="text-4xl md:text-5xl font-black text-[#f9c710] hover:text-yellow-500 transition-colors 
+                        underline decoration-[10px] decoration-yellow-200 underline-offset-8 hover:decoration-yellow-400"
+					>
+						¡Regístrate!
+					</a>
+				</div>
+			</div>
+		</div>
 
-        <div class="grid place-content-center">
-            <button
-                    onclick={handleLogoInteraction}
-                    onkeydown={handleKeyDown}
-                    style="transform: scale({$logoMotion.scale}) rotate({$logoMotion.rotate}deg);"
-                    aria-label="Animar logo"
-            >
-                <img
-                        src="favicon.svg"
-                        alt="Logo Pardalis"
-                        width={300}
-                        height={300}
-                        class="hidden md:block"
-                />
-            </button>
-        </div>
-    </main>
+		<div class="relative flex justify-center items-center mt-12 md:mt-0">
+			<!-- Resplandor detrás del logo -->
+			<div class="absolute w-64 h-64 md:w-[500px] md:h-[500px] bg-yellow-400/10 rounded-full blur-3xl animate-pulse"></div>
+
+			<button
+				onclick={handleLogoInteraction}
+				onkeydown={handleKeyDown}
+				onmouseenter={() => (isHovered = true)}
+				onmouseleave={() => (isHovered = false)}
+				class="relative z-20 cursor-pointer focus:outline-none transition-filter duration-300"
+				style="transform: scale({$logoScale}) rotate({$logoRotate}deg); filter: drop-shadow(0 20px 30px rgba(249, 199, 16, 0.2));"
+				aria-label="Interactuar con Pardalis"
+			>
+				<img
+					src="favicon.svg"
+					alt="Logo Pardalis"
+					class="w-64 h-64 md:w-120 md:h-120 object-contain"
+				/>
+
+				<!-- Tooltip sorpresa para niños -->
+				{#if isHovered}
+					<div 
+						transition:fade={{ duration: 200 }}
+						class="absolute -top-10 -right-4 bg-white px-4 py-2 rounded-2xl shadow-xl border-2 border-yellow-100 font-bold text-gray-700 whitespace-nowrap"
+					>
+						¡Hazme click! ✨
+					</div>
+				{/if}
+			</button>
+
+			<!-- Sombra en el suelo para dar profundidad -->
+			<div class="absolute bottom-0 w-48 h-6 bg-gray-900/5 blur-xl rounded-[100%]"></div>
+		</div>
+	</main>
 </div>
 
 <section class="py-12 px-4 bg-white text-gray-900">
@@ -171,3 +241,13 @@
         </div>
     </div>
 </section>
+
+<style>
+	@keyframes pulse-slow {
+		0%, 100% { transform: scale(1); opacity: 0.4; }
+		50% { transform: scale(1.1); opacity: 0.6; }
+	}
+	.animate-pulse {
+		animation: pulse-slow 8s infinite ease-in-out;
+	}
+</style>

@@ -49,9 +49,9 @@
     }
 </script>
 
-<div class="min-h-screen bg-gray-50 pt-20">
+<div class="min-h-screen bg-gray-50">
     <!-- Hero Section -->
-    <div class="bg-yellow-400 py-12">
+    <div class="bg-yellow-400 py-28">
         <div class="container mx-auto px-4">
             <h1 class="text-4xl md:text-6xl font-bold text-center text-white mb-6">
                 Blog de Pardalis

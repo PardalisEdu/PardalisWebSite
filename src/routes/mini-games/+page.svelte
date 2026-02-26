@@ -7,7 +7,7 @@
 </script>
 
 <div
-  class="min-h-screen bg-linear-to-b from-yellow-50 to-yellow-100 pt-24 px-4 py-10 mt-10"
+  class="min-h-screen bg-linear-to-b from-yellow-50 to-yellow-100 pt-36 px-4 py-10"
 >
   <div class="max-w-6xl mx-auto">
     <div class="text-center mb-12">

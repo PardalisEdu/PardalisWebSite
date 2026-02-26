@@ -2,7 +2,7 @@
     let { src, station = 'CHABACANO' }: { src: string; station?: string } = $props();
 </script>
 
-<div class="w-full min-h-screen bg-zinc-800 flex items-center justify-center p-4 mt-16">
+<div class="w-full min-h-screen bg-zinc-800 flex items-center justify-center p-28">
     <div class="w-full max-w-6xl relative">
         <div class="relative metro-frame rounded-lg p-4">
             <div class="metro-panel p-2 rounded-t-lg flex items-center justify-between">

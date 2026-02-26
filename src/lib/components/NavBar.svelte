@@ -1,133 +1,146 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
-    import { authStore } from '$lib/stores/authStore';
+	import { authStore } from '$lib/stores/authStore';
+	import { onMount } from 'svelte';
+	import { fly } from 'svelte/transition';
 
-    let isLoggedIn = $state(false);
-    let showBanner = $state(true);
-    let isMenuOpen = $state(false);
+	let isLoggedIn = $state(false);
+	let showBanner = $state(true);
+	let isMenuOpen = $state(false);
 
-    $effect(() => {
-        isLoggedIn = $authStore.isAuthenticated;
-    });
+	$effect(() => {
+		isLoggedIn = $authStore.isAuthenticated;
+	});
 
-    onMount(() => {
-        const bannerClosed = localStorage.getItem('bannerClosed');
-        if (bannerClosed === 'true') {
-            showBanner = false;
-        }
-    });
+	onMount(() => {
+		const bannerClosed = localStorage.getItem('bannerClosed');
+		if (bannerClosed === 'true') {
+			showBanner = false;
+		}
+	});
 
-    function closeBanner() {
-        showBanner = false;
-        localStorage.setItem('bannerClosed', 'true')
-    }
+	function closeBanner() {
+		showBanner = false;
+		localStorage.setItem('bannerClosed', 'true');
+	}
 
-    function toggleMenu() {
-        isMenuOpen = !isMenuOpen;
-    }
+	function toggleMenu() {
+		isMenuOpen = !isMenuOpen;
+	}
 </script>
 
 {#if showBanner}
-    <div class="fixed top-0 left-0 right-0 bg-yellow-100 border-b border-yellow-200 z-40">
-        <div class="max-w-(--breakpoint-xl) mx-auto py-2 px-3 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between flex-wrap">
-                <div class="w-0 flex-1 flex items-center min-w-0">
-					<span class="flex p-2">
-						<span role="img" aria-label="cow" class="text-xl">
-							🐄
-						</span>
+	<div
+		transition:fly={{ y: -50, duration: 500 }}
+		class="fixed top-2 left-2 right-2 md:left-10 md:right-10 z-50"
+	>
+		<div
+			class="bg-linear-to-r from-yellow-100 to-yellow-50 border-2 border-yellow-200 shadow-lg shadow-yellow-200/40 rounded-2xl py-2 px-4 flex items-center justify-between"
+		>
+			<div class="flex items-center gap-3">
+				<span class="animate-bounce text-2xl">🐄</span>
+				<p class="font-bold text-yellow-900 text-sm md:text-base">
+					<span class="md:hidden">¡Vaca Presidente 2024!</span>
+					<span class="hidden md:inline">
+						¡Apoya a la Vaca para Presidente! 🥛 <span class="font-normal opacity-80"
+							>Más leche, menos promesas.</span
+						>
 					</span>
-                    <p class="ml-3 font-medium text-yellow-900 truncate">
-                        <span class="md:hidden">¡Vaca Presidente 2024!</span>
-                        <span class="hidden md:inline">¡Apoya a la Vaca para Presidente 2024! Porque necesitamos más leche y menos promesas en el gobierno</span>
-                    </p>
-                </div>
-                <div class="shrink-0 sm:ml-3">
-                    <button
-                            onclick={closeBanner}
-                            type="button"
-                            class="flex p-2 rounded-md hover:bg-yellow-200 transition-colors duration-200 focus:outline-hidden"
-                    >
-                        <span class="sr-only">Descartar</span>
-                        <svg class="h-5 w-5 text-yellow-900" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd"
-                                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                  clip-rule="evenodd"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+				</p>
+			</div>
+			<button
+				onclick={closeBanner}
+				class="p-1 hover:bg-yellow-200 rounded-full transition-colors text-yellow-900"
+				aria-label="Close banner"
+			>
+				<svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+					<path
+						d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+					/>
+				</svg>
+			</button>
+		</div>
+	</div>
 {/if}
 
-<nav class="fixed top-0 left-0 right-0 flex flex-col md:flex-row justify-between w-full p-4 md:p-7 font-bold text-[#f9c710] bg-white shadow-xs z-30"
-     style="top: {showBanner ? '48px' : '0'}">
-    <div class="grid place-content-center">
-        <a href="/" class="text-3xl">PARDALIS</a>
-        <button
-                class="md:hidden p-2 text-[#f9c710] hover:bg-yellow-50 rounded-sm m-auto block"
-                onclick={toggleMenu}
-                aria-label="Toggle menu"
-        >
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                {#if isMenuOpen}
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                {:else}
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-16 6h16"/>
-                {/if}
-            </svg>
-        </button>
-    </div>
+<nav
+	class="fixed left-0 right-0 p-4 z-40 transition-all duration-300"
+	style="top: {showBanner ? '65px' : '0px'}"
+>
+	<div
+		class="max-w-7xl mx-auto bg-white/90 backdrop-blur-md border-b-4 border-yellow-400/20 shadow-xl rounded-3xl px-6 py-3 flex flex-wrap items-center justify-between"
+	>
+		<a
+			href="/"
+			class="text-3xl font-black tracking-tighter text-[#f9c710] hover:scale-105 transition-transform active:rotate-2"
+		>
+			PARDALIS<span class="text-blue-400">.</span>
+		</a>
 
-    <div class="{isMenuOpen ? 'flex' : 'hidden'} items-center md:flex flex-col md:flex-row mt-4 md:mt-0 space-y-4 md:space-y-0 text-xl">
-        <a href="/adventure" class="md:ml-7 hover:text-yellow-600 transition-colors">AVENTURA</a>
-        <a href="/blog" class="md:ml-7 hover:text-yellow-600 transition-colors">BLOG</a>
-        <a href="/mini-games" class="md:ml-7 hover:text-yellow-600 transition-colors">MINI-JUEGOS</a>
-        {#if isLoggedIn}
-            <a href="/profile" class="md:ml-7 hover:text-yellow-600 transition-colors">PERFIL</a>
-        {/if}
+		<button
+			class="md:hidden p-2 text-yellow-500 hover:bg-yellow-50 rounded-xl"
+			onclick={toggleMenu}
+			aria-label="Toggle navigation menu"
+		>
+			<div class="space-y-1.5">
+				<span
+					class="block w-6 h-1 bg-current rounded-full transition-all {isMenuOpen
+						? 'rotate-45 translate-y-2'
+						: ''}"
+				></span>
+				<span
+					class="block w-6 h-1 bg-current rounded-full transition-all {isMenuOpen ? 'opacity-0' : ''}"
+				></span>
+				<span
+					class="block w-6 h-1 bg-current rounded-full transition-all {isMenuOpen
+						? '-rotate-45 -translate-y-2'
+						: ''}"
+				></span>
+			</div>
+		</button>
 
-        {#if !isLoggedIn}
-            <a href="/login" class="md:ml-7 p-3 bg-[#f9c710] text-white rounded-lg hover:bg-yellow-500 transition-colors">
-                Inicia Sesión
-            </a>
-        {:else}
-            <form method="POST" action="/logout" class="inline">
-                <button
-                    type="submit"
-                    class="md:ml-7 p-3 bg-[#f9c710] text-white rounded-lg hover:bg-yellow-500 transition-colors"
-                >
-                    Cerrar Sesión
-                </button>
-            </form>
-        {/if}
-    </div>
+		<div
+			class="{isMenuOpen
+				? 'flex'
+				: 'hidden'} md:flex flex-col md:flex-row w-full md:w-auto items-center mt-4 md:mt-0 gap-2 md:gap-6"
+		>
+			{#each [{ h: '/adventure', t: 'AVENTURA' }, { h: '/blog', t: 'BLOG' }, { h: '/mini-games', t: 'JUEGOS' }] as link}
+				<a
+					href={link.h}
+					class="w-full md:w-auto text-center px-4 py-2 rounded-xl text-gray-700 font-bold hover:bg-yellow-50 hover:text-yellow-600 transition-all duration-200 active:scale-90"
+				>
+					{link.t}
+				</a>
+			{/each}
+
+			{#if isLoggedIn}
+				<a
+					href="/profile"
+					class="w-full md:w-auto text-center px-4 py-2 rounded-xl text-gray-700 font-bold hover:bg-blue-50 hover:text-blue-500 transition-all"
+				>
+					PERFIL
+				</a>
+				<form method="POST" action="/logout" class="w-full md:w-auto">
+					<button
+						type="submit"
+						class="w-full bg-gray-100 text-gray-500 px-6 py-2 rounded-2xl font-bold hover:bg-red-50 hover:text-red-500 transition-all"
+					>
+						Salir
+					</button>
+				</form>
+			{:else}
+				<a
+					href="/login"
+					class="w-full md:w-auto text-center bg-[#f9c710] text-white px-8 py-3 rounded-2xl font-black shadow-[0_4px_0_0_#d4a007] hover:shadow-none hover:translate-y-1 transition-all active:scale-95"
+				>
+					¡ENTRAR!
+				</a>
+			{/if}
+		</div>
+	</div>
 </nav>
 
 <style>
-    nav {
-        transition: top 0.3s ease-in-out;
-    }
-
-    a:hover, button:hover {
-        cursor: pointer;
-    }
-
-    @media (max-width: 768px) {
-        .flex-col > * {
-            animation: slideIn 0.3s ease-out;
-        }
-    }
-
-    @keyframes slideIn {
-        from {
-            opacity: 0;
-            transform: translateY(-10px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
+	:global(body) {
+		background-color: #fcfcfc;
+	}
 </style>
