@@ -4,15 +4,25 @@
             title: "Pardalis",
             links: [
                 { text: "Inicio", href: "/" },
-                { text: "Contribuir", href: "https://github.com/PardalisEdu/PardalisWebSite" },
+                { text: "¿Cómo funciona?", href: "/como-funciona" },
+                { text: "Metodología", href: "/metodologia" },
                 { text: "Sobre nosotros", href: "/about" }
+            ]
+        },
+        {
+            title: "Ayuda",
+            links: [
+                { text: "FAQ", href: "/faq" },
+                { text: "Para padres", href: "/para-padres" },
+                { text: "Para maestros", href: "/para-maestros" }
             ]
         },
         {
             title: "Legal",
             links: [
                 { text: "Términos y condiciones", href: "/terms" },
-                { text: "Licencia GPL v3", href: "/terms" }
+                { text: "Licencia GPL v3", href: "/terms" },
+                { text: "Contribuir", href: "https://github.com/PardalisEdu/PardalisWebSite" }
             ]
         }
     ];
