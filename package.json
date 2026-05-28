@@ -15,6 +15,7 @@
 		"@sveltejs/kit": "^2.5.27",
 		"@sveltejs/vite-plugin-svelte": "^4.0.0",
 		"@tailwindcss/postcss": "^4.2.1",
+		"@types/node": "^25.9.1",
 		"postcss": "^8.4.44",
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",
@@ -27,6 +28,7 @@
 	"dependencies": {
 		"baseline-browser-mapping": "^2.10.0",
 		"caniuse-lite": "^1.0.30001774",
-		"lucide-svelte": "^0.468.0"
+		"lucide-svelte": "^0.468.0",
+		"marked": "^18.0.4"
 	}
 }

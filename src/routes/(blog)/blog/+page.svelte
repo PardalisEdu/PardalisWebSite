@@ -1,17 +1,16 @@
 <script lang="ts">
+    import { goto } from '$app/navigation';
+    import { page } from '$app/stores';
     import { Search } from 'lucide-svelte';
-    import { fetchBlogs } from '$lib/api/blog';
     import BlogCard from '$lib/components/BlogCard.svelte';
     import type { BlogPost } from '$lib/types/types';
 
     let { data } = $props();
 
     let searchTerm = $state('');
-    let currentCategory = $state(data.categoria);
     let currentPage = $state(data.page);
+    let currentCategory = $state(data.categoria);
     let blogs = $state<BlogPost[]>(data.blogs);
-    let loading = $state(false);
-    let error = $state<string | null>(null);
 
     const categories = [
         "Todos", "Anuncios", "Consejos", "Educación", "Actualizaciones"
@@ -25,32 +24,28 @@
         )
     );
 
-    async function loadBlogs() {
-        loading = true;
-        error = null;
-        try {
-            blogs = await fetchBlogs(currentPage, currentCategory);
-        } catch (err) {
-            error = err instanceof Error ? err.message : 'Error cargando blogs';
-        } finally {
-            loading = false;
-        }
+    function navigate(categoria: string, pageNum: number) {
+        const params = new URLSearchParams();
+        if (categoria !== 'Todos') params.set('categoria', categoria);
+        if (pageNum > 1) params.set('page', pageNum.toString());
+        const qs = params.toString();
+        goto(qs ? `?${qs}` : '');
     }
 
     function handleCategoryChange(categoria: string) {
         currentCategory = categoria;
         currentPage = 1;
-        loadBlogs();
+        navigate(categoria, 1);
     }
 
     function handlePageChange(delta: number) {
-        currentPage += delta;
-        loadBlogs();
+        const newPage = currentPage + delta;
+        currentPage = newPage;
+        navigate(currentCategory, newPage);
     }
 </script>
 
 <div class="min-h-screen bg-[#FFFDF5]">
-    <!-- Hero -->
     <div class="relative overflow-hidden bg-linear-to-br from-[#f9c710] via-[#f9c710] to-yellow-300 pt-28 pb-20 md:pt-36 md:pb-28">
         <div class="absolute inset-0 pointer-events-none">
             <svg width="100%" height="100%" class="opacity-10">
@@ -77,7 +72,6 @@
         </div>
     </div>
 
-    <!-- Search and Filter -->
     <div class="container mx-auto px-4 -mt-8 relative z-10">
         <div class="bg-white rounded-[2rem] border-4 border-yellow-100 shadow-[0_10px_0_0_#fef08a] p-6 md:p-8">
             <div class="flex flex-col md:flex-row justify-between items-center gap-4">
@@ -107,20 +101,8 @@
         </div>
     </div>
 
-    <!-- Blog Posts Grid -->
     <div class="container mx-auto px-4 py-12">
-        {#if loading}
-            <div class="text-center py-16">
-                <div class="inline-block w-12 h-12 border-4 border-[#f9c710] border-t-transparent rounded-full animate-spin"></div>
-                <p class="mt-4 text-gray-500 font-medium">Cargando artículos...</p>
-            </div>
-        {:else if error}
-            <div class="text-center py-16">
-                <span class="text-5xl mb-4 block">😅</span>
-                <p class="text-red-600 font-bold text-xl mb-2">¡Ups! Algo salió mal</p>
-                <p class="text-gray-500">{error}</p>
-            </div>
-        {:else if filteredBlogs.length === 0}
+        {#if filteredBlogs.length === 0}
             <div class="text-center py-16">
                 <span class="text-5xl mb-4 block">🔍</span>
                 <p class="text-gray-500 font-bold text-xl">No se encontraron artículos</p>
@@ -133,7 +115,6 @@
                 {/each}
             </div>
 
-            <!-- Pagination -->
             <div class="mt-12 flex justify-center items-center gap-4">
                 <button
                     class="px-6 py-3 rounded-xl font-bold transition-all duration-200

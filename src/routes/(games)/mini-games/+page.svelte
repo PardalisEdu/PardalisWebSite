@@ -52,7 +52,7 @@
         <a
           in:fade={{ duration: 400, delay: i * 80 }}
           class="group block"
-          href={'mini-games/' + game.id}
+          href={'/mini-games/' + game.id}
           onmouseenter={() => hoveredGame = game}
           onmouseleave={() => hoveredGame = null}
         >
