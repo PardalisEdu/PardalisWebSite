@@ -1,14 +1,20 @@
 <script lang="ts">
 	import { authStore } from '$lib/stores/authStore';
+	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
 
 	let isLoggedIn = $state(false);
 	let showBanner = $state(true);
 	let isMenuOpen = $state(false);
+	let currentPath = $state('');
 
 	$effect(() => {
 		isLoggedIn = $authStore.isAuthenticated;
+	});
+
+	$effect(() => {
+		currentPath = $page.url.pathname;
 	});
 
 	onMount(() => {
@@ -25,6 +31,10 @@
 
 	function toggleMenu() {
 		isMenuOpen = !isMenuOpen;
+	}
+
+	function isActive(path: string) {
+		return currentPath === path || currentPath.startsWith(path + '/');
 	}
 </script>
 
@@ -77,21 +87,21 @@
 		</a>
 
 		<button
-			class="md:hidden p-2 text-yellow-500 hover:bg-yellow-50 rounded-xl"
+			class="md:hidden p-2 text-yellow-500 hover:bg-yellow-50 rounded-xl transition-colors"
 			onclick={toggleMenu}
 			aria-label="Toggle navigation menu"
 		>
 			<div class="space-y-1.5">
 				<span
-					class="block w-6 h-1 bg-current rounded-full transition-all {isMenuOpen
+					class="block w-6 h-1 bg-current rounded-full transition-all duration-300 {isMenuOpen
 						? 'rotate-45 translate-y-2'
 						: ''}"
 				></span>
 				<span
-					class="block w-6 h-1 bg-current rounded-full transition-all {isMenuOpen ? 'opacity-0' : ''}"
+					class="block w-6 h-1 bg-current rounded-full transition-all duration-300 {isMenuOpen ? 'opacity-0 scale-0' : ''}"
 				></span>
 				<span
-					class="block w-6 h-1 bg-current rounded-full transition-all {isMenuOpen
+					class="block w-6 h-1 bg-current rounded-full transition-all duration-300 {isMenuOpen
 						? '-rotate-45 -translate-y-2'
 						: ''}"
 				></span>
@@ -106,23 +116,28 @@
 			{#each [{ h: '/adventure', t: 'AVENTURA' }, { h: '/blog', t: 'BLOG' }, { h: '/mini-games', t: 'JUEGOS' }] as link}
 				<a
 					href={link.h}
-					class="w-full md:w-auto text-center px-4 py-2 rounded-xl text-gray-700 font-bold hover:bg-yellow-50 hover:text-yellow-600 transition-all duration-200 active:scale-90"
+					class="relative w-full md:w-auto text-center px-4 py-2 rounded-xl font-bold transition-all duration-200 active:scale-90 {isActive(link.h) ? 'text-yellow-600 bg-yellow-50' : 'text-gray-700 hover:text-yellow-600 hover:bg-yellow-50'}"
 				>
 					{link.t}
+					{#if isActive(link.h)}
+						<span class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#f9c710] rounded-full"></span>
+					{/if}
 				</a>
 			{/each}
+
+			<div class="w-full h-px md:hidden bg-gray-200 my-2"></div>
 
 			{#if isLoggedIn}
 				<a
 					href="/profile"
-					class="w-full md:w-auto text-center px-4 py-2 rounded-xl text-gray-700 font-bold hover:bg-blue-50 hover:text-blue-500 transition-all"
+					class="relative w-full md:w-auto text-center px-4 py-2 rounded-xl font-bold transition-all duration-200 active:scale-90 {isActive('/profile') ? 'text-blue-600 bg-blue-50' : 'text-gray-700 hover:text-blue-500 hover:bg-blue-50'}"
 				>
 					PERFIL
 				</a>
 				<form method="POST" action="/logout" class="w-full md:w-auto">
 					<button
 						type="submit"
-						class="w-full bg-gray-100 text-gray-500 px-6 py-2 rounded-2xl font-bold hover:bg-red-50 hover:text-red-500 transition-all"
+						class="w-full bg-gray-100 text-gray-500 px-6 py-2 rounded-2xl font-bold hover:bg-red-50 hover:text-red-500 transition-all active:scale-95"
 					>
 						Salir
 					</button>
@@ -139,8 +154,10 @@
 	</div>
 </nav>
 
-<style>
-	:global(body) {
-		background-color: #fcfcfc;
-	}
-</style>
+<!-- Mobile backdrop -->
+<button
+	class="fixed inset-0 z-30 bg-black/20 md:hidden {isMenuOpen ? 'block' : 'hidden'}"
+	onclick={() => isMenuOpen = false}
+	aria-label="Close menu"
+></button>
+

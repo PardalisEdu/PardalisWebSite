@@ -55,29 +55,28 @@
     ];
 </script>
 
-<main class="min-h-screen bg-gray-100 py-6 md:py-12 px-4 grid place-content-center">
-    <div class="w-full max-w-2xl mx-auto bg-white rounded-2xl shadow-md overflow-hidden p-4 md:p-6">
+<main class="min-h-screen bg-[#FFFDF5] py-6 md:py-16 px-4 grid place-content-center">
+    <div class="w-full max-w-lg mx-auto bg-white rounded-[3rem] border-4 border-yellow-100 shadow-[0_16px_0_0_#fef08a] p-8 md:p-12 relative overflow-hidden">
+        <div class="absolute -top-16 -left-16 w-48 h-48 bg-yellow-100 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-16 -right-16 w-48 h-48 bg-blue-100 rounded-full blur-3xl"></div>
+
         {#if showAlert}
-            <div
-                class="mb-4 bg-yellow-100 border border-yellow-400 text-yellow-800 px-3 py-2 md:px-4 md:py-3 rounded-sm relative text-sm md:text-base"
-                role="alert"
-            >
-                <span class="block sm:inline">
-                    🐄 Oh, parece que hubo un error. Por favor, intenta de nuevo más tarde.
-                </span>
+            <div class="mb-6 bg-yellow-50 border-2 border-yellow-200 text-yellow-800 px-5 py-3 rounded-xl font-medium relative" role="alert">
+                🐄 Oh, parece que hubo un error. Por favor, intenta de nuevo más tarde.
             </div>
         {/if}
 
-        <div>
-            <div class="flex flex-col items-center mb-4 md:mb-6">
+        <div class="relative">
+            <div class="flex flex-col items-center mb-8">
                 {#if editing}
-                    <div class="w-full max-w-sm mb-4">
-                        <span class="block text-gray-700 text-sm font-bold mb-2">
+                    <div class="w-full mb-6">
+                        <label for="avatar-select" class="block text-sm font-bold text-gray-700 mb-2">
                             Avatar
-                        </span>
+                        </label>
                         <select
+                            id="avatar-select"
                             bind:value={editForm.foto}
-                            class="shadow-sm appearance-none border rounded-sm w-full py-2 px-3 text-gray-700 leading-tight focus:outline-hidden focus:shadow-outline text-sm md:text-base"
+                            class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl font-medium text-gray-700 focus:outline-hidden focus:border-[#f9c710] transition-all"
                         >
                             {#each avatarOptions as option}
                                 <option value={option.value}>{option.label}</option>
@@ -86,50 +85,60 @@
                     </div>
                 {/if}
 
-                <img
-                    class="w-24 h-24 md:w-32 md:h-32 rounded-full mb-4"
-                    src={editing ? editForm.foto : personalization?.foto || 'img/profiles/ocelote.svg'}
-                    alt="Avatar"
-                />
+                <!-- Avatar with ring -->
+                <div class="relative mb-5">
+                    <div class="w-28 h-28 md:w-32 md:h-32 rounded-full border-4 border-yellow-200 shadow-[0_6px_0_0_#fef08a] overflow-hidden">
+                        <img
+                            class="w-full h-full object-cover"
+                            src={editing ? editForm.foto : personalization?.foto || 'img/profiles/ocelote.svg'}
+                            alt="Avatar"
+                        />
+                    </div>
+                    <div class="absolute -bottom-1 -right-1 w-8 h-8 bg-[#f9c710] rounded-full border-2 border-white flex items-center justify-center text-sm shadow-lg">
+                        🐾
+                    </div>
+                </div>
 
                 {#if editing}
-                    <div class="w-full max-w-sm mb-4">
-                        <span class="block text-gray-700 text-sm font-bold mb-2">
+                    <div class="w-full mb-5">
+                        <label for="descripcion-textarea" class="block text-sm font-bold text-gray-700 mb-2">
                             Descripción
-                        </span>
+                        </label>
                         <textarea
+                            id="descripcion-textarea"
                             bind:value={editForm.descripcion}
-                            class="shadow-sm appearance-none border rounded-sm w-full py-2 px-3 text-gray-700 leading-tight focus:outline-hidden focus:shadow-outline text-sm md:text-base"
+                            class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl font-medium text-gray-700 focus:outline-hidden focus:border-[#f9c710] transition-all resize-none"
                             rows="4"
+                            placeholder="Cuéntanos sobre ti..."
                         ></textarea>
                     </div>
-                    <div class="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full max-w-sm">
+                    <div class="flex gap-3 w-full">
                         <button
                             onclick={handleSaveProfile}
-                            class="w-full sm:w-auto bg-[#f9c710] text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors text-sm md:text-base"
+                            class="flex-1 py-3 font-black text-sm text-white bg-[#f9c710] rounded-2xl shadow-[0_4px_0_0_#d4a007] hover:shadow-none hover:translate-y-1 active:scale-95 transition-all duration-150"
                         >
                             Guardar
                         </button>
                         <button
                             onclick={() => editing = false}
-                            class="w-full sm:w-auto bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 transition-colors text-sm md:text-base"
+                            class="flex-1 py-3 font-bold text-sm text-gray-600 bg-gray-100 rounded-2xl hover:bg-gray-200 transition-all active:scale-95"
                         >
                             Cancelar
                         </button>
                     </div>
                 {:else}
-                    <h2 class="text-xl md:text-2xl font-bold mb-2 text-center">{user?.apodo || ''}</h2>
-                    <p class="text-gray-600 mb-4 text-sm md:text-base text-center px-4">{personalization?.descripcion || 'Sin descripción'}</p>
+                    <h2 class="text-2xl md:text-3xl font-black text-gray-900 mb-1">{user?.apodo || ''}</h2>
+                    <p class="text-gray-500 font-medium text-center max-w-sm">{personalization?.descripcion || 'Sin descripción'}</p>
                     <button
                         onclick={() => editing = true}
-                        class="w-full sm:w-auto bg-[#f9c710] text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors mb-4 text-sm md:text-base"
+                        class="mt-6 py-3 px-8 font-black text-sm text-white bg-[#f9c710] rounded-2xl shadow-[0_4px_0_0_#d4a007] hover:shadow-none hover:translate-y-1 active:scale-95 transition-all duration-150"
                     >
                         Editar Perfil
                     </button>
                 {/if}
             </div>
 
-            <div class="flex justify-center">
+            <div class="flex justify-center pt-4 border-t-2 border-gray-100">
                 <form method="POST" action="/logout">
                     <Boton title="Cerrar Sesión" color="warn" />
                 </form>

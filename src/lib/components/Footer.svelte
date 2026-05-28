@@ -1,4 +1,3 @@
-<!-- Footer.svelte -->
 <script>
     const sections = [
         {
@@ -13,37 +12,44 @@
             title: "Legal",
             links: [
                 { text: "Términos y condiciones", href: "/terms" },
-                { text: "Licencia", href: "/terms" }
+                { text: "Licencia GPL v3", href: "/terms" }
             ]
         }
     ];
 </script>
 
-<footer class="bg-gray-900 text-white py-12 mt-auto">
+<footer class="bg-gray-900 text-white py-16 mt-auto">
     <div class="container mx-auto px-6">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <!-- Logo y descripción -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-10">
+            <!-- Logo section -->
             <div class="col-span-2 md:col-span-1">
-                <a href="/" class="text-2xl font-bold text-[#f9c710]">PARDALIS</a>
-                <p class="mt-4 text-gray-400 text-sm">
-                    Una plataforma educativa open source para el aprendizaje del inglés.
+                <a href="/" class="text-3xl font-black tracking-tighter text-[#f9c710] hover:opacity-80 transition-opacity">
+                    PARDALIS<span class="text-blue-400">.</span>
+                </a>
+                <p class="mt-4 text-gray-400 text-sm leading-relaxed max-w-xs">
+                    Una plataforma educativa open source para que los niños mexicanos aprendan inglés jugando.
                 </p>
+                <div class="mt-6 flex gap-3">
+                    <span class="text-2xl hover:scale-110 transition-transform cursor-default" title="Hecho en México">🇲🇽</span>
+                    <span class="text-2xl hover:scale-110 transition-transform cursor-default" title="Open Source">🔓</span>
+                    <span class="text-2xl hover:scale-110 transition-transform cursor-default" title="Educación">📚</span>
+                </div>
             </div>
 
-            <!-- Secciones de enlaces -->
+            <!-- Link sections -->
             {#each sections as section}
                 <div>
-                    <h3 class="text-lg font-semibold mb-4 text-[#f9c710]">
+                    <h3 class="text-lg font-black mb-5 text-[#f9c710] tracking-wide">
                         {section.title}
                     </h3>
-                    <ul class="space-y-2">
+                    <ul class="space-y-3">
                         {#each section.links as link}
                             <li>
                                 <a
-                                        href={link.href}
-                                        class="text-gray-400 hover:text-white transition-colors duration-200 text-sm"
-                                        target={link.href.startsWith('http') ? '_blank' : '_self'}
-                                        rel={link.href.startsWith('http') ? 'noopener noreferrer' : ''}
+                                    href={link.href}
+                                    class="text-gray-400 hover:text-white transition-all duration-200 text-sm font-medium hover:translate-x-1 inline-block"
+                                    target={link.href.startsWith('http') ? '_blank' : '_self'}
+                                    rel={link.href.startsWith('http') ? 'noopener noreferrer' : ''}
                                 >
                                     {link.text}
                                 </a>
@@ -54,21 +60,24 @@
             {/each}
         </div>
 
-        <!-- Línea divisoria -->
-        <div class="border-t border-gray-800 mt-8 pt-8">
-            <div class="flex flex-col md:flex-row justify-between items-center">
+        <!-- Bottom bar -->
+        <div class="border-t border-gray-800 mt-12 pt-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                 <p class="text-gray-400 text-sm">
-                    © {new Date().getFullYear()} Pardalis. Desarrollado con 💛 por el equipo Ponchoides.
+                    © {new Date().getFullYear()} Pardalis. Hecho con 💛 por el equipo Ponchoides.
                 </p>
-                <div class="mt-4 md:mt-0">
+                <div class="flex items-center gap-6">
                     <a
-                            href="https://github.com/PardalisEdu/PardalisWebSite"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="text-gray-400 hover:text-white transition-colors duration-200 text-sm"
+                        href="https://github.com/PardalisEdu/PardalisWebSite"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-gray-400 hover:text-white transition-colors duration-200 text-sm font-medium flex items-center gap-1.5"
                     >
-                        🔓 Open Source
+                        <span>🐙</span>
+                        GitHub
                     </a>
+                    <span class="text-gray-700 text-sm">|</span>
+                    <span class="text-gray-500 text-sm">v1.0.0</span>
                 </div>
             </div>
         </div>

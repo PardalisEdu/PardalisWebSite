@@ -1,9 +1,7 @@
-<!-- Register.svelte -->
 <script lang="ts">
     import { goto } from "$app/navigation";
     import { register } from '$lib/api/auth';
 
-    // Form state
     let formData = $state({
         apodo: '',
         nombre: '',
@@ -65,153 +63,153 @@
     }
 </script>
 
-<div class="min-h-screen bg-yellow-50 flex items-center justify-center p-4">
-    <div class="mt-28 max-w-md w-full space-y-8 bg-white rounded-3xl shadow-xl p-10 relative overflow-hidden my-8">
-        <div class="absolute -top-10 -left-10 w-40 h-40 bg-yellow-200 rounded-full opacity-50"></div>
-        <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-yellow-200 rounded-full opacity-50"></div>
+<div class="min-h-screen bg-[#FFFDF5] flex items-center justify-center p-4">
+    <div class="mt-20 max-w-md w-full bg-white rounded-[3rem] border-4 border-yellow-100 shadow-[0_16px_0_0_#fef08a] p-10 md:p-12 relative overflow-hidden my-8">
+        <div class="absolute -top-16 -left-16 w-48 h-48 bg-yellow-100 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-16 -right-16 w-48 h-48 bg-blue-100 rounded-full blur-3xl"></div>
 
         <div class="relative">
-            <div class="text-center">
-                <h2 class="text-4xl font-bold text-gray-900 mb-2">¡Únete a la aventura!</h2>
-                <img src="img/profiles/ajolote.svg" alt="Logo Pardalis" class="w-24 h-24 mx-auto"/>
-                <p class="mt-2 text-gray-600">Crea tu cuenta y comienza a aprender</p>
+            <div class="text-center mb-8">
+                <div class="w-20 h-20 mx-auto mb-4 bg-yellow-50 rounded-full border-2 border-yellow-200 flex items-center justify-center">
+                    <img src="img/profiles/ajolote.svg" alt="Ajolote" class="w-14 h-14" />
+                </div>
+                <h2 class="text-4xl font-black text-gray-900 mb-2">¡Únete a la aventura!</h2>
+                <p class="text-gray-500 font-medium">Crea tu cuenta y comienza a aprender</p>
             </div>
 
             {#if errorMessage}
-                <div class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-sm relative" role="alert">
-                    <span class="block sm:inline">{errorMessage}</span>
+                <div class="mb-6 bg-red-50 border-2 border-red-200 text-red-700 px-5 py-3 rounded-xl font-medium" role="alert">
+                    {errorMessage}
                 </div>
             {/if}
 
-            <form onsubmit={handleSubmit} class="mt-8 space-y-6">
-                <div class="space-y-4">
-                    <!-- Campo de apodo -->
-                    <div class="relative">
-                        <label class="block text-sm font-medium text-gray-700" for="apodo">
-                            Apodo
-                        </label>
-                        <div class="flex gap-2">
-                            <input
-                                    type="text"
-                                    id="apodo"
-                                    name="apodo"
-                                    required
-                                    bind:value={formData.apodo}
-                                    class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-hidden focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                                    placeholder="TuApodoGenial123"
-                            />
-                            <button
-                                    type="button"
-                                    onclick={generarApodoAleatorio}
-                                    class="mt-1 px-3 py-2 bg-[#f9c710] text-black rounded-lg hover:bg-yellow-500 transition-colors"
-                                    title="Generar apodo aleatorio"
-                            >
-                                🎲
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Campo de nombre -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700" for="nombre">
-                            Nombre completo
-                        </label>
+            <form onsubmit={handleSubmit} class="space-y-5">
+                <!-- Nickname -->
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1.5" for="apodo">
+                        Apodo
+                    </label>
+                    <div class="flex gap-2">
                         <input
-                                type="text"
-                                id="nombre"
-                                name="nombre"
-                                required
-                                bind:value={formData.nombre}
-                                class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-hidden focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                                placeholder="Tu nombre completo"
+                            type="text"
+                            id="apodo"
+                            name="apodo"
+                            required
+                            bind:value={formData.apodo}
+                            class="block w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl text-sm font-medium placeholder:text-gray-400 focus:outline-hidden focus:border-[#f9c710] focus:bg-white transition-all"
+                            placeholder="TuApodoGenial123"
                         />
+                        <button
+                            type="button"
+                            onclick={generarApodoAleatorio}
+                            class="shrink-0 px-4 py-3 bg-[#f9c710] text-black rounded-xl font-bold hover:bg-yellow-500 transition-colors shadow-[0_3px_0_0_#d4a007] hover:shadow-none hover:translate-y-0.5 active:scale-95"
+                            title="Generar apodo aleatorio"
+                        >
+                            🎲
+                        </button>
                     </div>
-
-                    <!-- Campo de correo -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700" for="correo">
-                            Correo electrónico
-                        </label>
-                        <input
-                                type="email"
-                                id="correo"
-                                name="correo"
-                                required
-                                bind:value={formData.correo}
-                                class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-hidden focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                                placeholder="nombre@ejemplo.com"
-                                autocomplete="email"
-                        />
-                    </div>
-
-                    <!-- Campo de contraseña -->
-                    <div class="relative">
-                        <label class="block text-sm font-medium text-gray-700" for="contrasenna">
-                            Contraseña
-                        </label>
-                        <div class="relative">
-                            <input
-                                    type={showPassword ? "text" : "password"}
-                                    id="contrasenna"
-                                    name="contrasenna"
-                                    required
-                                    bind:value={formData.contrasenna}
-                                    class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-hidden focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                                    placeholder="********"
-                                    autocomplete="new-password"
-                            />
-                            <button
-                                    type="button"
-                                    onclick={() => togglePassword('password')}
-                                    class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                            >
-                                {showPassword ? "🙈" : "👀"}
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Campo de confirmar contraseña -->
-                    <div class="relative">
-                        <label class="block text-sm font-medium text-gray-700" for="confirmarContrasenna">
-                            Confirmar contraseña
-                        </label>
-                        <div class="relative">
-                            <input
-                                    type={showConfirmPassword ? "text" : "password"}
-                                    id="confirmarContrasenna"
-                                    name="confirmarContrasenna"
-                                    required
-                                    bind:value={formData.confirmarContrasenna}
-                                    class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-hidden focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                                    placeholder="********"
-                                    autocomplete="new-password"
-                            />
-                            <button
-                                    type="button"
-                                    onclick={() => togglePassword('confirm')}
-                                    class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                            >
-                                {showConfirmPassword ? "🙈" : "👀"}
-                            </button>
-                        </div>
-                    </div>
-
-                    {#if passwordError}
-                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-sm relative">
-                            Las contraseñas no coinciden
-                        </div>
-                    {/if}
                 </div>
 
+                <!-- Name -->
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1.5" for="nombre">
+                        Nombre completo
+                    </label>
+                    <input
+                        type="text"
+                        id="nombre"
+                        name="nombre"
+                        required
+                        bind:value={formData.nombre}
+                        class="block w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl text-sm font-medium placeholder:text-gray-400 focus:outline-hidden focus:border-[#f9c710] focus:bg-white transition-all"
+                        placeholder="Tu nombre completo"
+                    />
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1.5" for="correo">
+                        Correo electrónico
+                    </label>
+                    <input
+                        type="email"
+                        id="correo"
+                        name="correo"
+                        required
+                        bind:value={formData.correo}
+                        class="block w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl text-sm font-medium placeholder:text-gray-400 focus:outline-hidden focus:border-[#f9c710] focus:bg-white transition-all"
+                        placeholder="nombre@ejemplo.com"
+                        autocomplete="email"
+                    />
+                </div>
+
+                <!-- Password -->
+                <div class="relative">
+                    <label class="block text-sm font-bold text-gray-700 mb-1.5" for="contrasenna">
+                        Contraseña
+                    </label>
+                    <div class="relative">
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            id="contrasenna"
+                            name="contrasenna"
+                            required
+                            bind:value={formData.contrasenna}
+                            class="block w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl text-sm font-medium placeholder:text-gray-400 focus:outline-hidden focus:border-[#f9c710] focus:bg-white transition-all pr-12"
+                            placeholder="********"
+                            autocomplete="new-password"
+                        />
+                        <button
+                            type="button"
+                            onclick={() => togglePassword('password')}
+                            class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors text-xl"
+                        >
+                            {showPassword ? "🙈" : "👀"}
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Confirm password -->
+                <div class="relative">
+                    <label class="block text-sm font-bold text-gray-700 mb-1.5" for="confirmarContrasenna">
+                        Confirmar contraseña
+                    </label>
+                    <div class="relative">
+                        <input
+                            type={showConfirmPassword ? "text" : "password"}
+                            id="confirmarContrasenna"
+                            name="confirmarContrasenna"
+                            required
+                            bind:value={formData.confirmarContrasenna}
+                            class="block w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl text-sm font-medium placeholder:text-gray-400 focus:outline-hidden focus:border-[#f9c710] focus:bg-white transition-all pr-12"
+                            placeholder="********"
+                            autocomplete="new-password"
+                        />
+                        <button
+                            type="button"
+                            onclick={() => togglePassword('confirm')}
+                            class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors text-xl"
+                        >
+                            {showConfirmPassword ? "🙈" : "👀"}
+                        </button>
+                    </div>
+                </div>
+
+                {#if passwordError}
+                    <div class="bg-red-50 border-2 border-red-200 text-red-700 px-5 py-3 rounded-xl font-medium">
+                        Las contraseñas no coinciden
+                    </div>
+                {/if}
+
                 <button
-                        type="submit"
-                        disabled={loading || passwordError}
-                        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-xs text-sm font-medium text-black bg-[#f9c710] hover:bg-yellow-500 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 transition-colors duration-200 disabled:opacity-50"
+                    type="submit"
+                    disabled={loading || passwordError}
+                    class="w-full py-4 font-black text-lg text-white bg-[#f9c710] rounded-2xl shadow-[0_6px_0_0_#d4a007] hover:shadow-none hover:translate-y-1.5 active:scale-95 transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     {#if loading}
-                        <span class="flex items-center">
+                        <span class="flex items-center justify-center gap-2">
                             Registrando...
-                            <span class="ml-2 animate-spin">🌟</span>
+                            <span class="animate-spin">🌟</span>
                         </span>
                     {:else}
                         ¡Crear cuenta!
@@ -219,9 +217,9 @@
                 </button>
             </form>
 
-            <p class="mt-6 text-center text-sm text-gray-600">
+            <p class="mt-8 text-center text-gray-500 font-medium">
                 ¿Ya tienes una cuenta?{' '}
-                <a href="/login" class="font-medium text-[#f9c710] hover:text-yellow-500">
+                <a href="/login" class="text-[#f9c710] hover:text-yellow-500 transition-colors font-black">
                     ¡Inicia sesión aquí!
                 </a>
             </p>
