@@ -10,6 +10,31 @@
   <priority>1.00</priority>
 </url>
 <url>
+  <loc>https://pardalis.mx/como-funciona</loc>
+  <lastmod>2026-05-28T00:00:00+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://pardalis.mx/metodologia</loc>
+  <lastmod>2026-05-28T00:00:00+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://pardalis.mx/para-maestros</loc>
+  <lastmod>2026-05-28T00:00:00+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://pardalis.mx/para-padres</loc>
+  <lastmod>2026-05-28T00:00:00+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://pardalis.mx/faq</loc>
+  <lastmod>2026-05-28T00:00:00+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
   <loc>https://pardalis.mx/adventure</loc>
   <lastmod>2024-12-17T09:27:15+00:00</lastmod>
   <priority>0.80</priority>

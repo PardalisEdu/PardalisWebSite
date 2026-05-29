@@ -33,6 +33,12 @@
     ];
 </script>
 
+<svelte:head>
+    <title>Sobre Nosotros | Pardalis - Educación Abierta</title>
+    <meta name="description" content="Conoce la misión, visión y el equipo detrás de Pardalis, la plataforma open source para aprender inglés en México." />
+    <meta name="keywords" content="Pardalis equipo, misión Pardalis, inglés open source México" />
+</svelte:head>
+
 <div class="min-h-screen bg-[#FFFDF5] font-sans">
     <!-- Hero -->
     <div class="relative overflow-hidden bg-linear-to-br from-[#f9c710] via-[#f9c710] to-yellow-300 pt-28 pb-20 md:pt-36 md:pb-28">

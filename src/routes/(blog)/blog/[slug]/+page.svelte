@@ -5,6 +5,19 @@
 
     let blog = $derived(data.blog);
 
+    const jsonLd = $derived({
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": blog.titulo,
+        "image": blog.imagen_portada ? [`https://pardalis.mx${blog.imagen_portada}`] : ["https://pardalis.mx/img/og-image.png"],
+        "datePublished": blog.fecha_publicacion,
+        "author": [{
+            "@type": "Person",
+            "name": blog.autor_apodo
+        }],
+        "description": blog.extracto
+    });
+
     async function handleShare() {
         if (navigator.share) {
             try {
@@ -19,6 +32,22 @@
         }
     }
 </script>
+
+<svelte:head>
+    <title>{blog.titulo} | Pardalis Blog</title>
+    <meta name="description" content={blog.extracto} />
+    <meta property="og:title" content={blog.titulo} />
+    <meta property="og:description" content={blog.extracto} />
+    {#if blog.imagen_portada}
+        <meta property="og:image" content="https://pardalis.mx{blog.imagen_portada}" />
+        <meta name="twitter:image" content="https://pardalis.mx{blog.imagen_portada}" />
+    {/if}
+    <meta property="og:type" content="article" />
+    <meta name="keywords" content={blog.tags.join(', ')} />
+    <script type="application/ld+json">
+        {JSON.stringify(jsonLd)}
+    </script>
+</svelte:head>
 
 <div class="min-h-screen bg-[#FFFDF5]">
     <!-- Hero -->

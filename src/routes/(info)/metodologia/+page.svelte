@@ -50,6 +50,12 @@
   ];
 </script>
 
+<svelte:head>
+    <title>Metodología Educativa | Pardalis - Contexto Mexicano</title>
+    <meta name="description" content="Nuestra metodología se basa en la hiper-contextualización local y el aprendizaje basado en el juego para enseñar inglés de forma efectiva en México." />
+    <meta name="keywords" content="metodología Pardalis, aprendizaje orgánico inglés, enseñanza inglés México" />
+</svelte:head>
+
 <div class="min-h-screen bg-[#FFFDF5]">
   <!-- Hero -->
   <div class="relative overflow-hidden bg-linear-to-br from-[#f9c710] via-[#f9c710] to-yellow-300 pt-28 pb-20 md:pt-36 md:pb-28">

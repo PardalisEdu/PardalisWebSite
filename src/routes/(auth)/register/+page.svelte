@@ -63,6 +63,11 @@
     }
 </script>
 
+<svelte:head>
+    <title>Registro | Únete a Pardalis y Aprende Inglés</title>
+    <meta name="description" content="Crea tu cuenta gratuita en Pardalis y comienza a aprender inglés con mini-juegos divertidos y contexto mexicano." />
+</svelte:head>
+
 <div class="min-h-screen bg-[#FFFDF5] flex items-center justify-center p-4">
     <div class="mt-20 max-w-md w-full bg-white rounded-[3rem] border-4 border-yellow-100 shadow-[0_16px_0_0_#fef08a] p-10 md:p-12 relative overflow-hidden my-8">
         <div class="absolute -top-16 -left-16 w-48 h-48 bg-yellow-100 rounded-full blur-3xl"></div>

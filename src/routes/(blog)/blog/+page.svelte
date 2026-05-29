@@ -44,6 +44,12 @@
     }
 </script>
 
+<svelte:head>
+    <title>Blog | Pardalis - Novedades y Consejos de Inglés</title>
+    <meta name="description" content="Lee las últimas noticias, consejos educativos y actualizaciones de Pardalis. Recursos para que los niños aprendan inglés con contexto mexicano." />
+    <meta name="keywords" content="blog educativo, aprender inglés niños, recursos maestros inglés México" />
+</svelte:head>
+
 <div class="min-h-screen bg-[#FFFDF5]">
     <!-- Header -->
     <div class="border-b border-gray-100 bg-white">

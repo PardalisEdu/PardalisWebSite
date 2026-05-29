@@ -37,6 +37,12 @@
   ];
 </script>
 
+<svelte:head>
+    <title>Para Maestros | Pardalis - Aliado en el Aula</title>
+    <meta name="description" content="Pardalis es el aliado perfecto para tus clases de inglés. Complementa tu aula con misiones divertidas y situaciones reales para tus alumnos." />
+    <meta name="keywords" content="inglés para maestros primaria, recursos educativos inglés México, Pardalis maestros" />
+</svelte:head>
+
 <div class="min-h-screen bg-[#FFFDF5]">
   <!-- Hero -->
   <div class="relative overflow-hidden bg-linear-to-br from-[#f9c710] via-[#f9c710] to-yellow-300 pt-28 pb-20 md:pt-36 md:pb-28">

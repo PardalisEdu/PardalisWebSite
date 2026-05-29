@@ -52,6 +52,12 @@
   ];
 </script>
 
+<svelte:head>
+    <title>¿Cómo funciona? | Pardalis - Aprende Jugando</title>
+    <meta name="description" content="Descubre cómo Pardalis usa mini-juegos y situaciones reales mexicanas para enseñar inglés a niños de primaria. ¡Natural y divertido!" />
+    <meta name="keywords" content="como funciona Pardalis, aprender inglés jugando, inglés niños México" />
+</svelte:head>
+
 <div class="min-h-screen bg-[#FFFDF5]">
   <!-- Hero -->
   <div class="relative overflow-hidden bg-linear-to-br from-[#f9c710] via-[#f9c710] to-yellow-300 pt-28 pb-20 md:pt-36 md:pb-28">

@@ -54,8 +54,16 @@
 	];
 </script>
 
+<svelte:head>
+    <title>Pardalis - Inglés para niños muy a la mexicana</title>
+    <meta name="description" content="Pardalis es la plataforma educativa gratuita diseñada para niños de primaria en México. Aprende inglés jugando con situaciones reales de nuestra cultura." />
+    <meta property="og:title" content="Pardalis - Inglés para niños muy a la mexicana" />
+    <meta property="og:description" content="La forma más divertida de aprender inglés para niños mexicanos. ¡Gratis, interactivo y contextualizado!" />
+    <meta name="keywords" content="inglés para niños, aprender inglés primaria, educación México, juegos inglés, Pardalis, inglés divertido" />
+</svelte:head>
+
 <!-- ────────────── HERO ────────────── -->
-<div class="relative min-h-screen flex flex-col overflow-hidden bg-[#FFFDF5]">
+<div class="relative min-h-screen flex flex-col overflow-hidden bg-cream pt-28">
 	<div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
 		<svg width="100%" height="100%" class="opacity-15">
 			<pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">

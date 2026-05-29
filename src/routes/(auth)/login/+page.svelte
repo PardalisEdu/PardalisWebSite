@@ -10,6 +10,11 @@
     }
 </script>
 
+<svelte:head>
+    <title>Iniciar Sesión | Pardalis - Aprende Inglés Jugando</title>
+    <meta name="description" content="Inicia sesión en Pardalis para continuar tu aventura aprendiendo inglés con situaciones reales de México." />
+</svelte:head>
+
 <div class="min-h-screen bg-[#FFFDF5] flex items-center justify-center p-4">
     <div class="max-w-md w-full bg-white rounded-[3rem] border-4 border-yellow-100 shadow-[0_16px_0_0_#fef08a] p-10 md:p-12 relative overflow-hidden">
         <!-- Decorations -->

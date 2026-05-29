@@ -7,6 +7,12 @@
   let hoveredGame: Game | null = $state(null);
 </script>
 
+<svelte:head>
+    <title>Juegos para Aprender Inglés | Pardalis</title>
+    <meta name="description" content="Explora nuestra colección de mini-juegos educativos con temática mexicana. Aprende vocabulario y frases en inglés divirtiéndote." />
+    <meta name="keywords" content="juegos inglés niños, mini juegos educativos, aprender inglés jugando México" />
+</svelte:head>
+
 <div class="min-h-screen bg-[#FFFDF5]">
   <!-- Hero -->
   <div class="relative overflow-hidden bg-linear-to-br from-[#f9c710] via-[#f9c710] to-yellow-300 pt-28 pb-20 md:pt-36 md:pb-28">

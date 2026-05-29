@@ -6,5 +6,4 @@ Sitemap: https://pardalis.mx/sitemap.xml
 
 # Rutas que no queremos que se indexen
 Disallow: /perfil/
-Disallow: /adventure/
 Disallow: /building/

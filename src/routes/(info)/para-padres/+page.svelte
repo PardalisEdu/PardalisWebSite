@@ -48,6 +48,12 @@
   ];
 </script>
 
+<svelte:head>
+    <title>Guía para Padres | Pardalis - Aprendizaje Seguro</title>
+    <meta name="description" content="Todo lo que los padres necesitan saber sobre Pardalis: seguridad, privacidad y cómo ayudar a sus hijos a aprender inglés jugando." />
+    <meta name="keywords" content="inglés para hijos, seguridad educativa online, Pardalis padres" />
+</svelte:head>
+
 <div class="min-h-screen bg-[#FFFDF5]">
   <!-- Hero -->
   <div class="relative overflow-hidden bg-linear-to-br from-[#f9c710] via-[#f9c710] to-yellow-300 pt-28 pb-20 md:pt-36 md:pb-28">
