@@ -1,282 +1,300 @@
 <script lang="ts">
-    import Boton from "$components/Boton.svelte";
-    import {onMount} from 'svelte';
+    import { onMount } from 'svelte';
     import { spring } from 'svelte/motion';
-	import { fly, fade } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
 
 	let clickCount = $state(0);
 	let isHovered = $state(false);
 
-	const logoScale = spring(1, {
-		stiffness: 0.25,
-		damping: 0.3
-	});
-
-	const logoRotate = spring(0, {
-		stiffness: 0.25,
-		damping: 0.3
-	});
+	const logoScale = spring(1, { stiffness: 0.25, damping: 0.3 });
+	const logoRotate = spring(0, { stiffness: 0.25, damping: 0.3 });
 
 	function handleLogoInteraction() {
 		clickCount++;
-		const newScale = 1.4 + (clickCount * 0.04 % 0.2); 
-		const randomRotate = Math.random() * 40 - 20;
-
+		const newScale = 1.4 + (clickCount * 0.04 % 0.2);
 		logoScale.set(newScale);
-		logoRotate.set(randomRotate);
-
-		setTimeout(() => {
-			logoScale.set(1);
-			logoRotate.set(0);
-		}, 180); 
+		logoRotate.set(Math.random() * 40 - 20);
+		setTimeout(() => { logoScale.set(1); logoRotate.set(0); }, 180);
 	}
 
 	function handleKeyDown(event: KeyboardEvent) {
-		if (event.key === 'Enter' || event.key === ' ') {
-			handleLogoInteraction();
-		}
+		if (event.key === 'Enter' || event.key === ' ') handleLogoInteraction();
 	}
 
-    const logoMotion = spring({scale: 0, rotate: 0}, {
-        stiffness: 0.1,
-        damping: 0.2
-    });
+	const logoMotion = spring({ scale: 0, rotate: 0 }, { stiffness: 0.1, damping: 0.2 });
 
-    onMount(() => {
-        logoMotion.set({scale: 1, rotate: 360});
-    });
+	onMount(() => { logoMotion.set({ scale: 1, rotate: 360 }); });
 
-    const opinions = [
-        {
-            avatar: "img/profiles/ocelote.svg",
-            name: "Poncho",
-            comment: "Me sobreexplotaron laboralmente, pero aprendí inglés"
-        },
-        {
-            avatar: "img/profiles/ajolote.svg",
-            name: "Isaac",
-            comment: "Yo no hice nada. 10/10"
-        },
-        {
-            avatar: "img/profiles/xinxin.svg",
-            name: "Oscar",
-            comment: "Poncho entregaste un mes tarde, pero aprendí inglés 👍"
-        }
-    ];
+	const steps = [
+		{ num: "1", icon: "🎮", title: "Juega", desc: "Tu hijo explorará un vecindario mexicano lleno de mini-juegos — la tortillería, el mercado, el tianguis." },
+		{ num: "2", icon: "🗣️", title: "Aprende", desc: "Cada misión le enseña vocabulario y frases en contexto. Sin memorizar listas, solo jugando." },
+		{ num: "3", icon: "🏆", title: "Avanza", desc: "Gana recompensas, desbloquea nuevas locaciones y construye confianza con el idioma." },
+	];
 
+	const features = [
+		{ icon: "🇲🇽", title: "Hiper-mexicano", desc: "Usamos situaciones reales de un niño mexicano. Nada de contextos extraños." },
+		{ icon: "🔓", title: "100% gratis y open source", desc: "Sin anuncios, sin suscripciones. Código abierto (GPL v3). Siempre." },
+		{ icon: "👨‍🏫", title: "Aliado del maestro", desc: "Diseñada para complementar la clase, no para reemplazarla." },
+		{ icon: "🛡️", title: "Seguro para niños", desc: "Sin datos personales sensibles. Sin redes sociales. Sin riesgos." },
+	];
+
+	const testimonials = [
+		{ avatar: "img/profiles/ocelote.svg", name: "Poncho", role: "Arquitecto", comment: "Me sobreexplotaron laboralmente, pero aprendí inglés" },
+		{ avatar: "img/profiles/ajolote.svg", name: "Isaac", role: "Manager", comment: "Yo no hice nada. 10/10" },
+		{ avatar: "img/profiles/xinxin.svg", name: "Oscar", role: "Dev", comment: "Poncho entregó un mes tarde, pero aprendí inglés 👍" },
+	];
+
+	const games = [
+		{ emoji: "🃏", name: "Flashcards", color: "from-blue-400 to-blue-600" },
+		{ emoji: "🧠", name: "Memory Match", color: "from-pink-400 to-pink-600" },
+		{ emoji: "🔤", name: "Word Scramble", color: "from-purple-400 to-purple-600" },
+		{ emoji: "🌮", name: "El Güero Tacos", color: "from-orange-400 to-orange-600" },
+		{ emoji: "🔄", name: "Tortilla Quest", color: "from-yellow-400 to-yellow-600" },
+		{ emoji: "🏓", name: "Pardalis Pong", color: "from-red-400 to-red-600" },
+	];
 </script>
 
-<div class="relative min-h-screen flex flex-col overflow-hidden bg-[#FFFDF5] font-sans">
-	
-	<!-- Background layer -->
+<!-- ────────────── HERO ────────────── -->
+<div class="relative min-h-screen flex flex-col overflow-hidden bg-[#FFFDF5]">
 	<div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-		<svg width="100%" height="100%" class="opacity-20">
+		<svg width="100%" height="100%" class="opacity-15">
 			<pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
 				<circle cx="2" cy="2" r="2" fill="#f9c710" />
 			</pattern>
 			<rect width="100%" height="100%" fill="url(#dots)" />
 		</svg>
-
 		<div class="absolute -top-20 -left-20 w-96 h-96 bg-yellow-200/40 rounded-full blur-3xl animate-pulse-slow"></div>
 		<div class="absolute top-1/3 -right-20 w-80 h-80 bg-orange-100/50 rounded-full blur-3xl animate-float"></div>
 		<div class="absolute -bottom-10 left-1/3 w-64 h-64 bg-blue-100/30 rounded-full blur-2xl"></div>
 	</div>
 
-	<!-- Hero -->
-	<main class="relative z-10 grid grid-cols-1 md:grid-cols-2 flex-1 max-w-7xl mx-auto w-full p-6 md:p-12 items-center">
-		
-		<!-- Left side -->
-		<div 
-			in:fly={{ x: -50, duration: 800, delay: 200 }}
-			class="flex flex-col space-y-8 text-center md:text-left"
-		>
+	<main class="relative z-10 grid grid-cols-1 md:grid-cols-2 flex-1 max-w-7xl mx-auto w-full p-6 md:p-12 items-center gap-8">
+		<div in:fly={{ x: -50, duration: 800, delay: 200 }} class="flex flex-col space-y-8 text-center md:text-left">
 			<header>
 				<div class="inline-flex items-center gap-2 bg-yellow-100 border border-yellow-200 text-yellow-800 px-4 py-1.5 rounded-full font-bold text-sm mb-6 shadow-[0_2px_0_0_#fde047]">
 					<span>🇲🇽</span>
-					Inglés muy a la mexicana
+					Inglés muy a la mexicana — 100% gratuito
 				</div>
-				<h1 class="text-6xl md:text-8xl font-black text-gray-900 leading-none">
-					¡Hola <span class="text-[#f9c710] inline-block hover:rotate-3 transition-transform cursor-default">Amigo</span>!
+				<h1 class="text-5xl md:text-7xl font-black text-gray-900 leading-tight tracking-tight">
+					La forma más <span class="text-[#f9c710]">divertida</span> de aprender inglés para niños mexicanos
 				</h1>
-				<p class="mt-6 text-xl md:text-2xl text-gray-600 font-medium max-w-md mx-auto md:mx-0">
-					Aprende inglés de forma <span class="text-blue-500 font-bold">divertida</span> con Pardalis.
+				<p class="mt-6 text-lg md:text-xl text-gray-500 font-medium max-w-xl leading-relaxed">
+					Pardalis es una plataforma educativa interactiva que usa situaciones cotidianas de México — ir por las tortillas, el mercado, el tianguis — para que los niños aprendan inglés jugando.
 				</p>
 			</header>
 
-			<div class="flex flex-col items-center md:items-start gap-8">
-				<a
-					href="/login"
-					class="group relative inline-flex items-center justify-center px-12 py-5 font-black text-2xl text-white bg-[#f9c710] rounded-3xl 
-                    shadow-[0_10px_0_0_#d4a007] hover:shadow-[0_4px_0_0_#d4a007] hover:translate-y-1.5 transition-all duration-150 active:scale-95"
-				>
-					Inicia Sesión
+			<div class="flex flex-col sm:flex-row items-center md:items-start gap-4">
+				<a href="/register"
+					class="inline-flex items-center justify-center px-10 py-4 font-black text-lg text-white bg-[#f9c710] rounded-2xl shadow-[0_6px_0_0_#d4a007] hover:shadow-none hover:translate-y-1.5 active:scale-95 transition-all duration-150">
+					Comenzar ahora
 				</a>
+				<a href="/como-funciona"
+					class="inline-flex items-center justify-center px-10 py-4 font-bold text-lg text-gray-600 rounded-2xl border-2 border-gray-200 hover:border-gray-300 hover:text-gray-900 transition-all duration-150 active:scale-95">
+					Conoce más
+				</a>
+			</div>
 
-				<div class="space-y-2">
-					<p class="text-gray-400 font-bold uppercase tracking-wider text-sm">¿Eres nuevo aquí?</p>
-					<a
-						href="/register"
-						class="text-4xl md:text-5xl font-black text-[#f9c710] hover:text-yellow-500 transition-colors 
-                        underline decoration-10 decoration-yellow-200 underline-offset-8 hover:decoration-yellow-400"
-					>
-						¡Regístrate!
-					</a>
-				</div>
+			<div class="flex flex-wrap items-center justify-center md:justify-start gap-x-6 gap-y-2 text-sm font-medium text-gray-400 pt-2">
+				<span>✅ Gratuito</span>
+				<span>🔓 Open Source</span>
+				<span>🇲🇽 Hecho en México</span>
+				<span>👶 Para niños de 6-10 años</span>
 			</div>
 		</div>
 
-		<!-- Right side - logo -->
+		<!-- Logo interactivo -->
 		<div class="relative flex justify-center items-center mt-12 md:mt-0">
 			<div class="absolute w-64 h-64 md:w-125 md:h-125 bg-yellow-400/10 rounded-full blur-3xl animate-pulse-slow"></div>
-
 			<button
 				onclick={handleLogoInteraction}
 				onkeydown={handleKeyDown}
 				onmouseenter={() => (isHovered = true)}
 				onmouseleave={() => (isHovered = false)}
-				class="relative z-20 cursor-pointer focus:outline-hidden transition-filter duration-300"
+				class="relative z-20 cursor-pointer focus:outline-hidden"
 				style="transform: scale({$logoScale}) rotate({$logoRotate}deg); filter: drop-shadow(0 20px 30px rgba(249, 199, 16, 0.2));"
 				aria-label="Interactuar con Pardalis"
 			>
-				<img
-					src="favicon.svg"
-					alt="Logo Pardalis"
-					class="w-64 h-64 md:w-120 md:h-120 object-contain"
-				/>
-
+				<img src="favicon.svg" alt="Logo Pardalis" class="w-64 h-64 md:w-120 md:h-120 object-contain" />
 				{#if isHovered}
-					<div 
-						transition:fade={{ duration: 200 }}
-						class="absolute -top-10 -right-4 bg-white px-4 py-2 rounded-2xl shadow-xl border-2 border-yellow-100 font-bold text-gray-700 whitespace-nowrap"
-					>
+					<div transition:fade={{ duration: 200 }}
+						class="absolute -top-10 -right-4 bg-white px-4 py-2 rounded-2xl shadow-xl border-2 border-yellow-100 font-bold text-gray-700 whitespace-nowrap">
 						¡Hazme click! ✨
 					</div>
 				{/if}
 			</button>
-
 			<div class="absolute bottom-0 w-48 h-6 bg-gray-900/5 blur-xl rounded-[100%]"></div>
 		</div>
 	</main>
 </div>
 
-<!-- Why Pardalis section -->
-<div class="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#FFFDF5] font-sans py-20">
-	<div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-		<svg width="100%" height="100%" class="opacity-20">
-			<pattern id="dots-why" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
-				<circle cx="2" cy="2" r="2" fill="#f9c710" />
-			</pattern>
-			<rect width="100%" height="100%" fill="url(#dots-why)" />
-		</svg>
-
-		<div class="absolute top-10 left-10 w-80 h-80 bg-blue-100/40 rounded-full blur-3xl animate-pulse-slow"></div>
-		<div class="absolute bottom-20 right-10 w-96 h-96 bg-yellow-200/30 rounded-full blur-3xl"></div>
-		<div class="absolute top-1/2 left-1/3 w-72 h-72 bg-green-100/30 rounded-full blur-2xl animate-pulse-slow"></div>
+<!-- ────────────── TRUST BAR ────────────── -->
+<div class="bg-white border-y border-gray-100 py-6">
+	<div class="max-w-7xl mx-auto px-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-3 text-sm text-gray-400 font-medium">
+		<span class="text-gray-800 font-black text-xs uppercase tracking-widest">Trusted by</span>
+		<span>🏫 Estudiantes</span>
+		<span>👨‍🏫 Maestros</span>
+		<span>👨‍👩‍👧‍👦 Padres de familia</span>
+		<span>🌎 Open Source Community</span>
 	</div>
+</div>
 
-	<section class="relative z-10 w-full max-w-7xl mx-auto px-6">
-		
-		<!-- Section header -->
-		<div class="text-center max-w-3xl mx-auto mb-16 md:mb-24">
-			<div class="inline-block mb-4 px-6 py-2 bg-yellow-100 border-2 border-yellow-300 rounded-full shadow-[0_4px_0_0_#fde047] transform -rotate-2">
-				<span class="text-yellow-800 font-bold uppercase tracking-widest text-sm">Conoce el proyecto</span>
+<!-- ────────────── HOW IT WORKS ────────────── -->
+<div class="bg-[#FFFDF5] py-20 md:py-28">
+	<div class="max-w-6xl mx-auto px-6">
+		<div class="text-center max-w-2xl mx-auto mb-16">
+			<div class="inline-flex items-center gap-2 text-xs font-bold text-yellow-700 bg-yellow-50 px-3 py-1.5 rounded-full border border-yellow-200 uppercase tracking-wider mb-5">
+				<span>Cómo funciona</span>
 			</div>
-			<h2 class="text-5xl md:text-7xl font-black text-gray-900 mb-8 leading-tight">
-				¿Por qué elegir <span class="text-[#f9c710] relative inline-block">
-					Pardalis?
-					<svg class="absolute -bottom-2 left-0 w-full h-4 text-yellow-300 -z-10" viewBox="0 0 100 20" preserveAspectRatio="none">
-						<path d="M0 15 Q 50 0 100 15 L 100 20 L 0 20 Z" fill="currentColor"></path>
-					</svg>
-				</span>
+			<h2 class="text-4xl md:text-5xl font-black text-gray-900 leading-tight tracking-tight mb-4">
+				Tres pasos para comenzar
 			</h2>
-			<p class="text-xl md:text-2xl text-gray-600 font-medium leading-relaxed">
-				Sabemos que aprender un nuevo idioma en México puede ser un gran reto. Por eso, nuestro equipo ideó una forma diferente y natural para que los niños dominen el inglés sin aburrirse.
+			<p class="text-lg text-gray-500 leading-relaxed">
+				Sin instalaciones, sin configuraciones complicadas. Solo un navegador y las ganas de jugar.
 			</p>
 		</div>
 
-		<!-- Cards grid -->
-		<div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch">
-			
-			<!-- Card 1: Tool -->
-			<div
-                in:fade={{ duration: 500, delay: 100 }}
-                class="md:col-span-7 group bg-white p-8 md:p-12 rounded-[2.5rem] border-4 border-blue-200 shadow-[0_12px_0_0_#bfdbfe] hover:-translate-y-2 hover:shadow-[0_16px_0_0_#bfdbfe] transition-all duration-300 flex flex-col md:flex-row gap-8 items-center"
-            >
-				<div class="shrink-0 w-32 h-32 bg-blue-100 rounded-4xl border-4 border-blue-300 shadow-[0_6px_0_0_#93c5fd] flex items-center justify-center text-6xl group-hover:rotate-6 group-hover:scale-110 transition-transform">
-					🎒
-				</div>
-				<div>
-					<div class="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-bold mb-3">
-						<span>💡</span> ¿Sabías que...?
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+			{#each steps as step, i}
+				<div in:fade={{ duration: 500, delay: i * 150 }}
+					class="relative bg-white rounded-2xl border border-gray-100 p-8 text-center hover:border-gray-200 hover:shadow-lg transition-all duration-300">
+					<div class="absolute -top-4 -right-4 w-10 h-10 bg-[#f9c710] text-white rounded-xl flex items-center justify-center font-black text-sm shadow-lg">
+						{step.num}
 					</div>
-					<h3 class="text-3xl font-black text-gray-900 mb-4">Tu Mejor Aliado</h3>
-					<p class="text-lg text-gray-600 font-medium leading-relaxed">
-						No venimos a reemplazar las clases de la escuela, ¡sino a darles un súper poder! Somos la herramienta perfecta para que los niños practiquen, refuercen y se acerquen al inglés fuera del aula con mucha seguridad.
-					</p>
-				</div>
-			</div>
-
-			<!-- Card 2: Mexican situations -->
-			<div
-                in:fade={{ duration: 500, delay: 200 }}
-                class="md:col-span-5 group bg-white p-8 md:p-10 rounded-[2.5rem] border-4 border-green-200 shadow-[0_12px_0_0_#bbf7d0] hover:-translate-y-2 hover:shadow-[0_16px_0_0_#bbf7d0] transition-all duration-300 flex flex-col justify-center relative overflow-hidden"
-            >
-				<div class="absolute -right-10 -top-10 text-9xl opacity-10 rotate-12 group-hover:rotate-45 group-hover:scale-125 transition-transform duration-700">🌵</div>
-				
-				<div class="w-24 h-24 mb-6 bg-green-100 rounded-full border-4 border-green-300 shadow-[0_6px_0_0_#86efac] flex items-center justify-center text-5xl group-hover:-translate-y-2 transition-transform">
-					🌮
-				</div>
-				<h3 class="text-3xl font-black text-gray-900 mb-4 z-10">Inglés muy a la Mexicana</h3>
-				<p class="text-lg text-gray-600 font-medium leading-relaxed z-10">
-					¿Cafe o té? ¡Mejor vamos por las tortillas o al tianguis! Enseñamos con situaciones típicas de un niño mexicano para que conecten de inmediato.
-				</p>
-			</div>
-
-			<!-- Card 3: Fun banner -->
-			<div
-                in:fade={{ duration: 500, delay: 300 }}
-                class="md:col-span-12 group bg-[#f9c710] p-8 md:p-14 rounded-[3rem] border-4 border-yellow-500 shadow-[0_16px_0_0_#d4a007] hover:-translate-y-2 hover:shadow-[0_20px_0_0_#d4a007] transition-all duration-300 mt-4 md:mt-8"
-            >
-				<div class="flex flex-col md:flex-row items-center justify-between gap-10">
-					<div class="flex-1 text-center md:text-left">
-						<h3 class="text-4xl md:text-5xl font-black text-white mb-6 drop-shadow-sm">
-							100% Diversión (y Aprendizaje)
-						</h3>
-						<p class="text-xl text-yellow-900 font-bold leading-relaxed max-w-3xl">
-							Cero aburrimiento. No somos la típica plataforma seria; aquí los niños sienten que están en un videojuego interactivo. Queremos que olviden que están aprendiendo inglés de forma "tradicional" y simplemente ¡vengan a jugar!
-						</p>
+					<div class="w-16 h-16 mx-auto mb-5 bg-yellow-50 rounded-2xl border border-yellow-200 flex items-center justify-center text-3xl">
+						{step.icon}
 					</div>
-					<div class="shrink-0 relative">
-						<div class="w-40 h-40 bg-white rounded-[2.5rem] border-4 border-yellow-200 shadow-[0_8px_0_0_#fde047] flex items-center justify-center text-7xl group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-300 z-10 relative">
-							🎮
-						</div>
-						<div class="absolute -top-6 -right-6 text-4xl animate-bounce">✨</div>
-						<div class="absolute -bottom-4 -left-8 text-3xl animate-pulse-slow">⭐</div>
-					</div>
+					<h3 class="text-xl font-bold text-gray-900 mb-3">{step.title}</h3>
+					<p class="text-gray-500 leading-relaxed">{step.desc}</p>
 				</div>
-			</div>
-
+			{/each}
 		</div>
-	</section>
 
-	<!-- Final CTA -->
-	<div class="py-16 px-4 text-center">
-		<h2 class="text-5xl md:text-7xl font-black text-gray-900 mb-8 leading-tight">
-				¿Listo para
-				<span class="text-[#f9c710] relative inline-block">
-					Unirte?
-				</span>
-			</h2>
-		<div class="flex justify-center">
-			<a
-					href="/login"
-					class="group relative inline-flex items-center justify-center gap-3 px-12 py-5 font-black text-2xl text-white bg-[#f9c710] rounded-3xl 
-                    shadow-[0_10px_0_0_#d4a007] hover:shadow-[0_4px_0_0_#d4a007] hover:translate-y-1.5 transition-all duration-150 active:scale-95"
-				>
-					<span>🚀</span>
-					Unirme
-				</a>
+		<div class="text-center mt-12">
+			<a href="/register"
+				class="inline-flex items-center gap-2 font-bold text-[#f9c710] hover:text-yellow-600 transition-colors">
+				Crear cuenta gratuita
+				<span>→</span>
+			</a>
 		</div>
 	</div>
-	
+</div>
+
+<!-- ────────────── FEATURES ────────────── -->
+<div class="bg-white py-20 md:py-28">
+	<div class="max-w-6xl mx-auto px-6">
+		<div class="text-center max-w-2xl mx-auto mb-16">
+			<h2 class="text-4xl md:text-5xl font-black text-gray-900 leading-tight tracking-tight mb-4">
+				¿Por qué <span class="text-[#f9c710]">Pardalis</span>?
+			</h2>
+			<p class="text-lg text-gray-500 leading-relaxed">
+				No somos otra plataforma de inglés. Esto es lo que nos hace diferentes.
+			</p>
+		</div>
+
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+			{#each features as feat, i}
+				<div in:fade={{ duration: 400, delay: i * 100 }}
+					class="bg-[#FFFDF5] rounded-2xl border border-gray-100 p-6 hover:border-yellow-200 hover:shadow-md transition-all duration-300">
+					<div class="w-12 h-12 bg-yellow-50 rounded-xl border border-yellow-200 flex items-center justify-center text-2xl mb-4">
+						{feat.icon}
+					</div>
+					<h3 class="font-bold text-gray-900 mb-2">{feat.title}</h3>
+					<p class="text-sm text-gray-500 leading-relaxed">{feat.desc}</p>
+				</div>
+			{/each}
+		</div>
+	</div>
+</div>
+
+<!-- ────────────── MINI-GAMES PREVIEW ────────────── -->
+<div class="bg-[#FFFDF5] py-20 md:py-28">
+	<div class="max-w-6xl mx-auto px-6">
+		<div class="text-center max-w-2xl mx-auto mb-16">
+			<div class="inline-flex items-center gap-2 text-xs font-bold text-green-700 bg-green-50 px-3 py-1.5 rounded-full border border-green-200 uppercase tracking-wider mb-5">
+				<span>Mini-juegos</span>
+			</div>
+			<h2 class="text-4xl md:text-5xl font-black text-gray-900 leading-tight tracking-tight mb-4">
+				Aprender jugando
+			</h2>
+			<p class="text-lg text-gray-500 leading-relaxed">
+				Cada locación del vecindario tiene su propio mini-juego. Así los niños aprenden sin darse cuenta.
+			</p>
+		</div>
+
+		<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+			{#each games as game, i}
+				<div in:fade={{ duration: 300, delay: i * 80 }}
+					class="group bg-white rounded-2xl border border-gray-100 p-5 text-center hover:border-gray-200 hover:shadow-lg transition-all duration-300">
+					<div class="w-14 h-14 mx-auto mb-3 bg-linear-to-br {game.color} rounded-xl flex items-center justify-center text-2xl shadow-sm group-hover:scale-110 transition-transform">
+						{game.emoji}
+					</div>
+					<p class="text-sm font-bold text-gray-700">{game.name}</p>
+				</div>
+			{/each}
+		</div>
+
+		<div class="text-center mt-12">
+			<a href="/mini-games"
+				class="inline-flex items-center gap-2 font-bold text-gray-500 hover:text-gray-900 transition-colors">
+				Ver todos los juegos
+				<span>→</span>
+			</a>
+		</div>
+	</div>
+</div>
+
+<!-- ────────────── TESTIMONIALS ────────────── -->
+<div class="bg-white py-20 md:py-28">
+	<div class="max-w-6xl mx-auto px-6">
+		<div class="text-center max-w-2xl mx-auto mb-16">
+			<div class="inline-flex items-center gap-2 text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1.5 rounded-full border border-blue-200 uppercase tracking-wider mb-5">
+				<span>El equipo dice</span>
+			</div>
+			<h2 class="text-4xl md:text-5xl font-black text-gray-900 leading-tight tracking-tight mb-4">
+				Voces de <span class="text-[#f9c710]">Pardalis</span>
+			</h2>
+			<p class="text-lg text-gray-500 leading-relaxed">
+				Los creadores del proyecto también tienen algo que decir.
+			</p>
+		</div>
+
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+			{#each testimonials as t, i}
+				<div in:fade={{ duration: 400, delay: i * 120 }}
+					class="bg-[#FFFDF5] rounded-2xl border border-gray-100 p-6 hover:border-yellow-200 transition-all duration-300">
+					<div class="flex items-center gap-4 mb-4">
+						<img src={t.avatar} alt={t.name} class="w-12 h-12 rounded-full border-2 border-yellow-200" />
+						<div>
+							<p class="font-bold text-gray-900 text-sm">{t.name}</p>
+							<p class="text-xs text-gray-400">{t.role}</p>
+						</div>
+					</div>
+					<p class="text-gray-600 italic leading-relaxed">"{t.comment}"</p>
+				</div>
+			{/each}
+		</div>
+	</div>
+</div>
+
+<!-- ────────────── FINAL CTA ────────────── -->
+<div class="bg-gray-900 py-20 md:py-28">
+	<div class="max-w-3xl mx-auto px-6 text-center">
+		<span class="text-6xl mb-6 block">🚀</span>
+		<h2 class="text-4xl md:text-5xl font-black text-white leading-tight tracking-tight mb-4">
+			¿Listo para que tu hijo <span class="text-[#f9c710]">aprenda inglés</span> jugando?
+		</h2>
+		<p class="text-lg text-gray-400 max-w-xl mx-auto mb-10 leading-relaxed">
+			Es gratis, es divertido y está hecho pensando en los niños de México. Crea su cuenta en 30 segundos.
+		</p>
+		<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+			<a href="/register"
+				class="inline-flex items-center justify-center px-10 py-4 font-black text-lg text-gray-900 bg-[#f9c710] rounded-2xl shadow-[0_6px_0_0_#d4a007] hover:shadow-none hover:translate-y-1.5 active:scale-95 transition-all duration-150">
+				Crear cuenta gratis
+			</a>
+			<a href="/como-funciona"
+				class="inline-flex items-center justify-center px-10 py-4 font-bold text-lg text-gray-300 rounded-2xl border-2 border-gray-700 hover:border-gray-500 hover:text-white transition-all duration-150">
+				Más información
+			</a>
+		</div>
+	</div>
 </div>
