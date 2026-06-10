@@ -19,15 +19,12 @@
 		"postcss": "^8.4.44",
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",
-		"svelte-motion": "^0.12.2",
 		"tailwindcss": "^4.2.1",
 		"typescript": "^5.5.0",
 		"vite": "^5.4.4"
 	},
 	"type": "module",
 	"dependencies": {
-		"baseline-browser-mapping": "^2.10.0",
-		"caniuse-lite": "^1.0.30001774",
 		"lucide-svelte": "^0.468.0",
 		"marked": "^18.0.4"
 	}
