@@ -1,5 +1,5 @@
 <div class="container">
-    <h1>Próximamente</h1>
+    <h1 class="text-5xl md:text-7xl font-black mb-6 drop-shadow-sm">Próximamente</h1>
     <p>Estamos trabajando en esta sección. Volveremos pronto con grandes sorpresas.</p>
     <div class="construction">
         🚧
@@ -15,11 +15,6 @@
         min-height: 60vh;
         text-align: center;
         padding: 2rem;
-    }
-
-    h1 {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
     }
 
     p {

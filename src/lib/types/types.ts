@@ -166,3 +166,32 @@ export interface Game {
 	color: string;
 	level: string;
 }
+
+// ============================================================
+// Classroom types (DEMO)
+// ============================================================
+
+export interface ClassFile {
+	name: string;
+	type: string;
+}
+
+export interface ClassAnnouncement {
+	id: string;
+	title: string;
+	content: string;
+	files: ClassFile[];
+	date: string;
+}
+
+export interface ClassData {
+	id: string;
+	code: string;
+	name: string;
+	teacher: string;
+	description: string;
+	emoji: string;
+	color: string;
+	students: number;
+	announcements: ClassAnnouncement[];
+}

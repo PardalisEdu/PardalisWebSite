@@ -58,9 +58,9 @@
     <meta name="keywords" content="como funciona Pardalis, aprender inglés jugando, inglés niños México" />
 </svelte:head>
 
-<div class="min-h-screen bg-[#FFFDF5]">
+<div class="min-h-screen bg-cream">
   <!-- Hero -->
-  <div class="relative overflow-hidden bg-linear-to-br from-[#f9c710] via-[#f9c710] to-yellow-300 pt-28 pb-20 md:pt-36 md:pb-28">
+  <div class="relative overflow-hidden bg-linear-to-br from-brand via-brand to-yellow-300 pt-28 pb-20 md:pt-36 md:pb-28">
     <div class="absolute inset-0 pointer-events-none">
       <svg width="100%" height="100%" class="opacity-10">
         <pattern id="dots-como" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">

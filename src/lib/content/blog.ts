@@ -1,9 +1,7 @@
-import fs from 'fs';
-import path from 'path';
 import { marked } from 'marked';
 import type { BlogPost } from '$lib/types/types';
 
-const CONTENT_DIR = path.resolve('src/content/blog');
+const posts = import.meta.glob('/src/content/blog/*.md', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
 
 interface Frontmatter {
 	title: string;
@@ -23,23 +21,34 @@ function parseFrontmatter(raw: string): Frontmatter | null {
 
 	const frontmatter: Partial<Frontmatter> = {};
 	const body = match[1];
+	const lines = body.split('\n');
 
-	for (const line of body.split('\n')) {
+	let i = 0;
+	while (i < lines.length) {
+		const line = lines[i];
 		const sep = line.indexOf(': ');
-		if (sep === -1) continue;
+		if (sep === -1) { i++; continue; }
+
 		const key = line.slice(0, sep).trim();
 		const rawValue = line.slice(sep + 2).trim();
-		if (rawValue === '') continue;
-
-		let parsedValue: string | number | string[] = rawValue;
 
 		if (key === 'tags') {
-			parsedValue = JSON.parse(rawValue.replace(/'/g, '"'));
+			const tagList: string[] = [];
+			if (rawValue) tagList.push(rawValue.replace(/- /, ''));
+			// Collect continuation lines starting with "  -"
+			while (i + 1 < lines.length && lines[i + 1].match(/^\s{2}- /)) {
+				i++;
+				tagList.push(lines[i].trim().replace(/^- /, ''));
+			}
+			frontmatter.tags = tagList;
+		} else if (rawValue === '') {
+			// skip empty single-line values
 		} else if (key === 'readingTime') {
-			parsedValue = parseInt(rawValue, 10);
+			frontmatter.readingTime = parseInt(rawValue, 10);
+		} else {
+			(frontmatter as Record<string, unknown>)[key] = rawValue;
 		}
-
-		(frontmatter as Record<string, unknown>)[key] = parsedValue;
+		i++;
 	}
 
 	return frontmatter as Frontmatter;
@@ -50,18 +59,16 @@ function stripFrontmatter(raw: string): string {
 }
 
 function readAllPosts(): BlogPost[] {
-	const files = fs.readdirSync(CONTENT_DIR).filter((f: string) => f.endsWith('.md'));
-	const posts: BlogPost[] = [];
+	const blogPosts: BlogPost[] = [];
 
-	for (const file of files) {
-		const raw = fs.readFileSync(path.join(CONTENT_DIR, file), 'utf-8');
+	for (const [, raw] of Object.entries(posts)) {
 		const frontmatter = parseFrontmatter(raw);
 		if (!frontmatter) continue;
 
 		const markdown = stripFrontmatter(raw);
 		const contenido = marked.parse(markdown) as string;
 
-		posts.push({
+		blogPosts.push({
 			id: frontmatter.slug,
 			titulo: frontmatter.title,
 			slug: frontmatter.slug,
@@ -72,12 +79,12 @@ function readAllPosts(): BlogPost[] {
 			imagen_portada: frontmatter.image,
 			tiempo_lectura: frontmatter.readingTime,
 			fecha_publicacion: frontmatter.date,
-			tags: frontmatter.tags
+			tags: frontmatter.tags ?? []
 		});
 	}
 
-	posts.sort((a, b) => new Date(b.fecha_publicacion).getTime() - new Date(a.fecha_publicacion).getTime());
-	return posts;
+	blogPosts.sort((a, b) => new Date(b.fecha_publicacion).getTime() - new Date(a.fecha_publicacion).getTime());
+	return blogPosts;
 }
 
 export function fetchBlogs(
@@ -85,17 +92,17 @@ export function fetchBlogs(
 	categoria = 'Todos',
 	limit = 10
 ): BlogPost[] {
-	let posts = readAllPosts();
+	let blogPosts = readAllPosts();
 
 	if (categoria !== 'Todos') {
-		posts = posts.filter(p => p.categoria === categoria);
+		blogPosts = blogPosts.filter(p => p.categoria === categoria);
 	}
 
 	const start = (page - 1) * limit;
-	return posts.slice(start, start + limit);
+	return blogPosts.slice(start, start + limit);
 }
 
 export function fetchBlogBySlug(slug: string): BlogPost | null {
-	const posts = readAllPosts();
-	return posts.find(p => p.slug === slug) ?? null;
+	const blogPosts = readAllPosts();
+	return blogPosts.find(p => p.slug === slug) ?? null;
 }
