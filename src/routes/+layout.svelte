@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { page } from '$app/stores';
     import { authStore } from '$lib/stores/authStore';
     import "../app.css";
     import NavBar from "$components/NavBar.svelte";
@@ -10,7 +11,13 @@
     $effect(() => {
         authStore.sync(data.user ?? null);
     });
+
+    const canonicalUrl = `https://pardalis.mx${$page.url.pathname}`;
 </script>
+
+<svelte:head>
+    <link rel="canonical" href={canonicalUrl} />
+</svelte:head>
 
 <NavBar />
 

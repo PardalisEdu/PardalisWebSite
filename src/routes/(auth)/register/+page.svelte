@@ -1,6 +1,5 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
-    import { register } from '$lib/api/auth';
 
     let formData = $state({
         apodo: '',
@@ -35,7 +34,6 @@
 
         try {
             const { confirmarContrasenna, ...registerData } = formData;
-            await register(registerData);
             await goto('/login');
         } catch (error: unknown) {
             errorMessage = error instanceof Error ? error.message : 'Ha ocurrido un error desconocido';
