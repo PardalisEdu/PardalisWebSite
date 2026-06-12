@@ -1,6 +1,13 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import { fade } from 'svelte/transition';
+    import type { PageProps } from './$types'
+
+    import { authClient } from "$lib/auth-client";
+
+    let { data }: PageProps = $props();
+
+    const session = authClient.useSession();
 
     let activeTab = $state<'join' | 'create'>('join');
 
@@ -65,6 +72,41 @@
 
     <!-- Main content -->
     <div class="max-w-5xl mx-auto px-4 py-10 md:py-16">
+        {#if $session.data}
+        <!-- Mock Joined Class (Example) -->
+        <div class="mb-12">
+            <h2 class="text-xl font-black text-gray-900 mb-6 flex items-center gap-2">
+                <span class="w-2 h-2 bg-[#f9c710] rounded-full"></span>
+                Tus clases activas
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Mock Card -->
+
+                {#each data.clases as clase}
+                    <div class="group relative bg-white rounded-[2rem] border-4 border-yellow-100 shadow-[0_8px_0_0_#fef08a] hover:-translate-y-1 hover:shadow-[0_12px_0_0_#fef08a] transition-all duration-300 overflow-hidden">
+                        <div class="absolute top-4 right-4 bg-green-500 text-white text-[10px] font-black px-2 py-1 rounded-lg uppercase tracking-wider">
+                            En curso
+                        </div>
+                        <div class="p-8">
+                            <div class="w-12 h-12 bg-yellow-50 rounded-2xl border-2 border-yellow-200 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 group-hover:-rotate-6 transition-transform">
+                                🐆
+                            </div>
+                            <h3 class="text-xl font-black text-gray-900 mb-1">{clase.nombre}</h3>
+                            <p class="text-sm text-gray-500 font-medium mb-6">{clase.descripcion}</p>
+
+                            <a 
+                                href="/class/{clase.id}"
+                                class="block w-full text-center py-3 bg-[#f9c710] text-gray-900 font-black rounded-xl shadow-[0_4px_0_0_#d4a007] hover:shadow-none hover:translate-y-1 transition-all active:scale-95"
+                            >
+                                Entrar al aula
+                            </a>
+                        </div>
+                    </div>                    
+                {/each}
+            </div>
+        </div>
+        {/if}
+
         <!-- Tab toggle (mobile) -->
         <div class="flex md:hidden bg-gray-100 rounded-2xl p-1 mb-8">
             <button

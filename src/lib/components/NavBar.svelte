@@ -110,21 +110,21 @@
 				? 'flex'
 				: 'hidden'} md:flex flex-col md:flex-row w-full md:w-auto items-center mt-4 md:mt-0 gap-2 md:gap-6"
 		>
-			{#each [{ h: '/adventure', t: 'AVENTURA' }, { h: '/blog', t: 'BLOG' }, { h: '/mini-games', t: 'JUEGOS' }, { h: '/class', t: 'CLASES' }, { h: '/como-funciona', t: '¿CÓMO FUNCIONA?' }, { h: '/faq', t: 'FAQ' }] as link}
-				<a
-					href={link.h}
-					class="relative w-full md:w-auto text-center px-4 py-2 rounded-xl font-bold transition-all duration-200 active:scale-90 {isActive(link.h) ? 'text-yellow-600 bg-yellow-50' : 'text-gray-700 hover:text-yellow-600 hover:bg-yellow-50'}"
-				>
-					{link.t}
-					{#if isActive(link.h)}
-						<span class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#f9c710] rounded-full"></span>
-					{/if}
-				</a>
-			{/each}
-
-			<div class="w-full h-px md:hidden bg-gray-200 my-2"></div>
-
 			{#if $session.data}
+				{#each [{ h: '/adventure', t: 'AVENTURA' }, { h: '/mini-games', t: 'JUEGOS' }, { h: '/class', t: 'CLASES' }] as link}
+					<a
+						href={link.h}
+						class="relative w-full md:w-auto text-center px-4 py-2 rounded-xl font-bold transition-all duration-200 active:scale-90 {isActive(link.h) ? 'text-yellow-600 bg-yellow-50' : 'text-gray-700 hover:text-yellow-600 hover:bg-yellow-50'}"
+					>
+						{link.t}
+						{#if isActive(link.h)}
+							<span class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#f9c710] rounded-full"></span>
+						{/if}
+					</a>
+				{/each}
+
+				<div class="w-full h-px md:hidden bg-gray-200 my-2"></div>
+
 				<a
 					href="/profile"
 					class="relative w-full md:w-auto flex items-center justify-center gap-3 px-4 py-2 rounded-xl font-bold transition-all duration-200 active:scale-90 {isActive('/profile') ? 'text-blue-600 bg-blue-50' : 'text-gray-700 hover:text-blue-500 hover:bg-blue-50'}"
@@ -148,6 +148,20 @@
 						Salir
 					</button>
 			{:else}
+				{#each [{ h: '/blog', t: 'BLOG' }, { h: '/mini-games', t: 'JUEGOS' }, { h: '/como-funciona', t: '¿CÓMO FUNCIONA?' }, { h: '/faq', t: 'FAQ' }] as link}
+					<a
+						href={link.h}
+						class="relative w-full md:w-auto text-center px-4 py-2 rounded-xl font-bold transition-all duration-200 active:scale-90 {isActive(link.h) ? 'text-yellow-600 bg-yellow-50' : 'text-gray-700 hover:text-yellow-600 hover:bg-yellow-50'}"
+					>
+						{link.t}
+						{#if isActive(link.h)}
+							<span class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#f9c710] rounded-full"></span>
+						{/if}
+					</a>
+				{/each}
+				
+				<div class="w-full h-px md:hidden bg-gray-200 my-2"></div>
+				
 				<a
 					href="/login"
 					class="w-full md:w-auto text-center bg-[#f9c710] text-white px-8 py-3 rounded-2xl font-black shadow-[0_4px_0_0_#d4a007] hover:shadow-none hover:translate-y-1 transition-all active:scale-95"

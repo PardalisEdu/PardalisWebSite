@@ -1,6 +1,6 @@
 import { relations } from "drizzle-orm";
 // 1. Importamos `varchar` desde mysql-core
-import { mysqlTable, text, varchar, timestamp, boolean, index } from "drizzle-orm/mysql-core";
+import { mysqlTable, text, varchar, timestamp, boolean, index, mysqlEnum } from "drizzle-orm/mysql-core";
 
 export const user = mysqlTable("user", {
   // Cambiado text -> varchar con longitud para la PK y el Unique
@@ -97,3 +97,58 @@ export const accountRelations = relations(account, ({ one }) => ({
     references: [user.id],
   }),
 }));
+
+export const clases = mysqlTable("clases", {
+	id: varchar("id", { length: 255 }).primaryKey().notNull(),
+	nombre: varchar("nombre", { length: 300 }),
+	descripcion: text("descripcion"),
+	grado: mysqlEnum("grado", ['1ro','2do','3ro','4to','5to','6to']),
+},
+(table) => {
+	return {
+		gradoIdx: index("grado_idx").on(table.id, table.grado),
+	}
+});
+
+export const usuarioClases = mysqlTable("usuario_clases", {
+	id: varchar("id", { length: 255 }).primaryKey().notNull(),
+	idUser: varchar("id_user", { length: 255 }).notNull(),
+	idClase: varchar("id_clase", { length: 255 }).notNull(),
+	rol: mysqlEnum("rol", ['alumno','profesor']).notNull(),
+},
+(table) => {
+	return {
+		userClase: index("user_clase").on(table.idUser),
+		claseClases: index("clase_clases").on(table.idClase),
+	}
+});
+
+export const codigosClase = mysqlTable("codigos_clase", {
+	id: varchar("id", { length: 255 }).primaryKey().notNull(),
+	codigo: varchar("codigo", { length: 6 }).notNull(),
+	estado: mysqlEnum("estado", ['activo','inactivo']).notNull(),
+	idClase: varchar("id_clase", { length: 255 }),
+	createdAt: timestamp("created_at", { mode: 'string' }).defaultNow(),
+},
+(table) => {
+	return {
+		claseCodigoClase: index("clase_codigo_clase").on(table.idClase),
+	}
+});
+
+export const contenidoClase = mysqlTable("contenido_clase", {
+	id: varchar("id", { length: 255 }).primaryKey().notNull(),
+	idClase: varchar("id_clase", { length: 255 }).notNull(),
+	typo: mysqlEnum("typo", ['texto','archivo']).notNull(),
+	contenido: text("contenido").notNull(),
+	idUser: varchar("id_user", { length: 255 }).notNull(),
+	createdAt: timestamp("created_at", { mode: 'string' }).defaultNow(),
+	updatedAt: timestamp("updated_at", { mode: 'string' }).defaultNow(),
+  titulo: varchar("titulo", { length: 500 }).notNull(),
+},
+(table) => {
+	return {
+		claseContenido: index("clase_contenido").on(table.idClase),
+		usuarioContenido: index("usuario_contenido").on(table.idUser),
+	}
+});
