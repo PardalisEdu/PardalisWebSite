@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { TORTILLA_PRICE, missions, availableMoney } from '$lib/data/games/tortilla-questions';
+  import { TORTILLA_PRICE, missions, availableMoney } from '$lib/client/data/games/tortilla-questions';
   import type { TortillaMission, Money } from '$lib/types/types';
 
   let currentMission: TortillaMission | null = $state(null);

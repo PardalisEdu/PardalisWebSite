@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { oracleCards } from '$lib/data/games/oracle-cards';
+  import { oracleCards } from '$lib/client/data/games/oracle-cards';
   import type { OracleCard } from '$lib/types/types';
 
   let selectedCard: OracleCard | null = null;

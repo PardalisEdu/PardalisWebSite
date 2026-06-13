@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { memoryWordPairs } from '$lib/data/games/memory-cards';
+    import { memoryWordPairs } from '$lib/client/data/games/memory-cards';
     import type { MemoryCard } from '$lib/types/types';
 
     // Use Svelte 5 state with explicit typing

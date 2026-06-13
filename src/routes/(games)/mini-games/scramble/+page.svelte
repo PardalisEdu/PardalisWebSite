@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { scrambleWords } from '$lib/data/games/scramble-words';
+  import { scrambleWords } from '$lib/client/data/games/scramble-words';
   import type { ScrambleWord } from '$lib/types/types';
 
   interface ScrambleChar {

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { spring } from "svelte/motion";
-  import { flashcardDeck } from '$lib/data/games/flashcards';
+  import { flashcardDeck } from '$lib/client/data/games/flashcards';
   import type { FlashCard } from '$lib/types/types';
   import { ArrowLeft, Award, Check, X, HelpCircle, BookOpen } from 'lucide-svelte';
 

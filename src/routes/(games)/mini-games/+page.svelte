@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { gamesList } from '$lib/data/games/games-list';
+  import { gamesList } from '$lib/client/data/games/games-list';
   import type { Game } from '$lib/types/types';
   import { fade } from 'svelte/transition';
 

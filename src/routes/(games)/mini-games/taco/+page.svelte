@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { tacoTypes, customers } from '$lib/data/games/taco-menu';
+  import { tacoTypes, customers } from '$lib/client/data/games/taco-menu';
   import type { TacoOrder, PreparedTaco, Customer, TacoType } from '$lib/types/types';
 
   interface TacoPreparation {
