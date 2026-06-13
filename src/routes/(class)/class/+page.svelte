@@ -4,7 +4,7 @@
     import { enhance } from '$app/forms';
     import type { PageProps } from './$types'
 
-    import { authClient } from "$lib/auth-client";
+    import { authClient } from "$lib/client/auth-client";
 
     let { data }: PageProps = $props();
 

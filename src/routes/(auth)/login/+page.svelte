@@ -120,7 +120,7 @@
             <button
                 type="button"
                 onclick={async () => {
-                    const { authClient } = await import('$lib/auth-client');
+                    const { authClient } = await import('$lib/client/auth-client');
                     await authClient.signIn.social({ provider: 'google' });
                 }}
                 class="w-full py-4 px-6 bg-white border-4 border-gray-100 rounded-2xl flex items-center justify-center gap-3 font-bold text-gray-600 shadow-[0_6px_0_0_#f3f4f6] hover:shadow-none hover:translate-y-1.5 active:scale-95 transition-all duration-150"

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { authClient } from '$lib/auth-client';
 	import { page } from '$app/stores';
+	import { authClient } from '$lib/client/auth-client';
 	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
 

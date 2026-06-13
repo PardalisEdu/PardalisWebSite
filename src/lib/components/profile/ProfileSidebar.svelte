@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { authClient } from "$lib/auth-client";
+  import { authClient } from "$lib/client/auth-client";
   import { Camera, LogOut, Settings, User } from "lucide-svelte";
 
   interface Props {

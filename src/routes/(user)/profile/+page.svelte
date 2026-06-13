@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { authClient } from "$lib/auth-client";
+  import { authClient } from "$lib/client/auth-client";
   import ProfileSidebar from "$lib/components/profile/ProfileSidebar.svelte";
   import ProfileBioCard from "$lib/components/profile/ProfileBioCard.svelte";
   import ProfileFunCard from "$lib/components/profile/ProfileFunCard.svelte";
