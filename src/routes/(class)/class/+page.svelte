@@ -1,6 +1,7 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import { fade } from 'svelte/transition';
+    import { enhance } from '$app/forms';
     import type { PageProps } from './$types'
 
     import { authClient } from "$lib/auth-client";
@@ -13,28 +14,12 @@
 
     let joinCode = $state('');
     let joinError = $state('');
+    let pendingDeleteId = $state<string | null>(null);
 
     let className = $state('');
     let classLevel = $state('1°');
     let classDesc = $state('');
     let createdCode = $state<string | null>(null);
-
-    function handleJoin() {
-        if (!joinCode.trim()) {
-            joinError = 'Ingresa un código de clase válido';
-            return;
-        }
-        joinError = '';
-        goto('/class/demo');
-    }
-
-    function handleCreate() {
-        if (!className.trim()) return;
-        const randomCode = Array.from({ length: 6 }, () =>
-            String.fromCharCode(65 + Math.floor(Math.random() * 26))
-        ).join('');
-        createdCode = randomCode;
-    }
 
     function resetCreate() {
         createdCode = null;
@@ -100,6 +85,102 @@
                             >
                                 Entrar al aula
                             </a>
+
+                            {#if clase.rol === 'profesor'}
+                                <div class="mt-4 flex items-center justify-between border-t border-gray-100 pt-4">
+                                    {#if pendingDeleteId === clase.id}
+                                        <div class="flex items-center gap-2 w-full" in:fade>
+                                            <p class="text-[10px] font-bold text-red-600 flex-1">¿Eliminar clase?</p>
+                                            <button 
+                                                type="button"
+                                                onclick={() => pendingDeleteId = null}
+                                                class="px-2 py-1 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg text-[10px] font-bold transition-colors"
+                                            >
+                                                No
+                                            </button>
+                                            <form 
+                                                method="POST" 
+                                                action="?/eliminarClase" 
+                                                use:enhance={() => {
+                                                    return async ({ update }) => {
+                                                        await update();
+                                                        pendingDeleteId = null;
+                                                    };
+                                                }}
+                                                class="inline"
+                                            >
+                                                <input type="hidden" name="idClase" value={clase.id} />
+                                                <button 
+                                                    type="submit"
+                                                    class="px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded-lg text-[10px] font-bold transition-colors"
+                                                >
+                                                    Sí, eliminar
+                                                </button>
+                                            </form>
+                                        </div>
+                                    {:else}
+                                        <span class="text-[10px] text-yellow-700 bg-yellow-50 px-2 py-0.5 rounded-md border border-yellow-100 font-bold uppercase tracking-wider">
+                                            Profesor
+                                        </span>
+                                        <button 
+                                            type="button"
+                                            onclick={() => pendingDeleteId = clase.id}
+                                            class="text-xs text-gray-400 hover:text-red-500 font-bold transition-colors"
+                                            title="Eliminar clase"
+                                        >
+                                            Eliminar clase
+                                        </button>
+                                    {/if}
+                                </div>
+                            {/if}
+
+                            {#if clase.rol === 'alumno'}
+                                <div class="mt-4 flex items-center justify-between border-t border-gray-100 pt-4">
+                                    {#if pendingDeleteId === clase.id}
+                                        <div class="flex items-center gap-2 w-full" in:fade>
+                                            <p class="text-[10px] font-bold text-red-600 flex-1">¿Salir de la clase?</p>
+                                            <button 
+                                                type="button"
+                                                onclick={() => pendingDeleteId = null}
+                                                class="px-2 py-1 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg text-[10px] font-bold transition-colors"
+                                            >
+                                                No
+                                            </button>
+                                            <form 
+                                                method="POST" 
+                                                action="?/salirseClase" 
+                                                use:enhance={() => {
+                                                    return async ({ update }) => {
+                                                        await update();
+                                                        pendingDeleteId = null;
+                                                    };
+                                                }}
+                                                class="inline"
+                                            >
+                                                <input type="hidden" name="idClase" value={clase.id} />
+                                                <button 
+                                                    type="submit"
+                                                    class="px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded-lg text-[10px] font-bold transition-colors"
+                                                >
+                                                    Sí, salir
+                                                </button>
+                                            </form>
+                                        </div>
+                                    {:else}
+                                        <span class="text-[10px] text-blue-700 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-100 font-bold uppercase tracking-wider">
+                                            Alumno
+                                        </span>
+                                        <button 
+                                            type="button"
+                                            onclick={() => pendingDeleteId = clase.id}
+                                            class="text-xs text-gray-400 hover:text-red-500 font-bold transition-colors"
+                                            title="Salirse de la clase"
+                                        >
+                                            Salirse de la clase
+                                        </button>
+                                    {/if}
+                                </div>
+                            {/if}
                         </div>
                     </div>                    
                 {/each}
@@ -139,19 +220,33 @@
                         Tu profesor te habrá dado un código de 6 letras. Ingresalo aquí para unirte a tu clase.
                     </p>
 
-                    <form class="space-y-4">
+                    <form 
+                        method="POST" 
+                        action="?/unirseClase" 
+                        use:enhance={() => {
+                            return async ({ result, update }) => {
+                                if (result.type === 'failure') {
+                                    joinError = result.data?.message as string || 'Error al unirse';
+                                } else {
+                                    await update();
+                                }
+                            };
+                        }}
+                        class="space-y-4"
+                    >
                         <div>
                             <label for="class-code" class="block text-sm font-bold text-gray-700 mb-2">
                                 Código de clase
                             </label>
                             <input
                                 id="class-code"
-                                name="class-code"
+                                name="codigo"
                                 type="text"
                                 maxlength="6"
                                 placeholder="Ej: AB12CD"
                                 bind:value={joinCode}
                                 class="w-full px-5 py-4 bg-gray-50 border-2 border-gray-100 rounded-2xl text-lg font-bold tracking-[0.3em] text-center placeholder:tracking-normal placeholder:text-gray-300 placeholder:font-medium focus:outline-hidden focus:border-[#f9c710] focus:bg-white transition-all uppercase"
+                                required
                             />
                             {#if joinError}
                                 <p class="text-red-500 text-sm font-medium mt-2">{joinError}</p>
@@ -159,7 +254,7 @@
                         </div>
 
                         <button
-                            onclick={handleJoin}
+                            type="submit"
                             class="w-full py-4 font-black text-lg text-white bg-[#f9c710] rounded-2xl shadow-[0_4px_0_0_#d4a007] hover:shadow-none hover:translate-y-1 active:scale-95 transition-all duration-150"
                         >
                             Unirme a la clase
@@ -210,13 +305,26 @@
                         </div>
                     {:else}
                         <!-- Create form -->
-                        <form class="space-y-4" onsubmit={(e) => { e.preventDefault(); handleCreate(); }}>
+                        <form 
+                            method="POST" 
+                            action="?/crearClase" 
+                            use:enhance={() => {
+                                return async ({ result, update }) => {
+                                    if (result.type === 'success') {
+                                        createdCode = result.data?.codigo as string || '';
+                                    }
+                                    await update();
+                                };
+                            }}
+                            class="space-y-4"
+                        >
                             <div>
                                 <label for="class-name" class="block text-sm font-bold text-gray-700 mb-2">
                                     Nombre de la clase
                                 </label>
                                 <input
                                     id="class-name"
+                                    name="nombre"
                                     type="text"
                                     placeholder="Ej: Inglés 1°A — Vespertino"
                                     bind:value={className}
@@ -231,6 +339,7 @@
                                 </label>
                                 <select
                                     id="class-level"
+                                    name="grado"
                                     bind:value={classLevel}
                                     class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl text-sm font-medium text-gray-700 focus:outline-hidden focus:border-[#f9c710] transition-all"
                                 >
@@ -246,6 +355,7 @@
                                 </label>
                                 <textarea
                                     id="class-desc"
+                                    name="descripcion"
                                     rows="3"
                                     placeholder="Ej: Grupo de inglés básico. Nos vemos martes y jueves."
                                     bind:value={classDesc}
