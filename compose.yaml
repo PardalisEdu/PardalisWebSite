@@ -9,5 +9,13 @@ services:
       MYSQL_DATABASE: local
     volumes:
       - mysqldata:/var/lib/mysql
+    deploy:
+      resources:
+        limits:
+          memory: 520M
+          cpus: '0.25'
+        reservations:
+          memory: 260M
+          cpus: '0.20'
 volumes:
   mysqldata:
