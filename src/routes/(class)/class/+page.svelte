@@ -139,13 +139,14 @@
                         Tu profesor te habrá dado un código de 6 letras. Ingresalo aquí para unirte a tu clase.
                     </p>
 
-                    <div class="space-y-4">
+                    <form class="space-y-4">
                         <div>
                             <label for="class-code" class="block text-sm font-bold text-gray-700 mb-2">
                                 Código de clase
                             </label>
                             <input
                                 id="class-code"
+                                name="class-code"
                                 type="text"
                                 maxlength="6"
                                 placeholder="Ej: AB12CD"
@@ -163,7 +164,7 @@
                         >
                             Unirme a la clase
                         </button>
-                    </div>
+                    </form>
 
                     <p class="text-xs text-gray-400 text-center mt-4">
                         El código lo comparte tu profesor. Si no lo tienes, pregúntale. ✨

@@ -12,10 +12,12 @@
 <div class="min-h-screen bg-[#FFFDF5]">
     <ClassHeader 
         level={data.clase?.grado || 'No definido'} 
-        studentCount={12} 
+        studentCount={data.numero_alumnos.numero_alumnos || 0} 
         className={data.clase?.nombre || 'No definido'} 
         teacherName={data.profesor?.user?.name || 'Profesor'}
         classCode={data.codigo?.codigo || 'No definido'} 
+        description={data.clase?.descripcion}
+        isTeacher={data.userRole === 'profesor'}
     />
 
     <!-- Content -->
@@ -27,12 +29,12 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Main: Announcements -->
             <div class="lg:col-span-2">
-                <AnnouncementList announcements={data.contenido?.anuncios} />
+                <AnnouncementList announcements={data.contenido?.anuncios} isTeacher={data.userRole === 'profesor'} />
             </div>
 
             <!-- Sidebar: Files -->
             <div class="lg:col-span-1">
-                <FileList files={data.contenido?.archivos} />
+                <FileList files={data.contenido?.archivos} isTeacher={data.userRole === 'profesor'} />
             </div>
         </div>
     </div>
