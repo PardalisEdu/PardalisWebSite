@@ -245,6 +245,7 @@
                                 maxlength="6"
                                 placeholder="Ej: AB12CD"
                                 bind:value={joinCode}
+                                autocomplete="off"
                                 class="w-full px-5 py-4 bg-gray-50 border-2 border-gray-100 rounded-2xl text-lg font-bold tracking-[0.3em] text-center placeholder:tracking-normal placeholder:text-gray-300 placeholder:font-medium focus:outline-hidden focus:border-[#f9c710] focus:bg-white transition-all uppercase"
                                 required
                             />
@@ -328,6 +329,7 @@
                                     type="text"
                                     placeholder="Ej: Inglés 1°A — Vespertino"
                                     bind:value={className}
+                                    autocomplete="off"
                                     required
                                     class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl text-sm font-medium text-gray-700 placeholder:text-gray-400 focus:outline-hidden focus:border-[#f9c710] focus:bg-white transition-all"
                                 />

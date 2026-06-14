@@ -1,9 +1,11 @@
 import { auth } from "$lib/server/auth";
 import { db } from "$lib/server/db";
-import { clases, codigosClase, contenidoClase, usuarioClases } from "$lib/server/db/schema";
-import { and, eq } from "drizzle-orm";
-import type { PageServerLoad, Actions } from "./$types";
+import { usuarioClases } from "$lib/server/db/schema";
+import { ClassNotFound, CodeInvalid, UserAlreadyMember, UserUnauthorized } from "$lib/server/errores";
+import { crearClase, eliminarClase, optenerClases, unirseAClase } from "$lib/server/service/clases";
 import { fail, redirect } from "@sveltejs/kit";
+import { and, eq } from "drizzle-orm";
+import type { Actions, PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ request }) => {
 
@@ -14,20 +16,9 @@ export const load: PageServerLoad = async ({ request }) => {
     if (!session) {
         throw redirect(302, '/login');
     }
-
-    const dataDB = await db
-            .select({
-                id: clases.id,
-                nombre: clases.nombre,
-                descripcion: clases.descripcion,
-                rol: usuarioClases.rol
-            })
-            .from(usuarioClases)
-            .where(eq(usuarioClases.idUser, session.user.id)) 
-            .leftJoin(clases, eq(usuarioClases.idClase, clases.id));
     
     return {
-        clases: dataDB
+        clases: await optenerClases(session.user.id)
     };
 };
 
@@ -48,51 +39,21 @@ export const actions: Actions = {
             return fail(400, { message: "El código debe tener 6 caracteres" });
         }
 
-        // Buscar el código activo
-        const codigoRecord = await db.select()
-            .from(codigosClase)
-            .where(
-                and(
-                    eq(codigosClase.codigo, codigoInput),
-                    eq(codigosClase.estado, 'activo')
-                )
-            )
-            .limit(1);
+        try {
+            const idClase = await unirseAClase(codigoInput, session.user.id);
 
-        if (codigoRecord.length === 0) {
-            return fail(400, { message: "Código inválido o inactivo" });
+            return redirect(303, `/class/${idClase}`);
+        } catch(e: unknown) {
+            if(e instanceof CodeInvalid) {
+                return fail(400, { message: "Código inválido o inactivo" });
+            }else if(e instanceof ClassNotFound) {
+                return fail(400, { message: "Clase no encontrada para este código" });
+            }else if(e instanceof UserAlreadyMember) {
+                throw redirect(303, `/class/${e.idClase}`);
+            } else {
+                return fail(500, { message: "Error desconocido"})
+            }
         }
-
-        const idClase = codigoRecord[0].idClase;
-        if (!idClase) {
-            return fail(400, { message: "Clase no encontrada para este código" });
-        }
-
-        // Verificar si ya es miembro de la clase
-        const existing = await db.select()
-            .from(usuarioClases)
-            .where(
-                and(
-                    eq(usuarioClases.idClase, idClase),
-                    eq(usuarioClases.idUser, session.user.id)
-                )
-            )
-            .limit(1);
-
-        if (existing.length > 0) {
-            // Ya es miembro, redirigir
-            throw redirect(303, `/class/${idClase}`);
-        }
-
-        // Unirse como alumno
-        await db.insert(usuarioClases).values({
-            id: crypto.randomUUID(),
-            idUser: session.user.id,
-            idClase: idClase,
-            rol: 'alumno'
-        });
-
-        throw redirect(303, `/class/${idClase}`);
     },
 
     crearClase: async ({ request }) => {
@@ -113,55 +74,14 @@ export const actions: Actions = {
             return fail(400, { message: "El nombre es requerido" });
         }
 
-        const gradeMap: Record<string, '1ro' | '2do' | '3ro' | '4to' | '5to' | '6to'> = {
-            '1°': '1ro',
-            '2°': '2do',
-            '3°': '3ro',
-            '4°': '4to',
-            '5°': '5to',
-            '6°': '6to',
-            '1ro': '1ro',
-            '2do': '2do',
-            '3ro': '3ro',
-            '4to': '4to',
-            '5to': '5to',
-            '6to': '6to'
-        };
-        const grado = gradeMap[gradoInput] || '1ro';
-
-        const idClase = crypto.randomUUID();
-
-        // 1. Crear la clase
-        await db.insert(clases).values({
-            id: idClase,
-            nombre,
-            descripcion: descripcion || null,
-            grado
-        });
-
-        // 2. Registrar al profesor
-        await db.insert(usuarioClases).values({
-            id: crypto.randomUUID(),
-            idUser: session.user.id,
-            idClase,
-            rol: 'profesor'
-        });
-
-        // 3. Generar código
-        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        let codigo = "";
-        for (let i = 0; i < 6; i++) {
-            codigo += chars.charAt(Math.floor(Math.random() * chars.length));
+        try {
+            const codigo = await crearClase(session.user.id, gradoInput, nombre, descripcion)
+            return { success: true, codigo };
+        } catch(e: unknown) {
+            if (e instanceof Error) {
+                return fail(500, { message: "Error"});
+            }
         }
-
-        await db.insert(codigosClase).values({
-            id: crypto.randomUUID(),
-            codigo,
-            estado: 'activo',
-            idClase
-        });
-
-        return { success: true, codigo };
     },
 
     eliminarClase: async ({ request }) => {
@@ -180,24 +100,13 @@ export const actions: Actions = {
             return fail(400, { message: "La clase es requerida" });
         }
 
-        // Verificar que el usuario sea profesor de esta clase
-        const isTeacher = await db.select().from(usuarioClases).where(
-            and(
-                eq(usuarioClases.idClase, idClase),
-                eq(usuarioClases.idUser, session.user.id),
-                eq(usuarioClases.rol, 'profesor')
-            )
-        ).limit(1);
-
-        if (isTeacher.length === 0) {
-            return fail(403, { message: "No tienes permisos" });
+        try {
+            await eliminarClase(idClase, session.user.id)
+        } catch(e: unknown) {
+            if(e instanceof UserUnauthorized) {
+                return fail(403, { message: "No esta autizado el usuario" })
+            }
         }
-
-        // Eliminar todo el contenido relacionado secuencialmente
-        await db.delete(contenidoClase).where(eq(contenidoClase.idClase, idClase));
-        await db.delete(codigosClase).where(eq(codigosClase.idClase, idClase));
-        await db.delete(usuarioClases).where(eq(usuarioClases.idClase, idClase));
-        await db.delete(clases).where(eq(clases.id, idClase));
 
         return { success: true };
     },
