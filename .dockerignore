@@ -1,0 +1,17 @@
+node_modules
+.git
+.gitignore
+.svelte-kit
+build
+.env
+.env.local
+.env.*.local
+compose.yaml
+Dockerfile
+docker-compose.yml
+README.md
+docs
+bun.lockb
+*.log
+.vscode
+.editorconfig
