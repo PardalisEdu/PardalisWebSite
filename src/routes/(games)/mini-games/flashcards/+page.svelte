@@ -140,7 +140,7 @@
                   </span>
                 </div>
 
-                <div class="h-full flex flex-col items-center justify-center py-4 text-center w-full">
+                <div class="flex-1 flex flex-col items-center justify-center py-4 text-center w-full">
                   <!-- Floating Icon Container -->
                   <div class="w-16 h-16 bg-brand-light rounded-2xl flex items-center justify-center border-2 border-brand/30 text-brand-dark mb-4 animate-float shadow-[0_4px_0_0_var(--color-brand-dark)]">
                     <HelpCircle size={32} />
@@ -163,7 +163,7 @@
 
               <!-- BACK FACE (Spanish / Answer) -->
               <div
-                class="card-face back absolute inset-0 bg-white rounded-[2.5rem] border-4 border-blue-400 shadow-[0_12px_0_0_#2563eb] p-8 backface-hidden rotate-y-180 flex flex-col items-center justify-between transition-all duration-300 hover:translate-y-[3px] hover:shadow-[0_9px_0_0_#2563eb] active:translate-y-[8px] active:shadow-[0_4px_0_0_#2563eb]"
+                class="card-face back absolute inset-0 bg-white rounded-[2.5rem] border-4 border-blue-400 shadow-[0_12px_0_0_#2563eb] p-8 backface-hidden flex flex-col items-center justify-between transition-all duration-300 hover:shadow-[0_9px_0_0_#2563eb] active:shadow-[0_4px_0_0_#2563eb]"
                 role="button"
                 tabindex="0"
                 onclick={(e) => {
@@ -182,7 +182,7 @@
                   </span>
                 </div>
 
-                <div class="h-full w-full flex flex-col items-center justify-center py-4 text-center">
+                <div class="flex-1 w-full flex flex-col items-center justify-center py-4 text-center">
                   <!-- Book Icon Container -->
                   <div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center border-2 border-blue-200 text-blue-500 mb-4 shadow-[0_4px_0_0_#3b82f6] {showAnswer ? 'animate-bounce-in' : ''}">
                     <BookOpen size={32} />
@@ -268,18 +268,27 @@
 
   .transform-style-3d {
     transform-style: preserve-3d;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .backface-hidden {
     backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
   }
 
   .card-face {
     backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
   }
 
   .back {
     transform: rotateY(180deg);
+  }
+
+  .back:hover {
+    transform: rotateY(180deg) translateY(3px);
+  }
+
+  .back:active {
+    transform: rotateY(180deg) translateY(8px);
   }
 </style>
