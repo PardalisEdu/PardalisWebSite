@@ -7,9 +7,9 @@
     let { data } = $props();
 
     let searchTerm = $state('');
-    let currentPage = $state(data.page);
-    let currentCategory = $state(data.categoria);
-    let blogs = $state<BlogPost[]>(data.blogs);
+    let currentPage = $derived(data.page);
+    let currentCategory = $derived(data.categoria);
+    let blogs = $derived(data.blogs);
 
     const categories = [
         "Todos", "Anuncios", "Consejos", "Educación", "Actualizaciones"
@@ -32,15 +32,11 @@
     }
 
     function handleCategoryChange(categoria: string) {
-        currentCategory = categoria;
-        currentPage = 1;
         navigate(categoria, 1);
     }
 
     function handlePageChange(delta: number) {
-        const newPage = currentPage + delta;
-        currentPage = newPage;
-        navigate(currentCategory, newPage);
+        navigate(currentCategory, currentPage + delta);
     }
 </script>
 
