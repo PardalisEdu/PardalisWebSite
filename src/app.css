@@ -1,7 +1,9 @@
 @import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
 @theme {
-  --font-custom: Rubik, Arial;
+  --font-sans: 'Rubik', Arial, sans-serif;
+  --font-custom: 'Rubik', Arial, sans-serif;
 
   /* Brand colors */
   --color-brand: #f9c710;
@@ -27,12 +29,7 @@
 }
 
 @layer base {
-  @font-face {
-    font-family: 'Rubik';
-    font-style: normal;
-    font-weight: 300 900;
-    src: url('/fonts/Rubik.woff2') format('woff2');
-  }
+
 
   *,
   ::after,
@@ -44,6 +41,13 @@
 
   html {
     scroll-behavior: smooth;
+  }
+
+  html, body {
+    font-family: 'Rubik', Arial, sans-serif;
+    background-color: var(--color-cream);
+    background-image: radial-gradient(rgba(212, 160, 7, 0.12) 2px, transparent 2px);
+    background-size: 24px 24px;
   }
 
   /* Better default focus ring */
