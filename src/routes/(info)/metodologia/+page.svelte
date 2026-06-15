@@ -66,8 +66,7 @@
         </pattern>
         <rect width="100%" height="100%" fill="url(#dots-met)" />
       </svg>
-      <div class="absolute -top-10 -right-10 w-72 h-72 bg-white/10 rounded-full blur-3xl animate-float"></div>
-      <div class="absolute bottom-10 left-10 w-80 h-80 bg-yellow-200/20 rounded-full blur-3xl animate-pulse-slow"></div>
+
     </div>
     <div class="relative container mx-auto px-4 text-center">
       <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-6 py-2 rounded-full font-bold text-sm mb-6 shadow-lg">
@@ -145,10 +144,7 @@
   <!-- CTA -->
   <div class="container mx-auto px-4 pb-20">
     <div class="relative overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800 rounded-[3rem] p-10 md:p-16 text-center shadow-2xl">
-      <div class="absolute inset-0 pointer-events-none">
-        <div class="absolute top-0 right-0 w-72 h-72 bg-yellow-500/5 rounded-full blur-3xl"></div>
-        <div class="absolute -bottom-10 -left-10 w-72 h-72 bg-yellow-500/5 rounded-full blur-3xl"></div>
-      </div>
+
       <div class="relative">
         <span class="text-6xl mb-6 block">🌮</span>
         <h2 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">

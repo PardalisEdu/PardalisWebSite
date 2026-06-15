@@ -55,19 +55,7 @@
 </script>
 
 <div class="min-h-screen bg-cream pt-28 pb-16 px-4 flex flex-col items-center justify-center font-custom relative overflow-hidden">
-  <!-- Decorative Background Elements -->
-  <div class="absolute inset-0 pointer-events-none z-0">
-    <svg width="100%" height="100%" class="opacity-[0.12]">
-      <pattern id="dots-pattern" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
-        <circle cx="3" cy="3" r="2" fill="#d4a007" />
-      </pattern>
-      <rect width="100%" height="100%" fill="url(#dots-pattern)" />
-    </svg>
-    <!-- Colorful floating blobs -->
-    <div class="absolute top-20 -left-20 w-80 h-80 bg-brand/15 rounded-full blur-3xl animate-float"></div>
-    <div class="absolute bottom-20 -right-20 w-96 h-96 bg-blue-300/15 rounded-full blur-3xl animate-pulse-slow"></div>
-    <div class="absolute top-1/2 left-2/3 w-72 h-72 bg-brand-light/35 rounded-full blur-3xl animate-float" style="animation-delay: -3s;"></div>
-  </div>
+
 
   <div class="w-full max-w-xl mx-auto relative z-10 flex flex-col">
     <!-- Back Button -->

@@ -68,8 +68,7 @@
 
 <div class="min-h-screen bg-[#FFFDF5] flex items-center justify-center p-4">
     <div class="mt-20 max-w-md w-full bg-white rounded-[3rem] border-4 border-yellow-100 shadow-[0_16px_0_0_#fef08a] p-10 md:p-12 relative overflow-hidden my-8">
-        <div class="absolute -top-16 -left-16 w-48 h-48 bg-yellow-100 rounded-full blur-3xl"></div>
-        <div class="absolute -bottom-16 -right-16 w-48 h-48 bg-blue-100 rounded-full blur-3xl"></div>
+
 
         <div class="relative">
             <div class="text-center mb-8">

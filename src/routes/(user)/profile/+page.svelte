@@ -15,13 +15,7 @@
   <main
     class="min-h-screen bg-[#FFFDF5] pt-32 pb-16 px-4 overflow-hidden relative"
   >
-    <!-- Decorative background elements -->
-    <div
-      class="absolute top-40 -left-10 w-40 h-40 bg-yellow-100 rounded-full blur-3xl opacity-60"
-    ></div>
-    <div
-      class="absolute bottom-20 -right-10 w-60 h-60 bg-blue-100 rounded-full blur-3xl opacity-60"
-    ></div>
+
 
     <div
       class="hidden lg:block absolute top-60 left-20 animate-float opacity-20 pointer-events-none"

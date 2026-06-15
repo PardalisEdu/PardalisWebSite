@@ -22,17 +22,7 @@
 </script>
 
 <div class="relative min-h-screen flex flex-col overflow-hidden bg-cream pt-28">
-	<div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-		<svg width="100%" height="100%" class="opacity-15">
-			<pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
-				<circle cx="2" cy="2" r="2" fill="#f9c710" />
-			</pattern>
-			<rect width="100%" height="100%" fill="url(#dots)" />
-		</svg>
-		<div class="absolute -top-20 -left-20 w-96 h-96 bg-yellow-200/40 rounded-full blur-3xl animate-pulse-slow"></div>
-		<div class="absolute top-1/3 -right-20 w-80 h-80 bg-orange-100/50 rounded-full blur-3xl animate-float"></div>
-		<div class="absolute -bottom-10 left-1/3 w-64 h-64 bg-blue-100/30 rounded-full blur-2xl"></div>
-	</div>
+
 
 	<main class="relative z-10 grid grid-cols-1 md:grid-cols-2 flex-1 max-w-7xl mx-auto w-full p-6 md:p-12 items-center gap-8">
 		<div in:fly={{ x: -50, duration: 800, delay: 200 }} class="flex flex-col space-y-8 text-center md:text-left">
@@ -70,7 +60,7 @@
 
 		<!-- Logo interactivo -->
 		<div class="relative flex justify-center items-center mt-12 md:mt-0">
-			<div class="absolute w-64 h-64 md:w-125 md:h-125 bg-yellow-400/10 rounded-full blur-3xl animate-pulse-slow"></div>
+
 			<button
 				onclick={handleLogoInteraction}
 				onkeydown={handleKeyDown}

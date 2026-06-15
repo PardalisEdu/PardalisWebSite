@@ -40,7 +40,7 @@
         </pattern>
         <rect width="100%" height="100%" fill="url(#dots-terms)" />
       </svg>
-      <div class="absolute top-10 right-10 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-float"></div>
+
     </div>
     <div class="relative container mx-auto px-4 text-center">
       <h1 class="text-5xl md:text-7xl font-black text-white mb-4 drop-shadow-sm">
