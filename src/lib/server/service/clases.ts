@@ -1,6 +1,6 @@
 import { and, eq } from "drizzle-orm";
 import { db } from "../db";
-import { clases, codigosClase, contenidoClase, usuarioClases } from "../db/schema";
+import { clases, codigosClase, contenidoClase, usuarioClases } from "../db/schemas/schema";
 import { ClassNotFound, CodeInvalid, UserAlreadyMember, UserUnauthorized } from "../errores";
 
 export async function optenerClases(idUsuario: string) {

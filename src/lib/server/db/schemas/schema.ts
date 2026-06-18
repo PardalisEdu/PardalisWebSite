@@ -1,6 +1,6 @@
 import { relations } from "drizzle-orm";
 // 1. Importamos `varchar` desde mysql-core
-import { mysqlTable, text, varchar, timestamp, boolean, index, mysqlEnum } from "drizzle-orm/mysql-core";
+import { boolean, index, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
 
 export const user = mysqlTable("user", {
   // Cambiado text -> varchar con longitud para la PK y el Unique
