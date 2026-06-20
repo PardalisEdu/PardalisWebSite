@@ -122,7 +122,7 @@
         Escríbenos y te responderemos lo antes posible.
       </p>
       <a
-        href="mailto:garcia.garcia.oscar2376@gmail.com"
+        href="mailto:soporte@pardalis.mx"
         class="inline-flex items-center gap-3 bg-[#f9c710] text-gray-900 px-10 py-4 rounded-2xl font-black text-lg shadow-[0_6px_0_0_#d4a007] hover:shadow-none hover:translate-y-1.5 active:scale-95 transition-all duration-150"
       >
         <span>📧</span>
