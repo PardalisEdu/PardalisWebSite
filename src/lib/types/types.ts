@@ -3,9 +3,10 @@
 // ============================================================
 
 export interface User {
-	apodo: string;
-	nombre?: string;
-	correo?: string;
+	id: string;
+	name: string;
+	email: string;
+    image?: string | null;
 }
 
 export interface AuthState {

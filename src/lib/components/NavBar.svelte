@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { goto, invalidateAll } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { authClient } from '$lib/client/auth-client';
 	import { onMount } from 'svelte';
@@ -141,7 +142,15 @@
 					<span class="md:hidden lg:inline">PERFIL</span>
 				</a>
 					<button
-						onclick={() => authClient.signOut()}
+						onclick={() => authClient.signOut({
+                            fetchOptions: {
+                                onSuccess: async () => {
+                                    await invalidateAll();
+
+                                    goto("/")
+                                }
+                            }
+                        })}
 						type="submit"
 						class="w-full bg-gray-100 text-gray-500 px-6 py-2 rounded-2xl font-bold hover:bg-red-50 hover:text-red-500 transition-all active:scale-95"
 					>
