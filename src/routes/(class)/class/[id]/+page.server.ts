@@ -1,6 +1,6 @@
 import { auth } from "$lib/server/auth";
 import { db } from "$lib/server/db";
-import { clases, codigosClase, contenidoClase, user, usuarioClases } from "$lib/server/db/schema";
+import { clases, codigosClase, contenidoClase, user, usuarioClases } from "$lib/server/db/schemas";
 import { fail, redirect } from "@sveltejs/kit";
 import { and, count, desc, eq } from "drizzle-orm";
 import type { PageServerLoad } from "./$types";

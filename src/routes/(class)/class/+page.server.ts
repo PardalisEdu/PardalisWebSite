@@ -1,11 +1,11 @@
 import { auth } from "$lib/server/auth";
 import { db } from "$lib/server/db";
-import { usuarioClases } from "$lib/server/db/schema";
 import { ClassNotFound, CodeInvalid, UserAlreadyMember, UserUnauthorized } from "$lib/server/errores";
 import { crearClase, eliminarClase, optenerClases, unirseAClase } from "$lib/server/service/clases";
 import { fail, redirect } from "@sveltejs/kit";
 import { and, eq } from "drizzle-orm";
 import type { Actions, PageServerLoad } from "./$types";
+import { usuarioClases } from "$lib/server/db/schemas";
 
 export const load: PageServerLoad = async ({ request }) => {
 

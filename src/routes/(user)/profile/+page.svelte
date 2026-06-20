@@ -5,15 +5,36 @@
   import ProfileFunCard from "$lib/components/profile/ProfileFunCard.svelte";
   import { fly } from "svelte/transition";
 
+  interface Props {
+    data: any;
+  }
+
+  let { data }: Props = $props();
+
   const session = authClient.useSession();
 
   let editing = $state(false);
   let showAlert = $state(false);
+
+  let userName = $state("");
+  let userBio = $state("");
+
+  // Keep state in sync with session data (specifically when session loads or is refreshed)
+  $effect(() => {
+    if ($session.data?.user?.name) {
+      userName = $session.data.user.name;
+    }
+  });
+
+  // Keep state in sync with server loaded profile bio
+  $effect(() => {
+    userBio = data.profile?.bio || "";
+  });
 </script>
 
 {#if $session.data}
   <main
-    class="min-h-screen bg-[#FFFDF5] pt-32 pb-16 px-4 overflow-hidden relative"
+    class="min-h-screen bg-cream pt-32 pb-16 px-4 overflow-hidden relative"
   >
 
 
@@ -49,7 +70,11 @@
 
         <!-- Main Content: Bio and Edit Form -->
         <div class="w-full md:w-2/3 flex flex-col gap-8">
-          <ProfileBioCard bind:editing />
+          <ProfileBioCard 
+            bind:editing 
+            bind:name={userName}
+            bind:bio={userBio}
+          />
           <ProfileFunCard />
         </div>
       </div>
@@ -75,4 +100,5 @@
     animation-delay: 1s;
   }
 </style>
+
 
