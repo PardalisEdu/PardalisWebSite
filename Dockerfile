@@ -4,7 +4,7 @@ FROM oven/bun:1 AS builder
 WORKDIR /app
 
 # Copiar archivos de configuración
-COPY package.json bun.lock svelte.config.js vite.config.js jsconfig.json postcss.config.js drizzle.config.js ./
+COPY package.json bun.lock svelte.config.js vite.config.js jsconfig.json drizzle.config.js ./
 
 # Instalar dependencias a la velocidad de la luz
 RUN bun install
