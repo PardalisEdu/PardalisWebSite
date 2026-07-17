@@ -2,4 +2,4 @@
     import GameIframe from '$lib/components/GameIframe.svelte';
 </script>
 
-<GameIframe src="/game/pong/Pardalis Game.html" />
+<GameIframe src="https://pardalisedu.github.io/PingPong/Pardalis%20Game.html" />

@@ -9,10 +9,6 @@ export default defineConfig({
 		include: ['better-auth/svelte']
 	},
 	server: {
-		watch: {
-			// El export del juego (68MB) no necesita vigilancia del watcher
-			ignored: ['**/static/game/**']
-		},
 		// Pre-transforma los módulos de entrada al arrancar para acelerar la primera carga
 		warmup: {
 			clientFiles: ['./src/routes/+layout.svelte', './src/routes/+page.svelte']
