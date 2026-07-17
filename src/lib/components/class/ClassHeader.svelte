@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { ArrowLeft, Pencil } from 'lucide-svelte';
+    import ArrowLeft from 'lucide-svelte/icons/arrow-left';
+    import Pencil from 'lucide-svelte/icons/pencil';
     import { enhance } from '$app/forms';
 
     let { 

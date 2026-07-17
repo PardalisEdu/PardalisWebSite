@@ -1,7 +1,7 @@
 import { auth } from "$lib/server/auth";
 import { db } from "$lib/server/db";
 import { clases, codigosClase, contenidoClase, user, usuarioClases } from "$lib/server/db/schemas";
-import { fail, redirect } from "@sveltejs/kit";
+import { error, fail, redirect } from "@sveltejs/kit";
 import { and, count, desc, eq } from "drizzle-orm";
 import type { PageServerLoad } from "./$types";
 
@@ -15,7 +15,25 @@ export const load: PageServerLoad = async ({ request, params }) => {
         throw redirect(302, '/login');
     }
 
+    // Solo los miembros de la clase (alumno o profesor) pueden ver su contenido
+    const userInClass = await db.select().from(usuarioClases).where(
+        and(
+            eq(usuarioClases.idClase, params.id),
+            eq(usuarioClases.idUser, session.user.id)
+        )
+    ).limit(1);
+
+    const userRole = userInClass[0]?.rol || null;
+
+    if (!userRole) {
+        throw error(403, 'No tienes acceso a esta clase');
+    }
+
     const clase = await db.select().from(clases).where(eq(clases.id, params.id)).limit(1);
+
+    if (!clase[0]) {
+        throw error(404, 'Clase no encontrada');
+    }
     const contenidoTexto = await db.select({
         id: contenidoClase.id,
         title: contenidoClase.titulo,
@@ -30,31 +48,35 @@ export const load: PageServerLoad = async ({ request, params }) => {
         url: contenidoClase.contenido
     }).from(contenidoClase).where(and(eq(contenidoClase.idClase, params.id), eq(contenidoClase.typo, "archivo")));
 
-    const codigo = await db.select().from(codigosClase)
-        .where(
-            and(
-                eq(codigosClase.idClase, params.id),
-                eq(codigosClase.estado, "activo")
+    // El código de invitación solo se expone al profesor de la clase
+    const codigo = userRole === 'profesor'
+        ? await db.select().from(codigosClase)
+            .where(
+                and(
+                    eq(codigosClase.idClase, params.id),
+                    eq(codigosClase.estado, "activo")
+                )
             )
-        )
-        .orderBy(desc(codigosClase.createdAt))
-        .limit(1);
+            .orderBy(desc(codigosClase.createdAt))
+            .limit(1)
+        : [];
 
-    const profesor = await db.select().from(usuarioClases).where(eq(usuarioClases.rol, "profesor")).leftJoin(user, eq(usuarioClases.idUser, user.id)).limit(1)
-
-    const userInClass = await db.select().from(usuarioClases).where(
+    const profesor = await db.select().from(usuarioClases).where(
         and(
             eq(usuarioClases.idClase, params.id),
-            eq(usuarioClases.idUser, session.user.id)
+            eq(usuarioClases.rol, "profesor")
         )
-    ).limit(1);
+    ).leftJoin(user, eq(usuarioClases.idUser, user.id)).limit(1)
 
-    const alumnos = await db.select({ numero_alumnos: count() }).from(usuarioClases).where(eq(usuarioClases.rol, "alumno"))
-
-    const userRole = userInClass[0]?.rol || null;
+    const alumnos = await db.select({ numero_alumnos: count() }).from(usuarioClases).where(
+        and(
+            eq(usuarioClases.idClase, params.id),
+            eq(usuarioClases.rol, "alumno")
+        )
+    )
 
     return {
-        clase: clase[0] ?? null, 
+        clase: clase[0],
         contenido: {
             anuncios: contenidoTexto,
             archivos: contenidoArchivos
@@ -243,11 +265,12 @@ export const actions = {
             .set({ estado: 'inactivo' })
             .where(eq(codigosClase.idClase, params.id));
 
-        // Generar nuevo código de 6 caracteres
+        // Generar nuevo código de 6 caracteres con aleatoriedad criptográfica
         const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        const bytes = crypto.getRandomValues(new Uint8Array(6));
         let nuevoCodigo = "";
         for (let i = 0; i < 6; i++) {
-            nuevoCodigo += chars.charAt(Math.floor(Math.random() * chars.length));
+            nuevoCodigo += chars.charAt(bytes[i] % chars.length);
         }
 
         // Insertar nuevo código activo

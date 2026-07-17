@@ -15,6 +15,10 @@ interface Frontmatter {
 	tags: string[];
 }
 
+function unquote(value: string): string {
+	return value.replace(/^["'](.*)["']$/, '$1');
+}
+
 function parseFrontmatter(raw: string): Frontmatter | null {
 	const match = raw.match(/^---\n([\s\S]*?)\n---\n/);
 	if (!match) return null;
@@ -30,7 +34,7 @@ function parseFrontmatter(raw: string): Frontmatter | null {
 		if (sep === -1) { i++; continue; }
 
 		const key = line.slice(0, sep).trim();
-		const rawValue = line.slice(sep + 2).trim();
+		const rawValue = unquote(line.slice(sep + 2).trim());
 
 		if (key === 'tags') {
 			const tagList: string[] = [];
@@ -38,7 +42,7 @@ function parseFrontmatter(raw: string): Frontmatter | null {
 			// Collect continuation lines starting with "  -"
 			while (i + 1 < lines.length && lines[i + 1].match(/^\s{2}- /)) {
 				i++;
-				tagList.push(lines[i].trim().replace(/^- /, ''));
+				tagList.push(unquote(lines[i].trim().replace(/^- /, '')));
 			}
 			frontmatter.tags = tagList;
 		} else if (rawValue === '') {
@@ -58,10 +62,17 @@ function stripFrontmatter(raw: string): string {
 	return raw.replace(/^---[\s\S]*?\n---\n/, '');
 }
 
+// El contenido va congelado en el bundle: se parsea una sola vez y se reutiliza
+let cachedPosts: BlogPost[] | null = null;
+
 function readAllPosts(): BlogPost[] {
+	if (cachedPosts) return cachedPosts;
+
 	const blogPosts: BlogPost[] = [];
 
-	for (const [, raw] of Object.entries(posts)) {
+	for (const [, rawFile] of Object.entries(posts)) {
+		// Normalizar CRLF: en Windows git puede materializar los .md con \r\n
+		const raw = rawFile.replace(/\r\n/g, '\n');
 		const frontmatter = parseFrontmatter(raw);
 		if (!frontmatter) continue;
 
@@ -84,7 +95,12 @@ function readAllPosts(): BlogPost[] {
 	}
 
 	blogPosts.sort((a, b) => new Date(b.fecha_publicacion).getTime() - new Date(a.fecha_publicacion).getTime());
+	cachedPosts = blogPosts;
 	return blogPosts;
+}
+
+export function getAllSlugs(): string[] {
+	return readAllPosts().map((p) => p.slug);
 }
 
 export function fetchBlogs(

@@ -37,7 +37,7 @@
     ];
 </script>
 
-<div class="min-h-screen bg-[#FFFDF5]">
+<div class="min-h-screen bg-cream">
     <!-- Header -->
     <div class="border-b border-gray-100 bg-white">
         <div class="max-w-5xl mx-auto px-4 pt-28 pb-12 md:pt-36 md:pb-16">
@@ -61,7 +61,7 @@
         <!-- Mock Joined Class (Example) -->
         <div class="mb-12">
             <h2 class="text-xl font-black text-gray-900 mb-6 flex items-center gap-2">
-                <span class="w-2 h-2 bg-[#f9c710] rounded-full"></span>
+                <span class="w-2 h-2 bg-brand rounded-full"></span>
                 Tus clases activas
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -81,7 +81,7 @@
 
                             <a 
                                 href="/class/{clase.id}"
-                                class="block w-full text-center py-3 bg-[#f9c710] text-gray-900 font-black rounded-xl shadow-[0_4px_0_0_#d4a007] hover:shadow-none hover:translate-y-1 transition-all active:scale-95"
+                                class="block w-full text-center py-3 bg-brand text-gray-900 font-black rounded-xl shadow-[0_4px_0_0_#d4a007] hover:shadow-none hover:translate-y-1 transition-all active:scale-95"
                             >
                                 Entrar al aula
                             </a>
@@ -256,7 +256,7 @@
 
                         <button
                             type="submit"
-                            class="w-full py-4 font-black text-lg text-white bg-[#f9c710] rounded-2xl shadow-[0_4px_0_0_#d4a007] hover:shadow-none hover:translate-y-1 active:scale-95 transition-all duration-150"
+                            class="w-full py-4 font-black text-lg text-white bg-brand rounded-2xl shadow-[0_4px_0_0_#d4a007] hover:shadow-none hover:translate-y-1 active:scale-95 transition-all duration-150"
                         >
                             Unirme a la clase
                         </button>
@@ -368,7 +368,7 @@
                             <button
                                 type="submit"
                                 disabled={!className.trim()}
-                                class="w-full py-4 font-black text-lg text-white bg-[#f9c710] rounded-2xl shadow-[0_4px_0_0_#d4a007] hover:shadow-none hover:translate-y-1 active:scale-95 transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
+                                class="w-full py-4 font-black text-lg text-white bg-brand rounded-2xl shadow-[0_4px_0_0_#d4a007] hover:shadow-none hover:translate-y-1 active:scale-95 transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
                             >
                                 Crear clase
                             </button>

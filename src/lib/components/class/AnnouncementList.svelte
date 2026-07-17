@@ -1,5 +1,7 @@
 <script lang="ts">
-    import { Calendar, Pencil, Trash2 } from 'lucide-svelte';
+    import Calendar from 'lucide-svelte/icons/calendar';
+    import Pencil from 'lucide-svelte/icons/pencil';
+    import Trash2 from 'lucide-svelte/icons/trash-2';
     import { enhance } from '$app/forms';
 
     interface Announcement {

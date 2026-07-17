@@ -1,6 +1,11 @@
-import { fetchBlogBySlug } from '$lib/content/blog';
+import { fetchBlogBySlug, getAllSlugs } from '$lib/content/blog';
 import { error } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types';
+import type { EntryGenerator, PageServerLoad } from './$types';
+
+// Los posts son estáticos: se generan como HTML en el build
+export const prerender = true;
+
+export const entries: EntryGenerator = () => getAllSlugs().map((slug) => ({ slug }));
 
 export const load: PageServerLoad = async ({ params }) => {
 	const blog = fetchBlogBySlug(params.slug);

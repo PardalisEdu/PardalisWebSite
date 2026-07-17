@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { Calendar, Clock } from "lucide-svelte";
+  import Calendar from "lucide-svelte/icons/calendar";
+  import Clock from "lucide-svelte/icons/clock";
   import type { BlogPost } from '$lib/types/types';
 
   let { post }: { post: BlogPost } = $props();

@@ -3,6 +3,13 @@ import { svelteKitHandler } from "better-auth/svelte-kit";
 import { building } from "$app/environment";
 
 export async function handle({ event, resolve }) {
+    // Durante el prerender no hay sesiones ni DB disponible
+    if (building) {
+        event.locals.session = null;
+        event.locals.user = null;
+        return resolve(event);
+    }
+
     const sesion = await auth.api.getSession({
         headers: event.request.headers
     });

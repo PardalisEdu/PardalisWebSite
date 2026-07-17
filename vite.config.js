@@ -1,19 +1,20 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
-import compression from 'vite-plugin-compression';
 
 export default defineConfig({
-	plugins: [
-		sveltekit(),
-		compression({
-			algorithm: 'brotliCompress',
-			ext: '.br',
-			threshold: 1024
-		}),
-		compression({
-			algorithm: 'gzip',
-			ext: '.gz',
-			threshold: 1024
-		})
-	]
+	plugins: [sveltekit()],
+	optimizeDeps: {
+		// Pre-empaquetar deps que Vite descubre tarde evita recargas a media sesión
+		include: ['better-auth/svelte']
+	},
+	server: {
+		watch: {
+			// El export del juego (68MB) no necesita vigilancia del watcher
+			ignored: ['**/static/game/**']
+		},
+		// Pre-transforma los módulos de entrada al arrancar para acelerar la primera carga
+		warmup: {
+			clientFiles: ['./src/routes/+layout.svelte', './src/routes/+page.svelte']
+		}
+	}
 });

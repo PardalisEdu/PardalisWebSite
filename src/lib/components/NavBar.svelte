@@ -1,6 +1,6 @@
 <script lang="ts">
     import { goto, invalidateAll } from '$app/navigation';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { authClient } from '$lib/client/auth-client';
 	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
@@ -9,11 +9,7 @@
 
 	let showBanner = $state(true);
 	let isMenuOpen = $state(false);
-	let currentPath = $state('');
-
-	$effect(() => {
-		currentPath = $page.url.pathname;
-	});
+	let currentPath = $derived(page.url.pathname);
 
 	onMount(() => {
 		const bannerClosed = localStorage.getItem('bannerClosed');
@@ -79,7 +75,7 @@
 	>
 		<a
 			href="/"
-			class="text-3xl font-black tracking-tighter text-[#f9c710] hover:scale-105 transition-transform active:rotate-2"
+			class="text-3xl font-black tracking-tighter text-brand hover:scale-105 transition-transform active:rotate-2"
 		>
 			PARDALIS<span class="text-blue-400">.</span>
 		</a>
@@ -119,7 +115,7 @@
 					>
 						{link.t}
 						{#if isActive(link.h)}
-							<span class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#f9c710] rounded-full"></span>
+							<span class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-brand rounded-full"></span>
 						{/if}
 					</a>
 				{/each}
@@ -164,7 +160,7 @@
 					>
 						{link.t}
 						{#if isActive(link.h)}
-							<span class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#f9c710] rounded-full"></span>
+							<span class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-brand rounded-full"></span>
 						{/if}
 					</a>
 				{/each}
@@ -173,7 +169,7 @@
 				
 				<a
 					href="/login"
-					class="w-full md:w-auto text-center bg-[#f9c710] text-white px-8 py-3 rounded-2xl font-black shadow-[0_4px_0_0_#d4a007] hover:shadow-none hover:translate-y-1 transition-all active:scale-95"
+					class="w-full md:w-auto text-center bg-brand text-white px-8 py-3 rounded-2xl font-black shadow-3d-sm hover:shadow-none hover:translate-y-1 transition-all active:scale-95"
 				>
 					¡ENTRAR!
 				</a>

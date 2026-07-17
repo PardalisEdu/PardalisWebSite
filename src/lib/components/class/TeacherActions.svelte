@@ -1,6 +1,9 @@
 <script lang="ts">
     import { enhance } from '$app/forms';
-    import { Megaphone, FileUp, Plus, X } from 'lucide-svelte';
+    import Megaphone from 'lucide-svelte/icons/megaphone';
+    import FileUp from 'lucide-svelte/icons/file-up';
+    import Plus from 'lucide-svelte/icons/plus';
+    import X from 'lucide-svelte/icons/x';
     import { fade, slide } from 'svelte/transition';
 
     let showForm = $state<'announcement' | 'file' | null>(null);

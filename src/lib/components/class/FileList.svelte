@@ -1,5 +1,10 @@
 <script lang="ts">
-    import { FileText, Download, Pencil, Trash2, Check, X } from 'lucide-svelte';
+    import FileText from 'lucide-svelte/icons/file-text';
+    import Download from 'lucide-svelte/icons/download';
+    import Pencil from 'lucide-svelte/icons/pencil';
+    import Trash2 from 'lucide-svelte/icons/trash-2';
+    import Check from 'lucide-svelte/icons/check';
+    import X from 'lucide-svelte/icons/x';
     import { enhance } from '$app/forms';
 
     interface ClassFile {

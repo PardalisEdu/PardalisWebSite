@@ -1,6 +1,6 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
-    import { Search } from 'lucide-svelte';
+    import Search from 'lucide-svelte/icons/search';
     import BlogCard from '$lib/components/BlogCard.svelte';
     import type { BlogPost } from '$lib/types/types';
 

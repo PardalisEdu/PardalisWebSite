@@ -1,5 +1,9 @@
 <script lang="ts">
-  import { ArrowLeft, BookOpen, Star, Sparkles, MapPin } from 'lucide-svelte';
+  import ArrowLeft from 'lucide-svelte/icons/arrow-left';
+  import BookOpen from 'lucide-svelte/icons/book-open';
+  import Star from 'lucide-svelte/icons/star';
+  import Sparkles from 'lucide-svelte/icons/sparkles';
+  import MapPin from 'lucide-svelte/icons/map-pin';
 
   interface Station {
     id: string;

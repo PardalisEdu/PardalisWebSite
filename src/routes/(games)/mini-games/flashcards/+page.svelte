@@ -2,7 +2,10 @@
   import { spring } from "svelte/motion";
   import { flashcardDeck } from '$lib/client/data/games/flashcards';
   import type { FlashCard } from '$lib/types/types';
-  import { ArrowLeft, HelpCircle, BookOpen, RotateCcw } from 'lucide-svelte';
+  import ArrowLeft from 'lucide-svelte/icons/arrow-left';
+  import HelpCircle from 'lucide-svelte/icons/help-circle';
+  import BookOpen from 'lucide-svelte/icons/book-open';
+  import RotateCcw from 'lucide-svelte/icons/rotate-ccw';
 
   // Use Svelte 5 state with explicit typing
   let currentIndex = $state<number>(0);

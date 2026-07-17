@@ -1,7 +1,10 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
   import { authClient } from "$lib/client/auth-client";
-  import { ShieldCheck, User, Sparkles, AlertTriangle } from "lucide-svelte";
+  import ShieldCheck from "lucide-svelte/icons/shield-check";
+  import User from "lucide-svelte/icons/user";
+  import Sparkles from "lucide-svelte/icons/sparkles";
+  import AlertTriangle from "lucide-svelte/icons/alert-triangle";
   import { fade, slide } from "svelte/transition";
 
   interface Props {

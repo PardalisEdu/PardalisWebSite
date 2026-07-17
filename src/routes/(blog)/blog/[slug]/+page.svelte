@@ -1,5 +1,9 @@
 <script lang="ts">
-    import { ArrowLeft, Calendar, Clock, Tag, Share2 } from 'lucide-svelte';
+    import ArrowLeft from 'lucide-svelte/icons/arrow-left';
+    import Calendar from 'lucide-svelte/icons/calendar';
+    import Clock from 'lucide-svelte/icons/clock';
+    import Tag from 'lucide-svelte/icons/tag';
+    import Share2 from 'lucide-svelte/icons/share-2';
 
     let { data } = $props();
 
