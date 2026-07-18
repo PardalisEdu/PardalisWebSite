@@ -25,5 +25,13 @@ export const auth = betterAuth({
 
     secret: env.BETTER_AUTH_SECRET,
 
+    session: {
+        // Cachea la sesión firmada en cookie para no consultar MySQL en cada request
+        cookieCache: {
+            enabled: true,
+            maxAge: 5 * 60
+        }
+    },
+
     plugins: [sveltekitCookies(getRequestEvent)]
 });

@@ -9,49 +9,6 @@ export interface User {
     image?: string | null;
 }
 
-export interface AuthState {
-	user: User | null;
-	isAuthenticated: boolean;
-}
-
-export interface Credentials {
-	correo: string;
-	contrasenna: string;
-}
-
-export interface RegisterParams {
-	apodo: string;
-	nombre: string;
-	correo: string;
-	contrasenna: string;
-}
-
-export interface LoginResponse {
-	token: string;
-	user: User;
-}
-
-export interface DecodedToken {
-	userApodo: string;
-	exp: number;
-	iat?: number;
-}
-
-// ============================================================
-// Profile & Personalization
-// ============================================================
-
-export interface ProfileData {
-	apodo: string;
-	nombre?: string;
-	correo?: string;
-}
-
-export interface PersonalizationData {
-	descripcion: string;
-	foto: string;
-}
-
 // ============================================================
 // Blog types
 // ============================================================
@@ -68,14 +25,6 @@ export interface BlogPost {
 	tiempo_lectura: number;
 	fecha_publicacion: string;
 	tags: string[];
-}
-
-export interface BlogStoreState {
-	blogs: BlogPost[];
-	currentPage: number;
-	loading: boolean;
-	error: string | null;
-	selectedCategory: string;
 }
 
 // ============================================================
@@ -166,33 +115,4 @@ export interface Game {
 	icon?: string;
 	color: string;
 	level: string;
-}
-
-// ============================================================
-// Classroom types (DEMO)
-// ============================================================
-
-export interface ClassFile {
-	name: string;
-	type: string;
-}
-
-export interface ClassAnnouncement {
-	id: string;
-	title: string;
-	content: string;
-	files: ClassFile[];
-	date: string;
-}
-
-export interface ClassData {
-	id: string;
-	code: string;
-	name: string;
-	teacher: string;
-	description: string;
-	emoji: string;
-	color: string;
-	students: number;
-	announcements: ClassAnnouncement[];
 }
