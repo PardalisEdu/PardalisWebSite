@@ -4,6 +4,7 @@ import { clases, codigosClase, contenidoClase, user, usuarioClases } from "$lib/
 import { error, fail, redirect } from "@sveltejs/kit";
 import { and, count, desc, eq } from "drizzle-orm";
 import type { PageServerLoad } from "./$types";
+import { deleteFile, uploadFile } from "$lib/server/r3";
 
 export const load: PageServerLoad = async ({ request, params }) => {
 
@@ -147,17 +148,20 @@ export const actions = {
             return fail(400, { message: "Archivo inválido" });
         }
 
-        // ⚠️ ATENCIÓN AQUÍ: La base de datos guarda un texto (URL), no el archivo físico.
-        // Aquí deberías subir 'archivo' a un servicio como AWS S3, Uploadthing, Cloudinary, etc.
-        // Simularemos que ya lo subiste y obtuviste una URL:
-        const fileUrl = "https://tu-servicio-de-storage.com/" + archivo.name; 
+        const arrayBuffer = await archivo.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+        const key = `${crypto.randomUUID()}-${archivo.name}`;
+
+        await uploadFile(key, buffer, archivo.type);
+        
+        const fileUrl = key; 
 
         await db.insert(contenidoClase).values({
             id: crypto.randomUUID(),
             idClase: params.id,
             typo: 'archivo',
             titulo: nombre,
-            contenido: fileUrl, // Guardamos la URL en el campo contenido
+            contenido: fileUrl,
             idUser: session.user.id
         });
 
@@ -197,17 +201,26 @@ export const actions = {
         if (!isTeacher) return fail(403, { message: "No autorizado" });
 
         const formData = await request.formData();
-        const id = formData.get('id') as string;
+        const oldKey = formData.get('id') as string;
         const nombre = formData.get('nombre') as string;
+        
+        const file = formData.get('file') as File;
+        const arrayBuffer = await file.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+        const newKey = `${crypto.randomUUID()}-${file.name}`;
+        
+        await uploadFile(newKey, buffer, file.type);
 
-        if (!id || !nombre) return fail(400, { message: "Faltan campos" });
+        if (oldKey) {
+            await deleteFile(oldKey);
+        }
 
         await db.update(contenidoClase)
             .set({ 
                 titulo: nombre, 
                 updatedAt: mysqlNow() 
             })
-            .where(and(eq(contenidoClase.id, id), eq(contenidoClase.idClase, params.id)));
+            .where(and(eq(contenidoClase.id, oldKey), eq(contenidoClase.idClase, params.id)));
 
         return { success: true };
     },
@@ -224,8 +237,12 @@ export const actions = {
 
         if (!id) return fail(400, { message: "Faltan campos" });
 
+        const key = await db.select().from(contenidoClase).where(eq(contenidoClase.id, id)).limit(1);
+
         await db.delete(contenidoClase)
             .where(and(eq(contenidoClase.id, id), eq(contenidoClase.idClase, params.id)));
+        
+        await deleteFile(key[0].contenido);
 
         return { success: true };
     },

@@ -26,6 +26,12 @@
             editName = file.name;
         }
     }
+
+    async function getUrl(key: string) {
+        const res = await fetch(`/api/download?key=${key}`);
+        const { url } = await res.json();
+        window.open(url, '_blank');
+    }
 </script>
 
 <div class="bg-white rounded-2xl border border-gray-100 p-6 sticky top-28">
@@ -86,9 +92,14 @@
                         </p>
                     </div>
                     <div class="flex items-center gap-1 shrink-0 opacity-0 group-hover:opacity-100 transition-all">
-                        <a class="p-1 text-gray-400 hover:text-[#f9c710] transition-colors" href={file.url || 'No link'} title="Descargar archivo">
+                        <button 
+                            type="button" 
+                            onclick={() => getUrl(file.url || '')}
+                            class="p-1 text-gray-400 hover:text-[#f9c710] transition-colors"
+                            title="Descargar archivo"
+                        >
                             <Download size={16} />
-                        </a>
+                        </button>
                         {#if isTeacher}
                             <button 
                                 type="button"

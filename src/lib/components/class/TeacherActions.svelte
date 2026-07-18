@@ -127,6 +127,7 @@
                         id="file-name"
                         name="nombre"
                         type="text"
+                        autocomplete="off"
                         bind:value={fileName}
                         placeholder="Ej: Guía de estudio.pdf"
                         class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:outline-hidden focus:border-blue-400 focus:bg-white transition-all font-medium"

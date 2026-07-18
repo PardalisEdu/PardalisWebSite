@@ -9,7 +9,7 @@
     let { data }: PageProps = $props();
 </script>
 
-<div class="min-h-screen bg-[#FFFDF5]">
+<div class="min-h-screen bg-cream">
     <ClassHeader 
         level={data.clase?.grado || 'No definido'} 
         studentCount={data.numero_alumnos.numero_alumnos || 0} 
