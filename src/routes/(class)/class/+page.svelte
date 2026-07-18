@@ -1,7 +1,8 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
     import { fade } from 'svelte/transition';
     import { enhance } from '$app/forms';
+    import Copy from 'lucide-svelte/icons/copy';
+    import Check from 'lucide-svelte/icons/check';
     import type { PageProps } from './$types'
 
     import { authClient } from "$lib/client/auth-client";
@@ -20,12 +21,24 @@
     let classLevel = $state('1°');
     let classDesc = $state('');
     let createdCode = $state<string | null>(null);
+    let copied = $state(false);
 
     function resetCreate() {
         createdCode = null;
         className = '';
         classDesc = '';
         classLevel = '1°';
+    }
+
+    async function copyCode() {
+        if (!createdCode) return;
+        try {
+            await navigator.clipboard.writeText(createdCode);
+            copied = true;
+            setTimeout(() => copied = false, 2000);
+        } catch {
+            // El navegador puede bloquear el portapapeles fuera de HTTPS
+        }
     }
 
     const levels = ['1°', '2°', '3°', '4°', '5°', '6°'];
@@ -39,168 +52,150 @@
 
 <div class="min-h-screen bg-cream">
     <!-- Header -->
-    <div class="border-b border-gray-100 bg-white">
-        <div class="max-w-5xl mx-auto px-4 pt-28 pb-12 md:pt-36 md:pb-16">
-            <div class="max-w-2xl">
-                <div class="inline-flex items-center gap-2 text-xs font-bold text-yellow-700 bg-yellow-50 px-3 py-1.5 rounded-full border border-yellow-200 uppercase tracking-wider mb-5">
-                    <span>Clases</span>
-                </div>
-                <h1 class="text-4xl md:text-5xl font-black text-gray-900 leading-tight tracking-tight mb-4">
-                    Aprender juntos
-                </h1>
-                <p class="text-lg text-gray-500 max-w-xl leading-relaxed">
-                    Únete a una clase con el código de tu profesor o crea una para tus alumnos.
-                </p>
+    <div class="max-w-5xl mx-auto px-4 pt-28 pb-10 md:pt-36 md:pb-12">
+        <div class="max-w-2xl">
+            <div class="inline-flex items-center gap-2 text-xs font-bold text-yellow-700 bg-yellow-50 px-3 py-1.5 rounded-full border border-yellow-200 uppercase tracking-wider mb-5">
+                <span>🐆 Clases</span>
             </div>
+            <h1 class="text-4xl md:text-5xl font-black text-gray-900 leading-tight tracking-tight mb-4">
+                Aprender juntos
+            </h1>
+            <p class="text-lg text-gray-500 max-w-xl leading-relaxed">
+                Únete a una clase con el código de tu profesor o crea una para tus alumnos.
+            </p>
         </div>
     </div>
 
     <!-- Main content -->
-    <div class="max-w-5xl mx-auto px-4 py-10 md:py-16">
+    <div class="max-w-5xl mx-auto px-4 pb-10 md:pb-16">
         {#if $session.data}
-        <!-- Mock Joined Class (Example) -->
-        <div class="mb-12">
-            <h2 class="text-xl font-black text-gray-900 mb-6 flex items-center gap-2">
-                <span class="w-2 h-2 bg-brand rounded-full"></span>
-                Tus clases activas
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Mock Card -->
-
-                {#each data.clases as clase}
-                    <div class="group relative bg-white rounded-[2rem] border-4 border-yellow-100 shadow-[0_8px_0_0_#fef08a] hover:-translate-y-1 hover:shadow-[0_12px_0_0_#fef08a] transition-all duration-300 overflow-hidden">
-                        <div class="absolute top-4 right-4 bg-green-500 text-white text-[10px] font-black px-2 py-1 rounded-lg uppercase tracking-wider">
-                            En curso
-                        </div>
-                        <div class="p-8">
-                            <div class="w-12 h-12 bg-yellow-50 rounded-2xl border-2 border-yellow-200 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 group-hover:-rotate-6 transition-transform">
-                                🐆
-                            </div>
-                            <h3 class="text-xl font-black text-gray-900 mb-1">{clase.nombre}</h3>
-                            <p class="text-sm text-gray-500 font-medium mb-6">{clase.descripcion}</p>
-
-                            <a 
-                                href="/class/{clase.id}"
-                                class="block w-full text-center py-3 bg-brand text-gray-900 font-black rounded-xl shadow-[0_4px_0_0_#d4a007] hover:shadow-none hover:translate-y-1 transition-all active:scale-95"
-                            >
-                                Entrar al aula
-                            </a>
-
-                            {#if clase.rol === 'profesor'}
-                                <div class="mt-4 flex items-center justify-between border-t border-gray-100 pt-4">
-                                    {#if pendingDeleteId === clase.id}
-                                        <div class="flex items-center gap-2 w-full" in:fade>
-                                            <p class="text-[10px] font-bold text-red-600 flex-1">¿Eliminar clase?</p>
-                                            <button 
-                                                type="button"
-                                                onclick={() => pendingDeleteId = null}
-                                                class="px-2 py-1 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg text-[10px] font-bold transition-colors"
-                                            >
-                                                No
-                                            </button>
-                                            <form 
-                                                method="POST" 
-                                                action="?/eliminarClase" 
-                                                use:enhance={() => {
-                                                    return async ({ update }) => {
-                                                        await update();
-                                                        pendingDeleteId = null;
-                                                    };
-                                                }}
-                                                class="inline"
-                                            >
-                                                <input type="hidden" name="idClase" value={clase.id} />
-                                                <button 
-                                                    type="submit"
-                                                    class="px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded-lg text-[10px] font-bold transition-colors"
-                                                >
-                                                    Sí, eliminar
-                                                </button>
-                                            </form>
-                                        </div>
-                                    {:else}
-                                        <span class="text-[10px] text-yellow-700 bg-yellow-50 px-2 py-0.5 rounded-md border border-yellow-100 font-bold uppercase tracking-wider">
-                                            Profesor
-                                        </span>
-                                        <button 
-                                            type="button"
-                                            onclick={() => pendingDeleteId = clase.id}
-                                            class="text-xs text-gray-400 hover:text-red-500 font-bold transition-colors"
-                                            title="Eliminar clase"
-                                        >
-                                            Eliminar clase
-                                        </button>
-                                    {/if}
-                                </div>
-                            {/if}
-
-                            {#if clase.rol === 'alumno'}
-                                <div class="mt-4 flex items-center justify-between border-t border-gray-100 pt-4">
-                                    {#if pendingDeleteId === clase.id}
-                                        <div class="flex items-center gap-2 w-full" in:fade>
-                                            <p class="text-[10px] font-bold text-red-600 flex-1">¿Salir de la clase?</p>
-                                            <button 
-                                                type="button"
-                                                onclick={() => pendingDeleteId = null}
-                                                class="px-2 py-1 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg text-[10px] font-bold transition-colors"
-                                            >
-                                                No
-                                            </button>
-                                            <form 
-                                                method="POST" 
-                                                action="?/salirseClase" 
-                                                use:enhance={() => {
-                                                    return async ({ update }) => {
-                                                        await update();
-                                                        pendingDeleteId = null;
-                                                    };
-                                                }}
-                                                class="inline"
-                                            >
-                                                <input type="hidden" name="idClase" value={clase.id} />
-                                                <button 
-                                                    type="submit"
-                                                    class="px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded-lg text-[10px] font-bold transition-colors"
-                                                >
-                                                    Sí, salir
-                                                </button>
-                                            </form>
-                                        </div>
-                                    {:else}
-                                        <span class="text-[10px] text-blue-700 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-100 font-bold uppercase tracking-wider">
-                                            Alumno
-                                        </span>
-                                        <button 
-                                            type="button"
-                                            onclick={() => pendingDeleteId = clase.id}
-                                            class="text-xs text-gray-400 hover:text-red-500 font-bold transition-colors"
-                                            title="Salirse de la clase"
-                                        >
-                                            Salirse de la clase
-                                        </button>
-                                    {/if}
-                                </div>
-                            {/if}
-                        </div>
-                    </div>                    
-                {/each}
+        <div class="mb-14">
+            <div class="flex items-center gap-3 mb-6">
+                <h2 class="text-xl font-black text-gray-900 flex items-center gap-2">
+                    <span class="w-2 h-2 bg-brand rounded-full"></span>
+                    Tus clases
+                </h2>
+                {#if data.clases.length > 0}
+                    <span class="text-xs font-bold text-gray-500 bg-white border-2 border-gray-100 px-2.5 py-0.5 rounded-full">
+                        {data.clases.length}
+                    </span>
+                {/if}
             </div>
+
+            {#if data.clases.length === 0}
+                <div class="bg-white/70 rounded-[2rem] border-2 border-dashed border-yellow-200 p-10 text-center">
+                    <span class="text-5xl block mb-4 animate-float">🎒</span>
+                    <p class="font-black text-gray-900 text-lg mb-1">Todavía no tienes clases</p>
+                    <p class="text-sm text-gray-500">
+                        Únete con el código de tu profesor o crea una clase aquí abajo. 👇
+                    </p>
+                </div>
+            {:else}
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {#each data.clases as clase}
+                        {@const esProfesor = clase.rol === 'profesor'}
+                        <div class="group relative bg-white rounded-[2rem] border-2 transition-all duration-200 flex flex-col overflow-hidden
+                            {esProfesor
+                                ? 'border-yellow-100 shadow-[0_8px_0_0_#fef9c3] hover:shadow-[0_12px_0_0_#fef9c3]'
+                                : 'border-blue-100 shadow-[0_8px_0_0_#dbeafe] hover:shadow-[0_12px_0_0_#dbeafe]'} hover:-translate-y-1">
+                            <div class="p-7 flex flex-col flex-1">
+                                <div class="flex items-start justify-between mb-4">
+                                    <div class="w-12 h-12 rounded-2xl border-2 flex items-center justify-center text-2xl group-hover:scale-110 group-hover:-rotate-6 transition-transform
+                                        {esProfesor ? 'bg-yellow-50 border-yellow-200' : 'bg-blue-50 border-blue-200'}">
+                                        {esProfesor ? '🍎' : '🐆'}
+                                    </div>
+                                    <div class="flex flex-col items-end gap-1.5">
+                                        <span class="text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider border
+                                            {esProfesor
+                                                ? 'text-yellow-700 bg-yellow-50 border-yellow-200'
+                                                : 'text-blue-700 bg-blue-50 border-blue-200'}">
+                                            {esProfesor ? 'Profesor' : 'Alumno'}
+                                        </span>
+                                        {#if clase.grado}
+                                            <span class="text-[10px] font-bold text-gray-500 bg-gray-50 border border-gray-200 px-2.5 py-1 rounded-full">
+                                                {clase.grado} de primaria
+                                            </span>
+                                        {/if}
+                                    </div>
+                                </div>
+
+                                <h3 class="text-xl font-black text-gray-900 mb-1 line-clamp-1">{clase.nombre}</h3>
+                                <p class="text-sm text-gray-500 font-medium mb-6 line-clamp-2 min-h-10">
+                                    {clase.descripcion || 'Sin descripción'}
+                                </p>
+
+                                <a
+                                    href="/class/{clase.id}"
+                                    class="mt-auto block w-full text-center py-3 bg-brand text-gray-900 font-black rounded-xl shadow-3d-sm hover:shadow-none hover:translate-y-1 transition-all active:scale-95"
+                                >
+                                    Entrar al aula
+                                </a>
+
+                                <div class="mt-4 flex items-center justify-end border-t border-gray-100 pt-4 min-h-11">
+                                    {#if pendingDeleteId === clase.id}
+                                        <div class="flex items-center gap-2 w-full" in:fade={{ duration: 150 }}>
+                                            <p class="text-xs font-bold text-red-600 flex-1">
+                                                {esProfesor ? '¿Eliminar la clase para todos?' : '¿Salir de esta clase?'}
+                                            </p>
+                                            <button
+                                                type="button"
+                                                onclick={() => pendingDeleteId = null}
+                                                class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-xl text-xs font-bold transition-colors"
+                                            >
+                                                No
+                                            </button>
+                                            <form
+                                                method="POST"
+                                                action={esProfesor ? '?/eliminarClase' : '?/salirseClase'}
+                                                use:enhance={() => {
+                                                    return async ({ update }) => {
+                                                        await update();
+                                                        pendingDeleteId = null;
+                                                    };
+                                                }}
+                                                class="inline"
+                                            >
+                                                <input type="hidden" name="idClase" value={clase.id} />
+                                                <button
+                                                    type="submit"
+                                                    class="px-3 py-1.5 bg-red-500 hover:bg-red-600 text-white rounded-xl text-xs font-bold transition-colors"
+                                                >
+                                                    {esProfesor ? 'Sí, eliminar' : 'Sí, salir'}
+                                                </button>
+                                            </form>
+                                        </div>
+                                    {:else}
+                                        <button
+                                            type="button"
+                                            onclick={() => pendingDeleteId = clase.id}
+                                            class="text-xs text-gray-400 hover:text-red-500 font-bold transition-colors"
+                                            title={esProfesor ? 'Eliminar clase' : 'Salirse de la clase'}
+                                        >
+                                            {esProfesor ? 'Eliminar clase' : 'Salirse de la clase'}
+                                        </button>
+                                    {/if}
+                                </div>
+                            </div>
+                        </div>
+                    {/each}
+                </div>
+            {/if}
         </div>
         {/if}
 
         <!-- Tab toggle (mobile) -->
         <div class="flex md:hidden bg-gray-100 rounded-2xl p-1 mb-8">
             <button
-                class="flex-1 py-2.5 rounded-xl text-sm font-bold transition-all {activeTab === 'join' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'}"
+                class="flex-1 py-2.5 rounded-xl text-sm font-bold transition-all {activeTab === 'join' ? 'bg-white text-gray-900 shadow-[0_2px_0_0_#e5e7eb]' : 'text-gray-500'}"
                 onclick={() => activeTab = 'join'}
             >
-                Unirme
+                🔑 Unirme
             </button>
             <button
-                class="flex-1 py-2.5 rounded-xl text-sm font-bold transition-all {activeTab === 'create' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'}"
+                class="flex-1 py-2.5 rounded-xl text-sm font-bold transition-all {activeTab === 'create' ? 'bg-white text-gray-900 shadow-[0_2px_0_0_#e5e7eb]' : 'text-gray-500'}"
                 onclick={() => activeTab = 'create'}
             >
-                Crear clase
+                🍎 Crear clase
             </button>
         </div>
 
@@ -211,8 +206,8 @@
                 class="md:block {activeTab === 'join' ? 'block' : 'hidden'}"
                 in:fade={{ duration: 300 }}
             >
-                <div class="bg-white rounded-3xl border border-gray-100 p-8 md:p-10 h-full">
-                    <div class="w-14 h-14 bg-blue-50 rounded-2xl border border-blue-200 flex items-center justify-center text-2xl mb-6">
+                <div class="bg-white rounded-[2rem] border-2 border-blue-100 shadow-[0_8px_0_0_#dbeafe] p-8 md:p-10 h-full">
+                    <div class="w-14 h-14 bg-blue-50 rounded-2xl border-2 border-blue-200 flex items-center justify-center text-2xl mb-6">
                         🔑
                     </div>
                     <h2 class="text-2xl font-black text-gray-900 mb-2">¿Tienes un código?</h2>
@@ -220,9 +215,9 @@
                         Tu profesor te habrá dado un código de 6 letras. Ingresalo aquí para unirte a tu clase.
                     </p>
 
-                    <form 
-                        method="POST" 
-                        action="?/unirseClase" 
+                    <form
+                        method="POST"
+                        action="?/unirseClase"
                         use:enhance={() => {
                             return async ({ result, update }) => {
                                 if (result.type === 'failure') {
@@ -245,18 +240,22 @@
                                 maxlength="6"
                                 placeholder="Ej: AB12CD"
                                 bind:value={joinCode}
+                                oninput={() => joinError = ''}
                                 autocomplete="off"
-                                class="w-full px-5 py-4 bg-gray-50 border-2 border-gray-100 rounded-2xl text-lg font-bold tracking-[0.3em] text-center placeholder:tracking-normal placeholder:text-gray-300 placeholder:font-medium focus:outline-hidden focus:border-[#f9c710] focus:bg-white transition-all uppercase"
+                                class="w-full px-5 py-4 bg-gray-50 border-2 rounded-2xl text-lg font-bold tracking-[0.3em] text-center placeholder:tracking-normal placeholder:text-gray-300 placeholder:font-medium focus:outline-hidden focus:bg-white transition-all uppercase
+                                    {joinError ? 'border-red-300 focus:border-red-400' : 'border-gray-100 focus:border-brand'}"
                                 required
                             />
                             {#if joinError}
-                                <p class="text-red-500 text-sm font-medium mt-2">{joinError}</p>
+                                <p class="text-red-500 text-sm font-medium mt-2" in:fade={{ duration: 150 }}>
+                                    {joinError} — ¡revisa el código e inténtalo de nuevo! 💪
+                                </p>
                             {/if}
                         </div>
 
                         <button
                             type="submit"
-                            class="w-full py-4 font-black text-lg text-white bg-brand rounded-2xl shadow-[0_4px_0_0_#d4a007] hover:shadow-none hover:translate-y-1 active:scale-95 transition-all duration-150"
+                            class="w-full py-4 font-black text-lg text-gray-900 bg-brand rounded-2xl shadow-3d-sm hover:shadow-none hover:translate-y-1 active:scale-95 transition-all duration-150"
                         >
                             Unirme a la clase
                         </button>
@@ -273,8 +272,8 @@
                 class="md:block {activeTab === 'create' ? 'block' : 'hidden'}"
                 in:fade={{ duration: 300 }}
             >
-                <div class="bg-white rounded-3xl border border-gray-100 p-8 md:p-10 h-full">
-                    <div class="w-14 h-14 bg-yellow-50 rounded-2xl border border-yellow-200 flex items-center justify-center text-2xl mb-6">
+                <div class="bg-white rounded-[2rem] border-2 border-brand-light shadow-[0_8px_0_0_var(--color-brand-light)] p-8 md:p-10 h-full">
+                    <div class="w-14 h-14 bg-yellow-50 rounded-2xl border-2 border-yellow-200 flex items-center justify-center text-2xl mb-6">
                         🍎
                     </div>
                     <h2 class="text-2xl font-black text-gray-900 mb-2">¿Eres profesor?</h2>
@@ -284,19 +283,33 @@
 
                     {#if createdCode}
                         <!-- Success view -->
-                        <div class="text-center space-y-5">
-                            <div class="w-20 h-20 mx-auto bg-green-50 rounded-full border-2 border-green-200 flex items-center justify-center text-4xl animate-bounce">
-                                ✅
+                        <div class="text-center space-y-5" in:fade={{ duration: 200 }}>
+                            <div class="w-20 h-20 mx-auto bg-green-50 rounded-full border-2 border-green-200 flex items-center justify-center text-4xl animate-bounce-in">
+                                🎉
                             </div>
                             <div>
                                 <p class="font-black text-gray-900 text-lg mb-1">¡Clase creada!</p>
                                 <p class="text-gray-500 text-sm">Comparte este código con tus alumnos</p>
                             </div>
-                            <div class="bg-gray-50 rounded-2xl border-2 border-gray-200 border-dashed p-6">
-                                <p class="text-4xl font-black text-[#f9c710] tracking-[0.3em]">{createdCode}</p>
+                            <div class="bg-brand-light rounded-2xl border-2 border-brand border-dashed p-6">
+                                <p class="text-4xl font-black text-gray-900 tracking-[0.3em]">{createdCode}</p>
                             </div>
                             <div class="flex gap-3">
                                 <button
+                                    type="button"
+                                    onclick={copyCode}
+                                    class="flex-1 inline-flex items-center justify-center gap-2 py-3 font-black text-sm text-gray-900 bg-brand rounded-xl shadow-3d-sm hover:shadow-none hover:translate-y-1 transition-all active:scale-95"
+                                >
+                                    {#if copied}
+                                        <Check size={16} />
+                                        ¡Copiado!
+                                    {:else}
+                                        <Copy size={16} />
+                                        Copiar código
+                                    {/if}
+                                </button>
+                                <button
+                                    type="button"
                                     onclick={resetCreate}
                                     class="flex-1 py-3 font-bold text-sm text-gray-600 bg-gray-100 rounded-xl hover:bg-gray-200 transition-all active:scale-95"
                                 >
@@ -306,9 +319,9 @@
                         </div>
                     {:else}
                         <!-- Create form -->
-                        <form 
-                            method="POST" 
-                            action="?/crearClase" 
+                        <form
+                            method="POST"
+                            action="?/crearClase"
                             use:enhance={() => {
                                 return async ({ result, update }) => {
                                     if (result.type === 'success') {
@@ -331,7 +344,7 @@
                                     bind:value={className}
                                     autocomplete="off"
                                     required
-                                    class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl text-sm font-medium text-gray-700 placeholder:text-gray-400 focus:outline-hidden focus:border-[#f9c710] focus:bg-white transition-all"
+                                    class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl text-sm font-medium text-gray-700 placeholder:text-gray-400 focus:outline-hidden focus:border-brand focus:bg-white transition-all"
                                 />
                             </div>
 
@@ -343,7 +356,7 @@
                                     id="class-level"
                                     name="grado"
                                     bind:value={classLevel}
-                                    class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl text-sm font-medium text-gray-700 focus:outline-hidden focus:border-[#f9c710] transition-all"
+                                    class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl text-sm font-medium text-gray-700 focus:outline-hidden focus:border-brand transition-all"
                                 >
                                     {#each levels as level}
                                         <option value={level}>{level} de primaria</option>
@@ -361,14 +374,14 @@
                                     rows="3"
                                     placeholder="Ej: Grupo de inglés básico. Nos vemos martes y jueves."
                                     bind:value={classDesc}
-                                    class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl text-sm font-medium text-gray-700 placeholder:text-gray-400 focus:outline-hidden focus:border-[#f9c710] focus:bg-white transition-all resize-none"
+                                    class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl text-sm font-medium text-gray-700 placeholder:text-gray-400 focus:outline-hidden focus:border-brand focus:bg-white transition-all resize-none"
                                 ></textarea>
                             </div>
 
                             <button
                                 type="submit"
                                 disabled={!className.trim()}
-                                class="w-full py-4 font-black text-lg text-white bg-brand rounded-2xl shadow-[0_4px_0_0_#d4a007] hover:shadow-none hover:translate-y-1 active:scale-95 transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
+                                class="w-full py-4 font-black text-lg text-gray-900 bg-brand rounded-2xl shadow-3d-sm hover:shadow-none hover:translate-y-1 active:scale-95 transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-3d-sm"
                             >
                                 Crear clase
                             </button>
@@ -389,9 +402,9 @@
                 {#each classFeatures as feat, i}
                     <div
                         in:fade={{ duration: 400, delay: i * 100 }}
-                        class="bg-white rounded-2xl border border-gray-100 p-6 text-center hover:border-yellow-200 hover:shadow-md transition-all duration-300"
+                        class="bg-white rounded-2xl border-2 border-gray-100 p-6 text-center hover:border-brand-light hover:shadow-[0_6px_0_0_var(--color-brand-light)] hover:-translate-y-1 transition-all duration-200"
                     >
-                        <div class="w-12 h-12 mx-auto mb-4 bg-yellow-50 rounded-xl border border-yellow-200 flex items-center justify-center text-2xl">
+                        <div class="w-12 h-12 mx-auto mb-4 bg-yellow-50 rounded-xl border-2 border-yellow-200 flex items-center justify-center text-2xl">
                             {feat.icon}
                         </div>
                         <h3 class="font-bold text-gray-900 mb-2">{feat.title}</h3>

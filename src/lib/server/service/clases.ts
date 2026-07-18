@@ -9,6 +9,7 @@ export async function optenerClases(idUsuario: string) {
             id: clases.id,
             nombre: clases.nombre,
             descripcion: clases.descripcion,
+            grado: clases.grado,
             rol: usuarioClases.rol
         })
         .from(usuarioClases)

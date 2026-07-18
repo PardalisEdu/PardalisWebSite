@@ -15,3 +15,4 @@ bun.lockb
 *.log
 .vscode
 .editorconfig
+.claude

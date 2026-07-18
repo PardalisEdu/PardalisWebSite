@@ -55,11 +55,11 @@
             class="bg-white rounded-[2rem] border-4 border-yellow-100 p-8 shadow-[0_8px_0_0_#fef08a]" in:slide>
             <div class="flex items-center justify-between mb-6">
                 <h3 class="text-xl font-black text-gray-900 flex items-center gap-2">
-                    <Megaphone class="text-[#f9c710]" />
-                    Publicar Anuncio
+                    <Megaphone class="text-brand-dark" />
+                    Publicar anuncio
                 </h3>
-                <button onclick={() => showForm = null} class="text-gray-400 hover:text-gray-600">
-                    <X size={24} />
+                <button type="button" onclick={() => showForm = null} class="p-1.5 text-gray-400 hover:text-gray-700 rounded-xl hover:bg-gray-50 transition-colors" title="Cerrar">
+                    <X size={22} />
                 </button>
             </div>
 
@@ -87,10 +87,10 @@
                         class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:outline-hidden focus:border-[#f9c710] focus:bg-white transition-all font-medium resize-none"
                     ></textarea>
                 </div>
-                <button 
+                <button
                     type="submit"
                     disabled={!annTitle || !annBody}
-                    class="w-full py-4 bg-[#f9c710] text-gray-900 font-black rounded-xl shadow-[0_4px_0_0_#d4a007] hover:shadow-none hover:translate-y-1 active:scale-95 transition-all disabled:opacity-50"
+                    class="w-full py-4 bg-brand text-gray-900 font-black text-lg rounded-2xl shadow-3d-sm hover:shadow-none hover:translate-y-1 active:scale-95 transition-all disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-3d-sm"
                 >
                     Publicar ahora
                 </button>
@@ -113,10 +113,10 @@
             <div class="flex items-center justify-between mb-6">
                 <h3 class="text-xl font-black text-gray-900 flex items-center gap-2">
                     <FileUp class="text-blue-500" />
-                    Subir Material
+                    Subir material
                 </h3>
-                <button onclick={() => showForm = null} class="text-gray-400 hover:text-gray-600">
-                    <X size={24} />
+                <button type="button" onclick={() => showForm = null} class="p-1.5 text-gray-400 hover:text-gray-700 rounded-xl hover:bg-gray-50 transition-colors" title="Cerrar">
+                    <X size={22} />
                 </button>
             </div>
 
@@ -153,9 +153,10 @@
                     </label>
                 </div>
 
-                <button 
+                <button
+                    type="submit"
                     disabled={!fileName}
-                    class="w-full py-4 bg-blue-500 text-white font-black rounded-xl shadow-[0_4px_0_0_#2563eb] hover:shadow-none hover:translate-y-1 active:scale-95 transition-all disabled:opacity-50"
+                    class="w-full py-4 bg-blue-500 text-white font-black text-lg rounded-2xl shadow-[0_4px_0_0_#2563eb] hover:shadow-none hover:translate-y-1 active:scale-95 transition-all disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-[0_4px_0_0_#2563eb]"
                 >
                     Subir material
                 </button>

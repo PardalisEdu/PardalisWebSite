@@ -1,0 +1,17 @@
+# Configuración de Nixpacks para acelerar el build en Coolify.
+#
+# - `--frozen-lockfile` se salta la resolución de dependencias (usa bun.lock tal cual).
+# - `cacheDirectories` monta la caché de paquetes de Bun entre builds: aunque cambie
+#   el lockfile, los paquetes ya descargados no se vuelven a bajar.
+# - El arranque usa Node directamente (adapter-node genera build/index.js).
+
+[phases.install]
+cmds = ["bun install --frozen-lockfile"]
+cacheDirectories = ["/root/.bun/install/cache"]
+
+[phases.build]
+cmds = ["bun run build"]
+cacheDirectories = ["node_modules/.cache"]
+
+[start]
+cmd = "node build/index.js"

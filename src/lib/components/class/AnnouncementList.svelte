@@ -24,9 +24,9 @@
     }
 </script>
 
-<div class="space-y-8">
+<div class="space-y-6">
     <div class="flex items-center gap-3">
-        <div class="w-10 h-10 bg-yellow-50 rounded-xl border border-yellow-200 flex items-center justify-center text-lg">
+        <div class="w-10 h-10 bg-yellow-50 rounded-xl border-2 border-yellow-200 flex items-center justify-center text-lg">
             📢
         </div>
         <h2 class="text-xl font-black text-gray-900">Anuncios</h2>
@@ -34,78 +34,78 @@
 
     <div class="space-y-4">
         {#each announcements as ann}
-            <div class="bg-white rounded-2xl border border-gray-100 p-6 hover:border-yellow-200 transition-all duration-300">
+            <div class="bg-white rounded-2xl border-2 border-gray-100 p-6 hover:border-brand-light hover:shadow-[0_6px_0_0_var(--color-brand-light)] hover:-translate-y-0.5 transition-all duration-200">
                 {#if editingId === ann.id}
-                    <form 
-                        method="POST" 
-                        action="?/editarAnuncio" 
+                    <form
+                        method="POST"
+                        action="?/editarAnuncio"
                         use:enhance={() => {
                             return async ({ update }) => {
                                 await update();
                                 editingId = null;
                             };
-                        }} 
+                        }}
                         class="space-y-4"
                     >
                         <input type="hidden" name="id" value={ann.id} />
                         <div>
-                            <label for={`edit-title-${ann.id}`} class="block text-xs font-bold text-gray-500 mb-1">Título</label>
-                            <input 
+                            <label for={`edit-title-${ann.id}`} class="block text-sm font-bold text-gray-700 mb-2">Título</label>
+                            <input
                                 id={`edit-title-${ann.id}`}
                                 name="titulo"
-                                type="text" 
+                                type="text"
                                 bind:value={editTitle}
-                                class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-hidden focus:border-[#f9c710] focus:bg-white text-sm font-semibold text-gray-900"
+                                class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:outline-hidden focus:border-brand focus:bg-white transition-all text-sm font-semibold text-gray-900"
                                 required
                             />
                         </div>
                         <div>
-                            <label for={`edit-body-${ann.id}`} class="block text-xs font-bold text-gray-500 mb-1">Contenido</label>
-                            <textarea 
+                            <label for={`edit-body-${ann.id}`} class="block text-sm font-bold text-gray-700 mb-2">Contenido</label>
+                            <textarea
                                 id={`edit-body-${ann.id}`}
                                 name="contenido"
                                 rows="3"
                                 bind:value={editBody}
-                                class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-hidden focus:border-[#f9c710] focus:bg-white text-sm text-gray-700 resize-none"
+                                class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:outline-hidden focus:border-brand focus:bg-white transition-all text-sm text-gray-700 resize-none"
                                 required
                             ></textarea>
                         </div>
                         <div class="flex justify-end gap-2">
-                            <button 
-                                type="button" 
+                            <button
+                                type="button"
                                 onclick={() => editingId = null}
-                                class="px-3 py-1.5 border border-gray-200 text-gray-600 rounded-lg text-xs font-bold hover:bg-gray-50 transition-colors"
+                                class="px-4 py-2 border-2 border-gray-200 text-gray-600 rounded-xl text-sm font-bold hover:bg-gray-50 transition-colors"
                             >
                                 Cancelar
                             </button>
-                            <button 
-                                type="submit" 
-                                class="px-3 py-1.5 bg-[#f9c710] text-gray-900 font-bold rounded-lg text-xs hover:bg-[#e0b20a] transition-colors"
+                            <button
+                                type="submit"
+                                class="px-4 py-2 bg-brand text-gray-900 font-black rounded-xl text-sm shadow-[0_3px_0_0_var(--color-brand-dark)] hover:shadow-none hover:translate-y-0.5 transition-all"
                             >
                                 Guardar
                             </button>
                         </div>
                     </form>
                 {:else}
-                    <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-start justify-between gap-3 mb-3">
                         <h3 class="font-bold text-gray-900">{ann.title}</h3>
-                        <div class="flex items-center gap-3">
-                            <span class="flex items-center gap-1 text-xs text-gray-400">
+                        <div class="flex items-center gap-3 shrink-0">
+                            <span class="flex items-center gap-1 text-xs font-medium text-gray-400">
                                 <Calendar size={12} />
                                 {ann.date ? new Date(ann.date).toLocaleDateString('es-MX', { month: 'short', day: 'numeric' }) : 'Sin fecha'}
                             </span>
                             {#if isTeacher}
                                 <div class="flex items-center gap-1">
-                                    <button 
-                                        onclick={() => startEdit(ann)} 
-                                        class="p-1 text-gray-400 hover:text-blue-500 rounded-md hover:bg-blue-50 transition-colors"
+                                    <button
+                                        onclick={() => startEdit(ann)}
+                                        class="p-1.5 text-gray-400 hover:text-gray-700 rounded-lg hover:bg-yellow-50 transition-colors"
                                         title="Editar anuncio"
                                     >
                                         <Pencil size={14} />
                                     </button>
-                                    <form 
-                                        method="POST" 
-                                        action="?/eliminarContenido" 
+                                    <form
+                                        method="POST"
+                                        action="?/eliminarContenido"
                                         use:enhance={({ cancel }) => {
                                             if (!confirm("¿Estás seguro de que quieres eliminar este anuncio?")) {
                                                 cancel();
@@ -113,11 +113,11 @@
                                             return async ({ update }) => {
                                                 await update();
                                             };
-                                        }} 
+                                        }}
                                         class="inline"
                                     >
                                         <input type="hidden" name="id" value={ann.id} />
-                                        <button type="submit" class="p-1 text-gray-400 hover:text-red-500 rounded-md hover:bg-red-50 transition-colors" title="Eliminar anuncio">
+                                        <button type="submit" class="p-1.5 text-gray-400 hover:text-red-500 rounded-lg hover:bg-red-50 transition-colors" title="Eliminar anuncio">
                                             <Trash2 size={14} />
                                         </button>
                                     </form>
@@ -129,9 +129,12 @@
                 {/if}
             </div>
         {:else}
-            <div class="bg-white rounded-2xl border border-gray-100 p-10 text-center">
-                <span class="text-4xl block mb-2 opacity-50">📭</span>
-                <p class="text-gray-400 font-medium">No hay anuncios todavía</p>
+            <div class="bg-white rounded-2xl border-2 border-dashed border-gray-200 p-10 text-center">
+                <span class="text-4xl block mb-3">📭</span>
+                <p class="text-gray-700 font-bold mb-1">Aún no hay anuncios</p>
+                <p class="text-sm text-gray-400">
+                    {isTeacher ? 'Publica el primero para tus alumnos.' : 'Cuando tu profesor publique algo, aparecerá aquí.'}
+                </p>
             </div>
         {/each}
     </div>

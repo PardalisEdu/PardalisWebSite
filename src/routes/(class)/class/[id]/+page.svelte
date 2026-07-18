@@ -21,7 +21,7 @@
     />
 
     <!-- Content -->
-    <div class="max-w-5xl mx-auto px-4 py-10 md:py-14">
+    <div class="max-w-5xl mx-auto px-4 py-8 md:py-10">
         {#if data.userRole === 'profesor'}
             <TeacherActions />
         {/if}
